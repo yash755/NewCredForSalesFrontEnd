@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Inject, Optional} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable()
@@ -7,7 +7,7 @@ export class CustomHttpClient {
     'Content-Type':  'application/json',
     'Access-Control-Allow-Origin': '*',
   })
-  constructor(private http: HttpClient, private authHeader: string) {}
+  constructor(private http: HttpClient, @Inject('AUTH_HEADER') @Optional() private authHeader?: string) {}
 
   createAuthorizationHeader(headers: HttpHeaders) {
     headers.set('Authorization', this.authHeader); 
