@@ -1,3 +1,7 @@
+<h2 class="app-subtitle">
+Articles to Share with <span class="contact-name">Debbie Sheen</span>
+<span *ngIf=clipboardArticles.length> ( {{clipboardArticles.length}} ) selected</span>
+</h2>
 <div class="container mt-5">
 	<ul class="nav nav-tabs">
 		<li class="nav-item">
@@ -10,7 +14,7 @@
 			<a class="nav-link" data-toggle="tab" href="#menu2" id="search" (click)="checkActiveStage(3)">Search</a>
 		</li>
 		<li class="nav-item ml-auto">
-			<a class="btn button small secondary-button mr-1" (click)="copySelectedArticles()"><i class="far fa-copy"></i> Copy Link(s){{clipboardArticles.length}}</a>
+			<a class="btn button small secondary-button mr-1" (click)="copySelectedArticles()"><i class="far fa-copy"></i> Copy Link(s)</a>
 			<a class="button small"(click)="getLoggedInUser()" ><i class="far fa-envelope"></i> Send As Email</a>
 		</li>
 	</ul>

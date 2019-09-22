@@ -1,4 +1,6 @@
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
+  <in-tab-loader *ngIf="loading"></in-tab-loader>
+  <div *ngIf="!loading">
   <div class="d-flex"><div class="mr-auto p-2 widget-title">Click on the checkmarks to select articles. You will then be able to copy the links or directly email your contact.</div>
       <div class="p-2">                                     
           <div class="btn-group">
@@ -64,6 +66,7 @@
   </div>
     </div>
      </div>
+    </div>
                           
                    
 

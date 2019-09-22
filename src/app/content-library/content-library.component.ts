@@ -16,23 +16,28 @@ export class ContentLibraryComponent implements OnInit {
   selectCategoryName = 'NewsCred Expertise';
   articles:Article[];
   categories:ArticleCategories[];
+  public loading: boolean;
   constructor(private apiService: NewsCredAPI) { }
 
   ngOnInit() {
-  this.apiService.getCategories()
-    .subscribe((data)=>{
-      this.categories = data
-      this.getContentLibraryArticles()
-    });
+    this.loading = false;
+    this.apiService.getCategories()
+      .subscribe((data)=>{
+        this.categories = data
+        this.getContentLibraryArticles()
+        this.loading = false
+      });
   }
   
   getContentLibraryArticles(){
+    this.loading = true;
     const defaultCategory = this.categories.filter(category => category.is_default);
     this.apiService.getContentLibraryArticles(defaultCategory[0])
     .subscribe((data)=>{
       this.articles=data;
       this.carouselEl = $('.owl-carousel');
       this.selectedContents=[];
+      this.loading =false
     }, (err) => {
     });
   }
@@ -62,24 +67,16 @@ export class ContentLibraryComponent implements OnInit {
     this.contentLibraryChanged.emit(this.selectedContents);
   }
 
-  getArticleCategories()
-  {
-    this.apiService.getCategories()
-      .subscribe((data)=>{
-      this.categories=data;
-      this.carouselEl = $('.owl-carousel');
-      console.log(this.categories);   
-      }, (err) => {
-    });
-  }
-
+  
   getArticlesBasedOnCategory(guid, name)
   {
+    this.loading =true;
     this.selectCategoryName = name;
     const currentCategory = this.categories.filter(category => category.guid == guid)
     this.apiService.getContentLibraryArticles(currentCategory[0])
     .subscribe((data)=>{
       this.articles=data;
+      this.loading = false;
       console.log(this.articles);   
       }, (err) => {
     });

@@ -1,7 +1,22 @@
 body {
     font-family: 'Open Sans', sans-serif;
 }
-
+h2.app-subtitle {
+    color: #6C7A89;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 20px 0 10px;
+    margin-right: 20px;
+}
+  
+h2.app-subtitle span.article-selection-count {
+    color: #BDC3C7;
+}
+  
+h2.app-subtitle span.contact-name, span.account-name {
+      color: #22313F;
+}
 a.button {
     cursor: pointer;
     text-decoration: none;

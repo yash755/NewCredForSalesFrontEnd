@@ -1,5 +1,5 @@
 import { Component,OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {NewsCredAPI} from '../../services/newsCredAPI';
+import { NewsCredAPI } from '../../services/newsCredAPI';
 import { Article } from '../model/article';
 import dataSample from '../static/config.json';
 
@@ -14,19 +14,21 @@ export class RecommendedContentComponent implements OnInit{
   @Output() recommendedArticlesChanged = new EventEmitter<string[]>();
   carouselEl;
   articles:Article[];
+  public loading: boolean
   constructor(private apiService: NewsCredAPI) { }
 
   ngOnInit() {
     const recordId = 82348;
     const currentUserID = 717;
+    this.loading = true;
     this.apiService.getRecommendedArticles(recordId, currentUserID)
     .subscribe((data)=>{
       this.articles=data.result_set;
       this.carouselEl = $('.owl-carousel');
       this.selectedArticles=[];
+      this.loading=false
     }, (err) => {
     });
-    //console.log(dataSample[0].name);
   }
   forward()
   {
@@ -36,7 +38,6 @@ export class RecommendedContentComponent implements OnInit{
   {
     this.carouselEl.trigger('prev.owl.carousel');
   }
-  //Function added to copy store the selected links into an array
   onCheckboxChange(event, value) 
   {
     if (event.target.checked) 

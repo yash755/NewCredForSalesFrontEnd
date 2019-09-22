@@ -5,6 +5,7 @@ import{OwlModule} from 'ngx-owl-carousel';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RecommendedContentComponent } from './recommended-content/recommended-content.component';
+import { InTabLoader } from './components/spinner';
 import { ContentLibraryComponent } from './content-library/content-library.component';
 import { SearchComponent } from './search/search.component';
 import {HttpClientModule} from '@angular/common/http';
@@ -16,6 +17,7 @@ import {DynamicCRMInfo} from '../services/dynamicCRM'
 @NgModule({
   declarations: [
     AppComponent,
+    InTabLoader,
     RecommendedContentComponent,
     ContentLibraryComponent,
     SearchComponent
