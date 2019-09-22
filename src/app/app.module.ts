@@ -8,7 +8,11 @@ import { RecommendedContentComponent } from './recommended-content/recommended-c
 import { ContentLibraryComponent } from './content-library/content-library.component';
 import { SearchComponent } from './search/search.component';
 import {HttpClientModule} from '@angular/common/http';
-import { ApiService } from './api.service';
+import {CustomHttpClient} from '../services/http.service'
+import { NewsCredAPI } from '../services/newsCredAPI';
+import {NEWSCRED_CONSTANTS} from '../config';
+import {DynamicCRMInfo} from '../services/dynamicCRM'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +26,19 @@ import { ApiService } from './api.service';
     HttpClientModule,
     OwlModule
   ],
-  providers: [ApiService],
+  providers: [
+    CustomHttpClient,
+    NewsCredAPI,
+    { provide: 'newsCredConstants', useValue: NEWSCRED_CONSTANTS },
+    { provide: 'dynamicCRMInfo', useValue: new DynamicCRMInfo({},'717', {
+        accountName: 'NewsCred',
+        email: 'thecontact@devnewscred.com',
+        id: '0035500000VR3naAAD',
+        industry: '',
+        name: 'The Contact'
+      })
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,5 @@
 import { Component,OnInit, Input} from '@angular/core';
-import {ApiService} from '../api.service';
+import {NewsCredAPI} from '../../services/newsCredAPI';
 import { Article } from '../model/article';
 import {ArticleCategories} from '../model/ArticleCategories';
 declare var $: any;
@@ -15,10 +15,12 @@ export class ContentLibraryComponent implements OnInit {
   selectCategoryName = 'NewsCred Expertise';
   articles:Article[];
   categories:ArticleCategories[];
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: NewsCredAPI) { }
 
   ngOnInit() {
-    this.apiService.getContentLibrary().subscribe((data)=>{
+    const defaultCategory = this.categories.filter(category => category.is_default);
+    this.apiService.getContentLibraryArticles(defaultCategory[0])
+    .subscribe((data)=>{
       this.articles=data;
       this.carouselEl = $('.owl-carousel');
       this.selectedContents=[];
@@ -54,18 +56,21 @@ export class ContentLibraryComponent implements OnInit {
 
   getArticleCategories()
   {
-    this.apiService.getArticleCategories().subscribe((data)=>{
-    this.categories=data;
-    //this.carouselEl = $('.owl-carousel');
-    console.log(this.categories);   
-    }, (err) => {
-  });
+    this.apiService.getCategories()
+      .subscribe((data)=>{
+      this.categories=data;
+      //this.carouselEl = $('.owl-carousel');
+      console.log(this.categories);   
+      }, (err) => {
+    });
   }
 
   getArticlesBasedOnCategory(guid, name)
   {
     this.selectCategoryName = name;
-    this.apiService.getArticleBasedOnCategory(guid).subscribe((data)=>{
+    const currentCategory = this.categories.filter(category => category.guid == guid)
+    this.apiService.getContentLibraryArticles(currentCategory[0])
+    .subscribe((data)=>{
       this.articles=data;
       console.log(this.articles);   
       }, (err) => {

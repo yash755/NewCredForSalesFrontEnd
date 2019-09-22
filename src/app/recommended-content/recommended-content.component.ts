@@ -1,5 +1,5 @@
 import { Component,OnInit, Input} from '@angular/core';
-import {ApiService} from '../api.service';
+import {NewsCredAPI} from '../../services/newsCredAPI';
 import { Article } from '../model/article';
 import dataSample from '../static/config.json';
 
@@ -13,10 +13,13 @@ export class RecommendedContentComponent implements OnInit{
   @Input() selectedArticles:string[];
   carouselEl;
   articles:Article[];
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: NewsCredAPI) { }
 
   ngOnInit() {
-    this.apiService.getRecommendedArticles().subscribe((data)=>{
+    const recordId = 82348;
+    const currentUserID = 717;
+    this.apiService.getRecommendedArticles(recordId, currentUserID)
+    .subscribe((data)=>{
       this.articles=data.result_set;
       this.carouselEl = $('.owl-carousel');
       this.selectedArticles=[];
