@@ -1,8 +1,9 @@
-<h2 class="app-subtitle">
-Articles to Share with <span class="contact-name">Debbie Sheen</span>
-<span *ngIf=clipboardArticles.length> ( {{clipboardArticles.length}} ) selected</span>
-</h2>
+
 <div class="container mt-5">
+		<h2 class="app-subtitle">
+				Articles to Share with <span class="contact-name">Debbie Sheen</span>
+				<span *ngIf=clipboardArticles.length> ( {{clipboardArticles.length}} ) selected</span>
+				</h2>
 	<ul class="nav nav-tabs">
 		<li class="nav-item">
 			<a class="nav-link active" data-toggle="tab" href="#home" id="recommended" (click)="checkActiveStage(1)">Recommended Content</a>
@@ -28,6 +29,6 @@ Articles to Share with <span class="contact-name">Debbie Sheen</span>
 	<app-content-library (contentLibraryChanged)="handleSelectionChange($event,2)"></app-content-library>
 </div>
 <div class="tab-pane container fade" id="menu2">
-<app-search #search></app-search>
+	<app-search (searchSelectionChanged)="handleSelectionChange($event,3)"></app-search>
 </div>
 </div>

@@ -1,1 +1,12 @@
-<p>search works!</p>
+<div class="search-tab article-search-view">
+    <div class="widget-title">
+        <div class="input-wrapper">
+        <input type="text" placeholder="Search article..." (keydown)="handleKeyDownInput($event)" [(ngModel)]="query" class="input-text"/>
+        <a class="button small" (click)="handleSearch()">
+            <i class="fa fa-search"></i>
+        </a>
+        </div>
+    </div>
+    <in-tab-loader *ngIf="loading"></in-tab-loader>
+    <article-card-slider *ngIf="!loading" [articles]="articles"></article-card-slider>
+</div>

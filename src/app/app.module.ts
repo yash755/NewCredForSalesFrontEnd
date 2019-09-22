@@ -1,11 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {FormsModule} from '@angular/forms'
+
 import{OwlModule} from 'ngx-owl-carousel';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RecommendedContentComponent } from './recommended-content/recommended-content.component';
 import { InTabLoader } from './components/spinner';
+import { ArticleCard } from './components/card';
+import { ArticleCardSlider } from './components/slider';
 import { ContentLibraryComponent } from './content-library/content-library.component';
 import { SearchComponent } from './search/search.component';
 import {HttpClientModule} from '@angular/common/http';
@@ -18,6 +22,8 @@ import {DynamicCRMInfo} from '../services/dynamicCRM'
   declarations: [
     AppComponent,
     InTabLoader,
+    ArticleCard,
+    ArticleCardSlider,
     RecommendedContentComponent,
     ContentLibraryComponent,
     SearchComponent
@@ -26,20 +32,25 @@ import {DynamicCRMInfo} from '../services/dynamicCRM'
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    OwlModule
+    OwlModule,
+    FormsModule
   ],
   providers: [
     CustomHttpClient,
     NewsCredAPI,
     { provide: 'newsCredConstants', useValue: NEWSCRED_CONSTANTS },
     { provide: 'AUTH_HEADER', useValue: NEWSCRED_CONSTANTS.authHeader },
-    { provide: 'dynamicCRMInfo', useValue: new DynamicCRMInfo({},'717', {
-        accountName: 'NewsCred',
-        email: 'thecontact@devnewscred.com',
-        id: '0035500000VR3naAAD',
-        industry: '',
-        name: 'The Contact'
-      })
+    { provide: 'dynamicCRMInfo', useValue: new DynamicCRMInfo({ 
+        contact:{
+          accountName: 'binmile',
+          email: 'padmaja@binmile.com',
+          id: '0035500000VR3naAAD',
+          industry: '',
+          name: 'Padmaja Shukla'
+        },
+        currentUserEmail: 'padmaja@binmile.com',
+        currentUserName: 'Padmaja'
+      },'717', )
     }
   ],
   bootstrap: [AppComponent]

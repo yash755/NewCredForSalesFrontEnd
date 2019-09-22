@@ -1,25 +1,23 @@
-<div class="card-deck mt-4 mb-4"  *ngFor="let article of articles">
-    <div class="card">
-        <a href="{{article.link}}" target="_blank">
-            <div class="card-image">
-            <div class="check-container">
-                <div class="image-overlay">
-                    <input type="checkbox"  id="cb1{{article.guid}}" (change)="onCheckboxChange($event, article)"/>
-                    <label for="cb1{{article.guid}}"></label>
-                    <p>
-                    This article has been used for this contact. 
-                    </p>
-                </div>
-            <img src="{{article.image}}" class="card-img-top" alt="..." >
+<div class="card">
+    <a href="{{article.link}}" target="_blank">
+        <div class="card-image">
+        <div class="check-container">
+            <div class="image-overlay">
+                <input type="checkbox"  id="cb1{{article.guid}}" (change)="onCheckboxChange($event, article)"/>
+                <label for="cb1{{article.guid}}"></label>
+                <p>
+                This article has been used for this contact. 
+                </p>
             </div>
-            </div>
-            <div class="card-body">
-            <h5 class="card-title">{{article.title | slice:0:65}}</h5>
-            <p class="card-text">{{article.body | slice:0:72}}</p>
-            </div>
-            <div class="card-footer">
-            Based on <strong class="text-uppercase">{{article.reason}}</strong>
-            </div>
-        </a>
-    </div>
+        <img src="{{article.image}}" class="card-img-top" alt="..." >
+        </div>
+        </div>
+        <div class="card-body">
+        <h5 class="card-title">{{article.title | slice:0:65}}</h5>
+        <p class="card-text">{{article.body | slice:0:72}}</p>
+        </div>
+        <div class="card-footer">
+        Based on <strong class="text-uppercase">{{article.reason}}</strong>
+        </div>
+    </a>
 </div>

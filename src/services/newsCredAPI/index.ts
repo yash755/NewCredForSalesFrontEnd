@@ -18,9 +18,9 @@ export class NewsCredAPI {
     const field_values = {"fieldName":"Contact.Title"};
     let url = `${this.newsCredConstants.baseUrl}/${NewsCredAPI.recommendedArticlesEndpoint}`
     let params = {
-      account: this.dynamicCRMInfo.contact.accountName,
+      account: this.dynamicCRMInfo.data.contact.accountName,
       ...field_values,
-      industry: this.dynamicCRMInfo.contact.industry,
+      industry: this.dynamicCRMInfo.data.contact.industry,
       record_id: recordId,
       user_id: userId
     }
@@ -46,7 +46,7 @@ public getCategories():Observable<any>{
 public searchArticles(query: string):Observable<any>{
   let url = `${this.newsCredConstants.baseUrl}/${NewsCredAPI.searchEndpoint}`
   let params = {
-    contact_email: this.dynamicCRMInfo.contact.email,
+    contact_email: this.dynamicCRMInfo.data.contact.email,
     query,
     user_email: this.dynamicCRMInfo.getCurrentUser().email
   }

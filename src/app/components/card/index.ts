@@ -4,16 +4,19 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
     selector: 'article-card',
     templateUrl: './card.html',
     styleUrls: ['./card.css'],
-    // encapsulation : ViewEncapsulation.None
   })
   export class ArticleCard {
-    @Input() article: any
-    @Output() cardStatusChanged = new EventEmitter<string[]>();
+    @Input('article') article: any
+    @Output() cardStatusChanged = new EventEmitter<any>();
 
     constructor() { }
     ngOnInit() {
+        console.log("this is article acard")
+        console.log(this.article)
     }
-    onCheckboxChange(event:any) {
-        this.cardStatusChanged.emit(this.article);
+
+    onCheckboxChange(event:any, value: any) {
+        event.preventDefault()
+        this.cardStatusChanged.emit({target: event.target, value:value});
     }
 }

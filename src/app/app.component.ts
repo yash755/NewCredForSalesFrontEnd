@@ -9,6 +9,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 export class AppComponent implements OnInit{
   public static RecommendationTabType = 1;
   public static ContentTabType = 2;
+  public static SearchTabType = 3;
   title = 'NewsCredForSales';
   loggedInUser:string;
   selectedTab= 1;
@@ -119,12 +120,22 @@ export class AppComponent implements OnInit{
     switch(contentType) {
       case(AppComponent.RecommendationTabType):
         this.articles = $event
+        this.selectedArticles = $event
+        this.clipboardArticles = $event
         break;
       case(AppComponent.ContentTabType):
         this.contents = $event
+        this.selectedArticles = $event
+        this.clipboardArticles = $event
+        break;
+      case(AppComponent.SearchTabType):
+        this.search = $event
+        console.log(this.search)
+        this.selectedArticles = $event
+        this.clipboardArticles = $event
         break;
     }
-    this.selectedArticles = $event
-    this.clipboardArticles = $event
+    
+    console.log(this.clipboardArticles)
   }
 }
