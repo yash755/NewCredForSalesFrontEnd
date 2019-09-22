@@ -7,52 +7,64 @@ import { ClipboardModule } from 'ngx-clipboard';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
+  public static RecommendationTabType = 1;
+  public static ContentTabType = 2;
   title = 'NewsCredForSales';
   loggedInUser:string;
   selectedTab= 1;
+  articles = [];
+  contents = [];
+  search = [];
+  clipboardArticles = []
+  selectedArticles = []
 
   ngOnInit(){
   }
-  copySelectedArticles(articles, contents, search)
-  {
+  
+  copySelectedArticles()
+  { 
     let atrticleText='';
     let articleHTML='';
     let selectedArticles=[];
-    if(this.selectedTab==1)
-    {
-      selectedArticles=articles;
-    }
-    else if(this.selectedTab==2)
-    {
-      selectedArticles=contents;
-    }
-    else
-    {
-      selectedArticles=search;
-    }
+    selectedArticles = this.clipboardArticles;
+    // if(this.selectedTab==1)
+    // {
+    //   this.selectedArticles=this.articles;
+    //   this.clipboardArticles = this.articles;
+    // }
+    // else if(this.selectedTab==2)
+    // {
+    //   this.selectedArticles=this.contents;
+    //   this.clipboardArticles = this.contents;
+    // }
+    // else
+    // {
+    //   this.selectedArticles=this.search;
+    //   this.clipboardArticles = this.search
+    // }
   
-    for(let i=0; i<selectedArticles.length; i++)
+    for(let i=0; i<this.selectedArticles.length; i++)
     {
     // Creating plain text links
       if(i==0) 
-        atrticleText+=selectedArticles[i].link;
+        atrticleText+=this.selectedArticles[i].link;
       else
-        atrticleText+="\n"+selectedArticles[i].link;
+        atrticleText+="\n"+this.selectedArticles[i].link;
       
       //Creating ritch text links
       articleHTML+='<table id="abcm-article" style="font-family: verdana, serif;max-width: 350px;">';
       articleHTML+='<tbody>';
       articleHTML+='<tr>';
       articleHTML+='<td style="vertical-align: top;">';
-      articleHTML+='<a href='+ selectedArticles[i].link +'>';
-      articleHTML+='<img style="width: 80px;height: 60px;margin-right: 10px;" src="' + selectedArticles[i].image + '">';
+      articleHTML+='<a href='+ this.selectedArticles[i].link +'>';
+      articleHTML+='<img style="width: 80px;height: 60px;margin-right: 10px;" src="' + this.selectedArticles[i].image + '">';
       articleHTML+='</a>';
       articleHTML+='</td>';
       articleHTML+='<td>';
-      articleHTML+='<a href='+ selectedArticles +'>';
-      articleHTML+='<p style="font-size: 14px;margin: 0;">'+ selectedArticles[i].title+'</p>';
+      articleHTML+='<a href='+ this.selectedArticles +'>';
+      articleHTML+='<p style="font-size: 14px;margin: 0;">'+ this.selectedArticles[i].title+'</p>';
       articleHTML+='</a>';
-      articleHTML+='<p style="color: #676767;font-size: 12px;margin: 5px 0 0;">' + selectedArticles[i].body + '</p>';
+      articleHTML+='<p style="color: #676767;font-size: 12px;margin: 5px 0 0;">' + this.selectedArticles[i].body + '</p>';
       articleHTML+='</td>';
       articleHTML+='</tr>';
       articleHTML+='</tbody>';
@@ -77,15 +89,42 @@ export class AppComponent implements OnInit{
     });
     document.execCommand('copy');
     //document.body.removeChild(selBox);
+    console.log(this.selectedArticles);
   }
   checkActiveStage(tab)
   {
     this.selectedTab=tab;
+    switch(tab) {
+      case(AppComponent.RecommendationTabType):
+      this.clipboardArticles = this.articles;
+        break;
+      case(AppComponent.ContentTabType):
+      this.clipboardArticles = this.contents;
+      break;
+      default:
+      this.clipboardArticles = [];
+    }
   }
   getLoggedInUser()
   {
     let context=Xrm.Utility.getGlobalContext();
     this.loggedInUser=context.userSettings.userName;
     console.log('LoggedInUser = '+this.loggedInUser);
+  }
+
+  getStaticVar(RecommendationTabType){
+    return AppComponent[RecommendationTabType]
+  }
+  handleSelectionChange($event: any, contentType){
+    switch(contentType) {
+      case(AppComponent.RecommendationTabType):
+        this.articles = $event
+        break;
+      case(AppComponent.ContentTabType):
+        this.contents = $event
+        break;
+    }
+    this.selectedArticles = $event
+    this.clipboardArticles = $event
   }
 }

@@ -10,7 +10,7 @@
 			<a class="nav-link" data-toggle="tab" href="#menu2" id="search" (click)="checkActiveStage(3)">Search</a>
 		</li>
 		<li class="nav-item ml-auto">
-			<a class="btn button small secondary-button mr-1" (click)="copySelectedArticles(selectedArticles.selectedArticles, selectedContents.selectedContents, search)"><i class="far fa-copy"></i> Copy Link(s)</a>
+			<a class="btn button small secondary-button mr-1" (click)="copySelectedArticles()"><i class="far fa-copy"></i> Copy Link(s){{clipboardArticles.length}}</a>
 			<a class="button small"(click)="getLoggedInUser()" ><i class="far fa-envelope"></i> Send As Email</a>
 		</li>
 	</ul>
@@ -18,10 +18,10 @@
 <!-- Tab panes -->
 <div class="tab-content">
 	<div class="tab-pane active" id="home">
-	<app-recommended-content #selectedArticles></app-recommended-content>
+	<app-recommended-content (recommendedArticlesChanged)="handleSelectionChange($event,1)"></app-recommended-content>
 	</div>
 <div class="tab-pane container fade" id="menu1">
-	<app-content-library #selectedContents></app-content-library>
+	<app-content-library (contentLibraryChanged)="handleSelectionChange($event,2)"></app-content-library>
 </div>
 <div class="tab-pane container fade" id="menu2">
 <app-search #search></app-search>

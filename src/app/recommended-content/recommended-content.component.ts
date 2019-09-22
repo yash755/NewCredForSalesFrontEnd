@@ -1,4 +1,4 @@
-import { Component,OnInit, Input} from '@angular/core';
+import { Component,OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {NewsCredAPI} from '../../services/newsCredAPI';
 import { Article } from '../model/article';
 import dataSample from '../static/config.json';
@@ -11,6 +11,7 @@ declare var $: any;
 })
 export class RecommendedContentComponent implements OnInit{
   @Input() selectedArticles:string[];
+  @Output() recommendedArticlesChanged = new EventEmitter<string[]>();
   carouselEl;
   articles:Article[];
   constructor(private apiService: NewsCredAPI) { }
@@ -50,5 +51,6 @@ export class RecommendedContentComponent implements OnInit{
         this.selectedArticles.splice(index, 1);
       }
     }
+    this.recommendedArticlesChanged.emit(this.selectedArticles);
   }
 }

@@ -19,7 +19,7 @@ export class NewsCredAPI {
     let url = `${this.newsCredConstants.baseUrl}/${NewsCredAPI.recommendedArticlesEndpoint}`
     let params = {
       account: this.dynamicCRMInfo.contact.accountName,
-      field_values,
+      ...field_values,
       industry: this.dynamicCRMInfo.contact.industry,
       record_id: recordId,
       user_id: userId

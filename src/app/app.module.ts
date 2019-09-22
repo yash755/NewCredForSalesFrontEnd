@@ -10,7 +10,7 @@ import { SearchComponent } from './search/search.component';
 import {HttpClientModule} from '@angular/common/http';
 import {CustomHttpClient} from '../services/http.service'
 import { NewsCredAPI } from '../services/newsCredAPI';
-import {NEWSCRED_CONSTANTS} from '../config';
+import { NEWSCRED_CONSTANTS } from '../config';
 import {DynamicCRMInfo} from '../services/dynamicCRM'
 
 @NgModule({
@@ -30,6 +30,7 @@ import {DynamicCRMInfo} from '../services/dynamicCRM'
     CustomHttpClient,
     NewsCredAPI,
     { provide: 'newsCredConstants', useValue: NEWSCRED_CONSTANTS },
+    { provide: 'AUTH_HEADER', useValue: NEWSCRED_CONSTANTS.authHeader },
     { provide: 'dynamicCRMInfo', useValue: new DynamicCRMInfo({},'717', {
         accountName: 'NewsCred',
         email: 'thecontact@devnewscred.com',

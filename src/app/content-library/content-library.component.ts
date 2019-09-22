@@ -1,4 +1,4 @@
-import { Component,OnInit, Input} from '@angular/core';
+import { Component,OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {NewsCredAPI} from '../../services/newsCredAPI';
 import { Article } from '../model/article';
 import {ArticleCategories} from '../model/ArticleCategories';
@@ -11,6 +11,7 @@ declare var $: any;
 })
 export class ContentLibraryComponent implements OnInit {
   @Input() selectedContents:string[];
+  @Output() contentLibraryChanged = new EventEmitter<string[]>();
   carouselEl;
   selectCategoryName = 'NewsCred Expertise';
   articles:Article[];
@@ -18,6 +19,14 @@ export class ContentLibraryComponent implements OnInit {
   constructor(private apiService: NewsCredAPI) { }
 
   ngOnInit() {
+  this.apiService.getCategories()
+    .subscribe((data)=>{
+      this.categories = data
+      this.getContentLibraryArticles()
+    });
+  }
+  
+  getContentLibraryArticles(){
     const defaultCategory = this.categories.filter(category => category.is_default);
     this.apiService.getContentLibraryArticles(defaultCategory[0])
     .subscribe((data)=>{
@@ -26,8 +35,6 @@ export class ContentLibraryComponent implements OnInit {
       this.selectedContents=[];
     }, (err) => {
     });
-
-    this.getArticleCategories();
   }
   forward()
   {
@@ -52,6 +59,7 @@ export class ContentLibraryComponent implements OnInit {
         this.selectedContents.splice(index, 1);
       }
     }
+    this.contentLibraryChanged.emit(this.selectedContents);
   }
 
   getArticleCategories()
@@ -59,7 +67,7 @@ export class ContentLibraryComponent implements OnInit {
     this.apiService.getCategories()
       .subscribe((data)=>{
       this.categories=data;
-      //this.carouselEl = $('.owl-carousel');
+      this.carouselEl = $('.owl-carousel');
       console.log(this.categories);   
       }, (err) => {
     });
@@ -76,4 +84,5 @@ export class ContentLibraryComponent implements OnInit {
       }, (err) => {
     });
   }
+  
 }

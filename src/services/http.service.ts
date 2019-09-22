@@ -1,5 +1,5 @@
 import {Injectable, Inject, Optional} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 
 @Injectable()
 export class CustomHttpClient {
@@ -11,12 +11,20 @@ export class CustomHttpClient {
 
   createAuthorizationHeader(headers: HttpHeaders) {
     headers.set('Authorization', this.authHeader); 
+    console.log(this.commonHeaders)
   }
 
   get(url:string, params: any) {
-    this.createAuthorizationHeader(this.commonHeaders);
+    // this.createAuthorizationHeader(this.commonHeaders);
+    // console.log(this.commonHeaders)
+    // this.commonHeaders.append('Authorization', this.authHeader)
     return this.http.get(url, {
-      headers: this.commonHeaders
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': this.authHeader
+      }),
+      params: params
     });
   }
 }
