@@ -97,7 +97,7 @@ export class DynamicCRMInfo {
             }
         };
         req.send(JSON.stringify(entity));	
-}
+    }
 
     public data: any
     constructor(data:any, currentUser: string) {
