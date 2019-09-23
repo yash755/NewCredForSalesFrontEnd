@@ -24,7 +24,7 @@ export class RecommendedContentComponent implements OnInit{
     this.apiService.getRecommendedArticles(recordId, currentUserID)
     .subscribe((data)=>{
       this.articles=data.result_set;
-      this.carouselEl = $('.owl-carousel');
+      this.carouselEl = $('.recommended-carousel');
       this.selectedArticles=[];
       this.loading=false
     }, (err) => {
@@ -32,11 +32,11 @@ export class RecommendedContentComponent implements OnInit{
   }
   forward()
   {
-    this.carouselEl.trigger('next.owl.carousel');
+    $('.recommended-carousel').trigger('next.owl.carousel');
   }
   backward()
   {
-    this.carouselEl.trigger('prev.owl.carousel');
+    $('.recommended-carousel').trigger('prev.owl.carousel');
   }
   onCheckboxChange(event, value) 
   {

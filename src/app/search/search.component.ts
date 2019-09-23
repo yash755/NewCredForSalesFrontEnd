@@ -15,11 +15,9 @@ export class SearchComponent implements OnInit {
   public articles: Article[]
   public carouselEl: any
   public carouselId: string
-
-  // @Output() searchSelectionChanged = new EventEmitter<string[]>();
+  @Output() searchSelectionChanged = new EventEmitter<any>();
   constructor(private apiService: NewsCredAPI) { 
     this.carouselId = "search-carousel"
-    this.carouselEl = $('#'+this.carouselId);
   }
   
   ngOnInit() {
@@ -31,15 +29,20 @@ export class SearchComponent implements OnInit {
     .subscribe(data => {
       this.articles = data.result_set;
       this.loading = false;
+      console.log(this.carouselEl)
     });
   }
 
   forward(){
-    this.carouselEl.trigger('next.owl.carousel');
+    $('.' + this.carouselId).trigger('next.owl.carousel');
   }
   backward()
   {
-    this.carouselEl.trigger('prev.owl.carousel');
+    $('.' + this.carouselId).trigger('prev.owl.carousel');
+  }
+
+  handleSelectionChange(event){
+    this.searchSelectionChanged.emit(event);
   }
 
   handleKeyDownInput(event) {

@@ -23,5 +23,5 @@
         
         
     <in-tab-loader *ngIf="loading"></in-tab-loader>
-    <article-card-slider *ngIf="!loading" [carouselId]= "carouselId" [articles]="articles"></article-card-slider>
+    <article-card-slider *ngIf="!loading" [carouselId]= "carouselId" (searchSelectionChanged)="handleSelectionChange($event,3)" [articles]="articles"></article-card-slider>
 </div>

@@ -16,6 +16,6 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
     }
 
     onCheckboxChange(event:any, value: any) {
-        this.cardStatusChanged.emit({target: event.target, value:value});
+        this.cardStatusChanged.emit({event:event, value:value});
     }
 }

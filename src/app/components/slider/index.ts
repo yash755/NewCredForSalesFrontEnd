@@ -8,19 +8,21 @@ import { OwlCarousel } from 'ngx-owl-carousel';
   })
   export class ArticleCardSlider {
     @Input('articles') articles: any
-    @Input('carouselId') carouselId: string
+    @Input('carouselId') carouselId: string;
+    carouselClasses = ['owl-theme', 'row', 'sliding']
+    // @Output() contentLibraryChanged = new EventEmitter<string[]>();
     @Output() searchSelectionChanged = new EventEmitter<any>();
     public selectedContents = [];
     constructor() { }
     ngOnInit() {
-      console.log(this.articles);
+      this.carouselClasses.push(this.carouselId)
     }
     handleCardStatusChanged(event:any){
-      if (event.target.checked) 
+      if (event.event.target.checked) 
       {
         this.selectedContents.push(event.value);
       } 
-      if (!event.target.checked) 
+      if (!event.event.target.checked) 
       {
         let index = this.selectedContents.indexOf(event.value);
         if (index > -1) 
@@ -28,8 +30,6 @@ import { OwlCarousel } from 'ngx-owl-carousel';
           this.selectedContents.splice(index, 1);
         }
       }
-      console.log(this.selectedContents)
-      this.searchSelectionChanged.emit(this.selectedContents);
-  
+      this.searchSelectionChanged.emit(this.selectedContents); 
     }
 }
