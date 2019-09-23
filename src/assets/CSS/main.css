@@ -190,6 +190,9 @@ input[type="checkbox"][id^="cb1"] {
 input[type="checkbox"][id^="cb2"] {
     display: none;
   }
+  input[type="checkbox"][id^="cb3"] {
+    display: none;
+  }
 label {
     
   display: block;

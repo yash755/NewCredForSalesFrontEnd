@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { OwlCarousel } from 'ngx-owl-carousel';
 
 @Component({
     selector: 'article-card-slider',
@@ -7,7 +8,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   })
   export class ArticleCardSlider {
     @Input('articles') articles: any
-    @Output() searchSelectionChanged = new EventEmitter<string[]>();
+    @Input('carouselId') carouselId: string
+    @Output() searchSelectionChanged = new EventEmitter<any>();
     public selectedContents = [];
     constructor() { }
     ngOnInit() {

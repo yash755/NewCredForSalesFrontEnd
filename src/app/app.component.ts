@@ -102,6 +102,9 @@ export class AppComponent implements OnInit{
       case(AppComponent.ContentTabType):
       this.clipboardArticles = this.contents;
       break;
+      case(AppComponent.SearchTabType):
+      this.clipboardArticles = this.search;
+      break;
       default:
       this.clipboardArticles = [];
     }
