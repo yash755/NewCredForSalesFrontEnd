@@ -8,6 +8,10 @@ import { ArticleCategories } from '../../app/model/ArticleCategories';
   providedIn: 'root'
 })
 export class NewsCredAPI {
+  static getContactIdEndpoint = "v1/salesforce/contacts/0031F00000MGRiaQAH"
+  static getLoggedInUserEndpoint = "v1/salesforce/users"
+  static getFieldNameEndpoint = "v1/salesforce/contacts/field_names"
+
   static articleEndpoint = "v2/articles/recommendation"
   static articleCategoryEndpoint = "v1/categories/articles"
   static categoryEndpoint = "v1/categories"
@@ -51,6 +55,17 @@ public searchArticles(query: string):Observable<any>{
     user_email: this.dynamicCRMInfo.getCurrentUser().email
   }
   return this.httpClient.get(url, params)
+}
+
+//Nazish - fetching the contact id from NewsCred
+public getContactIdFromNewsCred(){
+ let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getContactIdEndpoint}`
+ let params = {
+  contact_email: this.dynamicCRMInfo.data.email,
+  contact_name: this.dynamicCRMInfo.data
+
+    }
+ return
 }
   constructor(private httpClient: CustomHttpClient, @Inject('newsCredConstants') @Optional() private newsCredConstants?: any, @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) { }
 }
