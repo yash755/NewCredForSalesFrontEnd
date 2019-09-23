@@ -183,7 +183,9 @@ border-top-right-radius: 4px;
 
 /** checkbox */
 
-
+.disabled {
+    background-color: #000;
+}
 input[type="checkbox"][id^="cb1"] {
   display: none;
 }

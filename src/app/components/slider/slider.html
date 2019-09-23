@@ -8,7 +8,7 @@
             <owl-carousel [id]="carouselId"
                 [options]="{responsive:{'320':{items:2},'600':{items:3},'980':{items:3},'1100':{ items:4}}, loop: false, mouseDrag:false, dots: false, autoplay: false,nav: false, slideBy: 4}"
                 [items]="articles"
-                [carouselClasses]="['owl-theme', 'row', 'sliding']" >
+                [carouselClasses]="carouselClasses" >
                 <div class="card-deck mt-4 mb-4"  *ngFor="let article of articles">
                     <article-card [articleObj]="article" (cardStatusChanged)="handleCardStatusChanged($event)"> </article-card>
                 </div>

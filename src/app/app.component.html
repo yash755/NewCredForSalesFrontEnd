@@ -15,8 +15,8 @@
 			<a class="nav-link" data-toggle="tab" href="#menu2" id="search" (click)="checkActiveStage(3)">Search</a>
 		</li>
 		<li class="nav-item ml-auto">
-			<a class="btn button small secondary-button mr-1" (click)="copySelectedArticles()"><i class="far fa-copy"></i> Copy Link(s)</a>
-			<a class="button small"(click)="getLoggedInUser()" ><i class="far fa-envelope"></i> Send As Email</a>
+			<a class="btn button small secondary-button mr-1" [ngClass]="!clipboardArticles.length?'disabled':''" (click)="copySelectedArticles()"><i class="far fa-copy"></i> Copy Link(s)</a>
+			<a class="button small" (click)="getLoggedInUser()" [ngClass]="(!clipboardArticles.length)?'disabled':''" ><i class="far fa-envelope"></i> Send As Email</a>
 		</li>
 	</ul>
 
