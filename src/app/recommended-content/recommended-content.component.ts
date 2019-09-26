@@ -1,6 +1,7 @@
 import { Component,OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { NewsCredAPI } from '../../services/newsCredAPI';
 import { Article } from '../model/article';
+import {DynamicCRMInfo} from '../../services/dynamicCRM';
 import dataSample from '../static/config.json';
 
 declare var $: any;
@@ -18,9 +19,24 @@ export class RecommendedContentComponent implements OnInit{
   constructor(private apiService: NewsCredAPI) { }
 
   ngOnInit() {
-    const recordId = 82348;
-    const currentUserID = 717;
+  
+
+    let recordId:number;
+    let currentUserID:number;
     this.loading = true;
+
+    this.apiService.getRecordIdFromNewsCred()
+    .subscribe((data)=>{
+      recordId=data["contact_id"];
+    },(err)=>{
+    });
+
+    this.apiService.getCurrentUserIdFromNewsCred()
+    .subscribe((data)=>{
+      currentUserID=data["user_id"];
+    },(err)=>{
+    });
+
     this.apiService.getRecommendedArticles(recordId, currentUserID)
     .subscribe((data)=>{
       this.articles=data.result_set;
@@ -54,4 +70,5 @@ export class RecommendedContentComponent implements OnInit{
     }
     this.recommendedArticlesChanged.emit(this.selectedArticles);
   }
+
 }

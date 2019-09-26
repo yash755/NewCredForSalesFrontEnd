@@ -1,5 +1,6 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, Optional, Inject} from '@angular/core';
 import { ClipboardModule } from 'ngx-clipboard';
+import {DynamicCRMInfo} from '../services/dynamicCRM'
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,8 @@ export class AppComponent implements OnInit{
   search = [];
   clipboardArticles = []
   selectedArticles = []
+  contactName=""
+  count=0
 
   ngOnInit(){
   }
@@ -28,22 +31,8 @@ export class AppComponent implements OnInit{
     let articleHTML='';
     let selectedArticles=[];
     selectedArticles = this.clipboardArticles;
-    // if(this.selectedTab==1)
-    // {
-    //   this.selectedArticles=this.articles;
-    //   this.clipboardArticles = this.articles;
-    // }
-    // else if(this.selectedTab==2)
-    // {
-    //   this.selectedArticles=this.contents;
-    //   this.clipboardArticles = this.contents;
-    // }
-    // else
-    // {
-    //   this.selectedArticles=this.search;
-    //   this.clipboardArticles = this.search
-    // }
-  
+    this.count=0;
+
     for(let i=0; i<this.selectedArticles.length; i++)
     {
     // Creating plain text links
@@ -71,6 +60,7 @@ export class AppComponent implements OnInit{
       articleHTML+='</tbody>';
       articleHTML+='</table>';
       articleHTML+='<br>';
+      this.count++;
     }
     
     //copying the text
@@ -90,7 +80,8 @@ export class AppComponent implements OnInit{
     });
     document.execCommand('copy');
     //document.body.removeChild(selBox);
-    console.log(this.selectedArticles);
+    let subject=this.dynamicCRMInfo.getCurrentUser().name+" copied "+this.count+" Links for "+this.contactName;
+    this.dynamicCRMInfo.updateActivity(this.dynamicCRMInfo.getCurrectRecord().id, subject, atrticleText);
   }
   checkActiveStage(tab)
   {
@@ -109,11 +100,32 @@ export class AppComponent implements OnInit{
       this.clipboardArticles = [];
     }
   }
-  getLoggedInUser()
+  sendAsEmail()
   {
-    let context=Xrm.Utility.getGlobalContext();
-    this.loggedInUser=context.userSettings.userName;
-    console.log('LoggedInUser = '+this.loggedInUser);
+    let articleHTML="";
+    for(let i=0; i<this.selectedArticles.length; i++)
+    {
+      //Creating ritch text links
+      articleHTML+='<table id="abcm-article" style="font-family: verdana, serif;max-width: 350px;">';
+      articleHTML+='<tbody>';
+      articleHTML+='<tr>';
+      articleHTML+='<td style="vertical-align: top;">';
+      articleHTML+='<a href='+ this.selectedArticles[i].link +'>';
+      articleHTML+='<img style="width: 80px;height: 60px;margin-right: 10px;" src="' + this.selectedArticles[i].image + '">';
+      articleHTML+='</a>';
+      articleHTML+='</td>';
+      articleHTML+='<td>';
+      articleHTML+='<a href='+ this.selectedArticles +'>';
+      articleHTML+='<p style="font-size: 14px;margin: 0;">'+ this.selectedArticles[i].title+'</p>';
+      articleHTML+='</a>';
+      articleHTML+='<p style="color: #676767;font-size: 12px;margin: 5px 0 0;">' + this.selectedArticles[i].body + '</p>';
+      articleHTML+='</td>';
+      articleHTML+='</tr>';
+      articleHTML+='</tbody>';
+      articleHTML+='</table>';
+      articleHTML+='<br>';
+    }
+   this.dynamicCRMInfo.sendEmail(articleHTML);
   }
 
   getStaticVar(RecommendationTabType){
@@ -141,4 +153,8 @@ export class AppComponent implements OnInit{
     
     console.log(this.clipboardArticles)
   }
+
+  constructor(@Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) {
+   this.contactName=dynamicCRMInfo.defaultData.contact.name;
+   }
 }

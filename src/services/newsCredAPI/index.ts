@@ -17,9 +17,10 @@ export class NewsCredAPI {
   static categoryEndpoint = "v1/categories"
   static recommendedArticlesEndpoint = "v2/articles/recommendation"
   static searchEndpoint = "v1/articles/search"
-
+   
+  fields=[]
   public getRecommendedArticles(recordId: number, userId: number ):Observable<any>{
-    const field_values = {"fieldName":"Contact.Title"};
+    const field_values = {"fieldName":this.fields[0]};
     let url = `${this.newsCredConstants.baseUrl}/${NewsCredAPI.recommendedArticlesEndpoint}`
     let params = {
       account: this.dynamicCRMInfo.data.contact.accountName,
@@ -42,7 +43,7 @@ export class NewsCredAPI {
 public getCategories():Observable<any>{
   let url = `${this.newsCredConstants.baseUrl}/${NewsCredAPI.categoryEndpoint}`
   let params = {
-    email: this.dynamicCRMInfo.currentUser
+    email: this.dynamicCRMInfo.defaultData.currentUserEmail
   }
   return  this.httpClient.get(url,params);
 }
@@ -54,18 +55,35 @@ public searchArticles(query: string):Observable<any>{
     query,
     user_email: this.dynamicCRMInfo.getCurrentUser().email
   }
+  console.log(params.contact_email+"  "+params.user_email);
   return this.httpClient.get(url, params)
 }
 
 //Nazish - fetching the contact id from NewsCred
-public getContactIdFromNewsCred(){
+public getRecordIdFromNewsCred(){
  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getContactIdEndpoint}`
  let params = {
-  contact_email: this.dynamicCRMInfo.data.email,
-  contact_name: this.dynamicCRMInfo.data
-
+  contact_email: this.dynamicCRMInfo.defaultData.contact.email,
+  contact_name: this.dynamicCRMInfo.defaultData.contact.name
     }
- return
+ return this.httpClient.get(url, params)
 }
-  constructor(private httpClient: CustomHttpClient, @Inject('newsCredConstants') @Optional() private newsCredConstants?: any, @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) { }
+
+//Nazish - Getting current loggedIn user Id from NewsCred
+public getCurrentUserIdFromNewsCred(){
+let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getLoggedInUserEndpoint}/${this.dynamicCRMInfo.defaultData.currentUserEmail}`
+return this.httpClient.get(url,"")
+}
+
+//Nazish - Getting fields Name from the NewsCred
+public getFieldNames(){
+  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getFieldNameEndpoint}`;
+  this.httpClient.get(url,"")
+  .subscribe((data)=>{
+   this.fields=data["names"];
+  });
+}
+  constructor(private httpClient: CustomHttpClient, @Inject('newsCredConstants') @Optional() private newsCredConstants?: any, @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) { 
+    this.getFieldNames();
+  }
 }
