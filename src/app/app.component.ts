@@ -1,6 +1,7 @@
 import { Component, OnInit, Optional, Inject} from '@angular/core';
 import { ClipboardModule } from 'ngx-clipboard';
 import {DynamicCRMInfo} from '../services/dynamicCRM'
+import { NewsCredAPI } from '../services/newsCredAPI';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,9 @@ export class AppComponent implements OnInit{
   selectedArticles = []
   contactName=""
   count=0
+  recordId:number
+  currentUserID:number
+
 
   ngOnInit(){
   }
@@ -61,6 +65,13 @@ export class AppComponent implements OnInit{
       articleHTML+='</table>';
       articleHTML+='<br>';
       this.count++;
+
+      //Calling is used api for the specific url
+      
+      this.apiService.postUsedArticle(selectedArticles[i].guid, this.recordId, this.currentUserID)
+      .subscribe((data)=>{
+        //alert(data['use_id']);
+      });
     }
     
     //copying the text
@@ -154,7 +165,16 @@ export class AppComponent implements OnInit{
     console.log(this.clipboardArticles)
   }
 
-  constructor(@Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) {
+  constructor(private apiService: NewsCredAPI, @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) {
    this.contactName=dynamicCRMInfo.defaultData.contact.name;
+   this.apiService.getRecordIdFromNewsCred()
+      .subscribe((data)=>{
+        this.recordId=data["contact_id"];
+      });
+
+      this.apiService.getCurrentUserIdFromNewsCred()
+      .subscribe((data)=>{
+        this.currentUserID=data["user_id"]
+      });
    }
 }

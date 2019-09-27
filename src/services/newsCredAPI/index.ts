@@ -17,10 +17,12 @@ export class NewsCredAPI {
   static categoryEndpoint = "v1/categories"
   static recommendedArticlesEndpoint = "v2/articles/recommendation"
   static searchEndpoint = "v1/articles/search"
+
+  static usedArticleEndpoint="v1/articles"
    
   fields=[]
   public getRecommendedArticles(recordId: number, userId: number ):Observable<any>{
-    const field_values = {"fieldName":this.fields[0]};
+    const field_values = {"fieldName":"Contact.Title"};
     let url = `${this.newsCredConstants.baseUrl}/${NewsCredAPI.recommendedArticlesEndpoint}`
     let params = {
       account: this.dynamicCRMInfo.data.contact.accountName,
@@ -53,7 +55,7 @@ public searchArticles(query: string):Observable<any>{
   let params = {
     contact_email: this.dynamicCRMInfo.data.contact.email,
     query,
-    user_email: this.dynamicCRMInfo.getCurrentUser().email
+    user_email: this.dynamicCRMInfo.defaultData.currentUserEmail
   }
   console.log(params.contact_email+"  "+params.user_email);
   return this.httpClient.get(url, params)
@@ -77,13 +79,23 @@ return this.httpClient.get(url,"")
 
 //Nazish - Getting fields Name from the NewsCred
 public getFieldNames(){
-  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getFieldNameEndpoint}`;
+  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getFieldNameEndpoint}`
   this.httpClient.get(url,"")
   .subscribe((data)=>{
    this.fields=data["names"];
   });
 }
+
+//Nazish - Posting the is used api to the newsCred on click on copy content...
+public postUsedArticle(articleGuid:string, recordId:number, userId:number){
+  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.usedArticleEndpoint}/${articleGuid}/used`
+  let body={
+    "record_id":recordId,
+    "user_id":userId
+  }
+  return this.httpClient.post(url, body)
+}
   constructor(private httpClient: CustomHttpClient, @Inject('newsCredConstants') @Optional() private newsCredConstants?: any, @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) { 
-    this.getFieldNames();
+    //this.getFieldNames();
   }
 }

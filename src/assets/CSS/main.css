@@ -87,11 +87,11 @@ a.button.black-button {
     top: 0;
     z-index: 2;
     -webkit-border-top-left-radius: 4px;
--webkit-border-top-right-radius: 4px;
--moz-border-radius-topleft: 4px;
--moz-border-radius-topright: 4px;
-border-top-left-radius: 4px;
-border-top-right-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+     border-top-left-radius: 4px;
+     border-top-right-radius: 4px;
 }
 .card-image  .image-overlay p {
     color:#fff;

@@ -1,11 +1,14 @@
 import {Injectable, Inject, Optional} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import { CATCH_ERROR_VAR } from '@angular/compiler/src/output/output_ast';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class CustomHttpClient {
   private commonHeaders = new HttpHeaders({
     'Content-Type':  'application/json',
     'Access-Control-Allow-Origin': '*',
+    
   })
   constructor(private http: HttpClient, @Inject('AUTH_HEADER') @Optional() private authHeader?: string) {}
 
@@ -26,5 +29,15 @@ export class CustomHttpClient {
       }),
       params: params
     });
+  }
+
+  post(url:string, body:any){
+   return this.http.post<any>(url,body,{
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Authorization': this.authHeader
+    }),
+   })
   }
 }

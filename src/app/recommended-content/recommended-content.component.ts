@@ -40,6 +40,7 @@ export class RecommendedContentComponent implements OnInit{
     this.apiService.getRecommendedArticles(recordId, currentUserID)
     .subscribe((data)=>{
       this.articles=data.result_set;
+      console.log(this.articles);
       this.carouselEl = $('.recommended-carousel');
       this.selectedArticles=[];
       this.loading=false

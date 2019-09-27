@@ -20,7 +20,7 @@
       <div class="row">
         <div class="col-md-12 col-lg-12">
           <owl-carousel
-          [options]="{responsive:{'320':{items:2},'600':{items:3},'980':{items:3},'1100':{ items:4}}, loop: true, dots: false, autoplay: false,nav: false,mouseDrag:false, slideBy: 4}"
+          [options]="{responsive:{'320':{items:2},'600':{items:3},'980':{items:3},'1100':{ items:4}}, loop: false, dots: false, autoplay: false,nav: false,mouseDrag:false, slideBy: 4}"
           [items]="articles"
           [carouselClasses]="['recommended-carousel', 'owl-theme', 'row', 'sliding']" >
           <div class="card-deck mt-4 mb-4"  *ngFor="let article of articles">
@@ -31,7 +31,7 @@
                         <div class="image-overlay">
                           <input type="checkbox"  id="cb1{{article.guid}}" (click)="onCheckboxChange($event, article)"/>
                           <label for="cb1{{article.guid}}"></label>
-                            <p>
+                            <p *ngIf="article.is_used">
                             This article has been used for this contact. 
                           </p>
                         </div>
