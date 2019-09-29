@@ -1,4 +1,4 @@
-import { Component, OnInit, Optional, Inject} from '@angular/core';
+import { Component, OnInit, Optional, Inject, ɵɵqueryRefresh} from '@angular/core';
 import { ClipboardModule } from 'ngx-clipboard';
 import {DynamicCRMInfo} from '../services/dynamicCRM'
 import { NewsCredAPI } from '../services/newsCredAPI';
@@ -24,8 +24,6 @@ export class AppComponent implements OnInit{
   count=0
   recordId:number
   currentUserID:number
-
-
   ngOnInit(){
   }
   
@@ -41,21 +39,21 @@ export class AppComponent implements OnInit{
     {
     // Creating plain text links
       if(i==0) 
-        atrticleText+=this.selectedArticles[i].link;
+        atrticleText+=`${this.newsCredConstants.baseUrl}/${this.newsCredConstants.usedArticlesEndpoint}/${this.selectedArticles[i].guid}/${this.currentUserID}/${this.recordId}`;
       else
-        atrticleText+="\n"+this.selectedArticles[i].link;
+        atrticleText+="\n"+`${this.newsCredConstants.baseUrl}/${this.newsCredConstants.usedArticlesEndpoint}/${this.selectedArticles[i].guid}/${this.currentUserID}/${this.recordId}`;
       
       //Creating ritch text links
       articleHTML+='<table id="abcm-article" style="font-family: verdana, serif;max-width: 350px;">';
       articleHTML+='<tbody>';
       articleHTML+='<tr>';
       articleHTML+='<td style="vertical-align: top;">';
-      articleHTML+='<a href='+ this.selectedArticles[i].link +'>';
+      articleHTML+='<a href='+ `${this.newsCredConstants.baseUrl}/${this.newsCredConstants.usedArticlesEndpoint}/${this.selectedArticles[i].guid}/${this.currentUserID}/${this.recordId}` +'>';
       articleHTML+='<img style="width: 80px;height: 60px;margin-right: 10px;" src="' + this.selectedArticles[i].image + '">';
       articleHTML+='</a>';
       articleHTML+='</td>';
       articleHTML+='<td>';
-      articleHTML+='<a href='+ this.selectedArticles +'>';
+      articleHTML+='<a href='+ `${this.newsCredConstants.baseUrl}/${this.newsCredConstants.usedArticlesEndpoint}/${this.selectedArticles[i].guid}/${this.currentUserID}/${this.recordId}` +'>';
       articleHTML+='<p style="font-size: 14px;margin: 0;">'+ this.selectedArticles[i].title+'</p>';
       articleHTML+='</a>';
       articleHTML+='<p style="color: #676767;font-size: 12px;margin: 5px 0 0;">' + this.selectedArticles[i].body + '</p>';
@@ -65,12 +63,10 @@ export class AppComponent implements OnInit{
       articleHTML+='</table>';
       articleHTML+='<br>';
       this.count++;
-
       //Calling is used api for the specific url
-      
+      //alert(this.currentUserID+"  "+this.recordId)
       this.apiService.postUsedArticle(selectedArticles[i].guid, this.recordId, this.currentUserID)
       .subscribe((data)=>{
-        //alert(data['use_id']);
       });
     }
     
@@ -121,12 +117,12 @@ export class AppComponent implements OnInit{
       articleHTML+='<tbody>';
       articleHTML+='<tr>';
       articleHTML+='<td style="vertical-align: top;">';
-      articleHTML+='<a href='+ this.selectedArticles[i].link +'>';
+      articleHTML+='<a href='+ `${this.newsCredConstants.baseUrl}/${this.newsCredConstants.usedArticlesEndpoint}/${this.selectedArticles[i].guid}/${this.currentUserID}/${this.recordId}` +'>';
       articleHTML+='<img style="width: 80px;height: 60px;margin-right: 10px;" src="' + this.selectedArticles[i].image + '">';
       articleHTML+='</a>';
       articleHTML+='</td>';
       articleHTML+='<td>';
-      articleHTML+='<a href='+ this.selectedArticles +'>';
+      articleHTML+='<a href='+ `${this.newsCredConstants.baseUrl}/${this.newsCredConstants.usedArticlesEndpoint}/${this.selectedArticles[i].guid}/${this.currentUserID}/${this.recordId}` +'>';
       articleHTML+='<p style="font-size: 14px;margin: 0;">'+ this.selectedArticles[i].title+'</p>';
       articleHTML+='</a>';
       articleHTML+='<p style="color: #676767;font-size: 12px;margin: 5px 0 0;">' + this.selectedArticles[i].body + '</p>';
@@ -165,15 +161,15 @@ export class AppComponent implements OnInit{
     console.log(this.clipboardArticles)
   }
 
-  constructor(private apiService: NewsCredAPI, @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) {
+  constructor(private apiService: NewsCredAPI, @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo, @Inject('newsCredConstants') @Optional() private newsCredConstants?: any) {
    this.contactName=dynamicCRMInfo.defaultData.contact.name;
    this.apiService.getRecordIdFromNewsCred()
-      .subscribe((data)=>{
+      .then((data)=>{
         this.recordId=data["contact_id"];
       });
 
       this.apiService.getCurrentUserIdFromNewsCred()
-      .subscribe((data)=>{
+      .then((data)=>{
         this.currentUserID=data["user_id"]
       });
    }

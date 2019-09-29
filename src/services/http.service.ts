@@ -2,6 +2,7 @@ import {Injectable, Inject, Optional} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { CATCH_ERROR_VAR } from '@angular/compiler/src/output/output_ast';
 import { Observable } from 'rxjs';
+import { async } from '@angular/core/testing';
 
 @Injectable()
 export class CustomHttpClient {
@@ -17,7 +18,7 @@ export class CustomHttpClient {
     console.log(this.commonHeaders)
   }
 
-  get(url:string, params: any) {
+   get(url:string, params: any) {
     // this.createAuthorizationHeader(this.commonHeaders);
     // console.log(this.commonHeaders)
     // this.commonHeaders.append('Authorization', this.authHeader)
@@ -27,7 +28,7 @@ export class CustomHttpClient {
         'Access-Control-Allow-Origin': '*',
         'Authorization': this.authHeader
       }),
-      params: params
+      params: params,
     });
   }
 

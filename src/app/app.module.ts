@@ -40,18 +40,7 @@ import {DynamicCRMInfo} from '../services/dynamicCRM'
     NewsCredAPI,
     { provide: 'newsCredConstants', useValue: NEWSCRED_CONSTANTS },
     { provide: 'AUTH_HEADER', useValue: NEWSCRED_CONSTANTS.authHeader },
-    { provide: 'dynamicCRMInfo', useValue: new DynamicCRMInfo({ 
-        contact:{
-          accountName: 'binmile',
-          email: 'padmaja@binmile.com',
-          id: '0035500000VR3naAAD',
-          industry: '',
-          name: 'Padmaja Shukla'
-        },
-        currentUserEmail: 'padmaja@binmile.com',
-        currentUserName: 'Padmaja'
-      },'717', )
-    }
+    { provide: 'dynamicCRMInfo', useValue: new DynamicCRMInfo()},
   ],
   bootstrap: [AppComponent]
 })

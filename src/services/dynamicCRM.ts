@@ -1,18 +1,18 @@
-import {Injectable} from '@angular/core';
-
+import {Injectable, Inject, Optional} from '@angular/core';
 
 @Injectable()
 export class DynamicCRMInfo {
+    isProd:false;
     public defaultData = {
         contact: {
             accountName: 'NewsCred',
-            email: 'thecontact@devnewscred.com',
+            email: 'nazish@binmile.com',
             id: '0035500000VR3naAAD',
             industry: '',
-            name: 'The Contact'
+            name: 'Mohd Nazish'
             },
-            currentUserEmail: 'currentUserEmail@newscred.com',
-            currentUserName: 'User User'
+            currentUserEmail: 'padmaja@newscred.com',
+            currentUserName: 'Padmaja Shukla',
         }
     public currentUser: string
 
@@ -116,8 +116,6 @@ export class DynamicCRMInfo {
         this.defaultData.contact.email=email;
         this.defaultData.contact.name=name;
         return{
-            name:name,
-            email:email,
             id:currentRecord,
             contactId:contactId,
             entityType:entityName,
@@ -169,7 +167,7 @@ export class DynamicCRMInfo {
     let toContact = [];
     toContact[0] = new Object();
     toContact[0].id = this.getCurrectRecord().contactId;
-    toContact[0].name = this.getCurrectRecord().name;
+    toContact[0].name = this.defaultData.contact.name;
     toContact[0].entityType = "contact";
 
     let regarding=[];
@@ -185,17 +183,11 @@ export class DynamicCRMInfo {
     parameters["regardingobjectid"]=regarding;
     parentXrm.Utility.openEntityForm("email", null,parameters);
   }
-    public data: any
-    constructor(data:any, currentUser: string) {
-        if(1!=1)
+    constructor() {
+        if(this.isProd)
         {
-            this.getCurrentUser().email;
             this.getCurrentUser();
-        }
-        else
-        {
-        this.currentUser = currentUser || 'currentUserEmail@newscred.com';
-        this.data = this.data || this.defaultData;
+            this.getCurrentUser();
         }
     }
 }

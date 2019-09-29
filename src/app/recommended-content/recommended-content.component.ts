@@ -2,7 +2,6 @@ import { Component,OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { NewsCredAPI } from '../../services/newsCredAPI';
 import { Article } from '../model/article';
 import {DynamicCRMInfo} from '../../services/dynamicCRM';
-import dataSample from '../static/config.json';
 
 declare var $: any;
 @Component({
@@ -16,36 +15,23 @@ export class RecommendedContentComponent implements OnInit{
   carouselEl;
   articles:Article[];
   public loading: boolean
-  constructor(private apiService: NewsCredAPI) { }
-
+  recordId:number
+  currentUserID:number
   ngOnInit() {
-  
-
-    let recordId:number;
-    let currentUserID:number;
     this.loading = true;
-
-    this.apiService.getRecordIdFromNewsCred()
-    .subscribe((data)=>{
-      recordId=data["contact_id"];
-    },(err)=>{
-    });
-
-    this.apiService.getCurrentUserIdFromNewsCred()
-    .subscribe((data)=>{
-      currentUserID=data["user_id"];
-    },(err)=>{
-    });
-
-    this.apiService.getRecommendedArticles(recordId, currentUserID)
-    .subscribe((data)=>{
-      this.articles=data.result_set;
-      console.log(this.articles);
-      this.carouselEl = $('.recommended-carousel');
-      this.selectedArticles=[];
-      this.loading=false
-    }, (err) => {
-    });
+   
+    if(this.recordId==undefined || this.recordId==null || this.currentUserID==undefined || this.currentUserID==null)
+    {
+      setTimeout(() => {this.ngOnInit();}, 2000);
+    }
+    this.apiService.getRecommendedArticles(this.recordId, this.currentUserID)
+        .subscribe((data)=>{
+          this.articles=data.result_set;
+          this.carouselEl = $('.recommended-carousel');
+          this.selectedArticles=[];
+          this.loading=false
+        }, (err) => {
+        });
   }
   forward()
   {
@@ -72,4 +58,18 @@ export class RecommendedContentComponent implements OnInit{
     this.recommendedArticlesChanged.emit(this.selectedArticles);
   }
 
+  constructor(private apiService: NewsCredAPI) {
+
+    this.apiService.getRecordIdFromNewsCred()
+    .then((data)=>{
+      this.recordId=data["contact_id"];
+    },(err)=>{
+    });
+
+    this.apiService.getCurrentUserIdFromNewsCred()
+    .then((data)=>{
+      this.currentUserID=data["user_id"];
+    },(err)=>{
+    });
+   }
 }
