@@ -1,34 +1,35 @@
 
-<div class="container mt-5">
-		<h2 class="app-subtitle">
-				Articles to Share with <span class="contact-name">{{contactName}}</span>
-				<span *ngIf=clipboardArticles.length> ( {{clipboardArticles.length}} ) selected</span>
-				</h2>
-	<ul class="nav nav-tabs">
-		<li class="nav-item">
-			<a class="nav-link active" data-toggle="tab" href="#home" id="recommended" (click)="checkActiveStage(1)">Recommended Content</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#menu1" id="content" (click)="checkActiveStage(2)">Content Library</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#menu2" id="search" (click)="checkActiveStage(3)">Search</a>
-		</li>
-		<li class="nav-item ml-auto">
-			<a class="btn button small secondary-button mr-1" [ngClass]="!clipboardArticles.length?'disabled':''" (click)="copySelectedArticles()"><i class="far fa-copy"></i> Copy Link(s)</a>
-			<a class="button small" [ngClass]="!clipboardArticles.length?'disabled':''" (click)="sendAsEmail()"><i class="far fa-envelope"></i> Send As Email</a>
-		</li>
-	</ul>
+<div class="mt-5">
+	<h2 class="app-subtitle">
+			Articles to Share with <span class="contact-name">{{contactName}}</span>
+			<span *ngIf=clipboardArticles.length> ( {{clipboardArticles.length}} ) selected</span>
+			</h2>
+<ul class="nav nav-tabs">
+	<li class="nav-item">
+		<a class="nav-link active" data-toggle="tab" href="#home" id="recommended" (click)="checkActiveStage(1)">Recommended Content</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" data-toggle="tab" href="#menu1" id="content" (click)="checkActiveStage(2)">Content Library</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" data-toggle="tab" href="#menu2" id="search" (click)="checkActiveStage(3)">Search</a>
+	</li>
+	<li class="nav-item ml-auto">
+		<a class="btn button small secondary-button mr-1" [ngClass]="!clipboardArticles.length?'disabled':''" (click)="copySelectedArticles()"><i class="far fa-copy"></i> Copy Link(s)</a>
+		<a class="btn button small  mr-1" [ngClass]="!clipboardArticles.length?'disabled':''" (click)="sendAsEmail()"><i class="far fa-envelope"></i> Send As Email</a>
+	</li>
+</ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
-	<div class="tab-pane active" id="home">
-	<app-recommended-content (recommendedArticlesChanged)="handleSelectionChange($event,1)"></app-recommended-content>
-	</div>
-<div class="tab-pane container fade" id="menu1">
-	<app-content-library (contentLibraryChanged)="handleSelectionChange($event,2)"></app-content-library>
+<div class="tab-pane active" id="home">
+<app-recommended-content (recommendedArticlesChanged)="handleSelectionChange($event,1)"></app-recommended-content>
 </div>
-<div class="tab-pane container fade" id="menu2">
-	<app-search (searchSelectionChanged)="handleSelectionChange($event,3)"></app-search>
+<div class="tab-pane  fade" id="menu1">
+<app-content-library (contentLibraryChanged)="handleSelectionChange($event,2)"></app-content-library>
+</div>
+<div class="tab-pane  fade" id="menu2">
+<app-search (searchSelectionChanged)="handleSelectionChange($event,3)"></app-search>
 </div>
 </div>
+<div *ngIf="isCopied" class="pop-toast" id="divCopied">Copied {{count}} to clipboard</div>

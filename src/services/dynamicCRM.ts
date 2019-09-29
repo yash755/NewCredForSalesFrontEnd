@@ -2,7 +2,7 @@ import {Injectable, Inject, Optional} from '@angular/core';
 
 @Injectable()
 export class DynamicCRMInfo {
-    isProd:false;
+    isProd:true;
     public defaultData = {
         contact: {
             accountName: 'NewsCred',
@@ -158,8 +158,8 @@ export class DynamicCRMInfo {
   sendEmail(emailBody)
   {
     let subject="Hey "+this.defaultData.contact.name;
-    let start="Hello "+this.defaultData.currentUserName+",<br><br>check this articles hand-picked by our staff editors specially for you.<br><br>";
-    let end="<br><br>let me know what do you think; I am just one email away!<br><br>Regards-<br>"+this.getCurrentUser().name;
+    let start="Hello "+this.defaultData.currentUserName+",<br><br>Check these articles hand-picked by our staff editors specially for you.<br><br>";
+    let end="<br><br>Let me know what do you think. I am just one email away!<br><br>Regards-<br>"+this.getCurrentUser().name;
 
     let description=start+emailBody+end;
     let parentXrm=(<any>window.parent).Xrm;
@@ -186,7 +186,7 @@ export class DynamicCRMInfo {
     constructor() {
         if(this.isProd)
         {
-            this.getCurrentUser();
+            this.getCurrectRecord();
             this.getCurrentUser();
         }
     }

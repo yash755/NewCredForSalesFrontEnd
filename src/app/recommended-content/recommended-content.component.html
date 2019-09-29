@@ -1,5 +1,5 @@
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
-  <in-tab-loader *ngIf="loading"></in-tab-loader>
+  <in-tab-loader *ngIf="loading" class="app-loader"></in-tab-loader>
   <div *ngIf="!loading">
     <div class="d-flex" *ngIf="!loading">
       <div class="mr-auto p-2 widget-title">
@@ -16,10 +16,7 @@
         </div>
       </div>
     </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 col-lg-12">
-          <owl-carousel
+        <owl-carousel
           [options]="{responsive:{'320':{items:2},'600':{items:3},'980':{items:3},'1100':{ items:4}}, loop: false, dots: false, autoplay: false,nav: false,mouseDrag:false, slideBy: 4}"
           [items]="articles"
           [carouselClasses]="['recommended-carousel', 'owl-theme', 'row', 'sliding']" >
@@ -32,7 +29,7 @@
                           <input type="checkbox"  id="cb1{{article.guid}}" (click)="onCheckboxChange($event, article)"/>
                           <label for="cb1{{article.guid}}"></label>
                             <p *ngIf="article.is_used">
-                            This article has been used for this contact.
+                            This article has been used for this contact. 
                           </p>
                         </div>
                     <img src="{{article.image}}" class="card-img-top" alt="..." >
@@ -49,8 +46,7 @@
             </div>
           </div>
         </owl-carousel>
-      </div>
-      </div>
-    </div>
+      
+        <!-- <div class="pop-toast">Copied 1 to clipboard</div> -->
   </div>
 </div>

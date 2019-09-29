@@ -1,7 +1,7 @@
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
-  <in-tab-loader *ngIf="loading"></in-tab-loader>
+  <in-tab-loader *ngIf="loading" class="app-loader"></in-tab-loader>
   <div *ngIf="!loading">
-  <div class="d-flex"><div class="mr-auto p-2 widget-title">Click on the checkmarks to select articles. You will then be able to copy the links or directly email your contact.</div>
+  <div class="d-flex"><div style="width:70%" class="mr-auto p-2 widget-title">Click on the checkmarks to select articles. You will then be able to copy the links or directly email your contact.</div>
       <div class="p-2">                                     
           <div class="btn-group">
               <a type="button" class="button small black-button dropdown-toggle  " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -27,12 +27,8 @@
               </div>
             </div>
           </div>
-          
-          <div class="container">
-
-            <div class="row">
-              <div class="col-md-12 col-lg-12">
-        <owl-carousel
+           
+      <owl-carousel
         [options]="{responsive:{'320':{items:2},'600':{items:3},'980':{items:3},'1100':{ items:4}},mouseDrag:false, loop: false, dots: false, autoplay: false,nav: false, slideBy: 4}"
         [items]="articles"
         [carouselClasses]="['owl-theme', 'row', 'sliding']" >
@@ -44,7 +40,7 @@
                 <div class="image-overlay">
                   <input type="checkbox"  id="cb2{{article.guid}}" (change)="onCheckboxChange($event, article)"/>
                   <label for="cb2{{article.guid}}"></label>
-                    <p *ngIf="article.is_used">
+                  <p *ngIf="article.is_used">
                     This article has been used for this contact. 
                   </p>
                 </div>
@@ -62,8 +58,6 @@
         </div>
       </div>
       </owl-carousel>
-    </div>
-  </div>
-    </div>
+     
      </div>
     </div>  

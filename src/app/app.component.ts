@@ -24,6 +24,7 @@ export class AppComponent implements OnInit{
   count=0
   recordId:number
   currentUserID:number
+  isCopied:boolean
   ngOnInit(){
   }
   
@@ -65,9 +66,18 @@ export class AppComponent implements OnInit{
       this.count++;
       //Calling is used api for the specific url
       //alert(this.currentUserID+"  "+this.recordId)
+      this.isCopied = true;
       this.apiService.postUsedArticle(selectedArticles[i].guid, this.recordId, this.currentUserID)
       .subscribe((data)=>{
+       
+         
+        
       });
+      setTimeout(() => {
+        this.isCopied = false;
+      }, 2000);
+         
+          
     }
     
     //copying the text
@@ -167,10 +177,11 @@ export class AppComponent implements OnInit{
       .then((data)=>{
         this.recordId=data["contact_id"];
       });
-
+     
       this.apiService.getCurrentUserIdFromNewsCred()
       .then((data)=>{
-        this.currentUserID=data["user_id"]
+
+        
       });
    }
 }
