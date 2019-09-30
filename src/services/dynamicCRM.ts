@@ -2,17 +2,17 @@ import {Injectable, Inject, Optional} from '@angular/core';
 
 @Injectable()
 export class DynamicCRMInfo {
-    isProd:true;
     public defaultData = {
         contact: {
             accountName: 'NewsCred',
             email: 'nazish@binmile.com',
-            id: '0035500000VR3naAAD',
+            id: '00000123',
             industry: '',
             name: 'Mohd Nazish'
             },
             currentUserEmail: 'padmaja@newscred.com',
             currentUserName: 'Padmaja Shukla',
+            isProd:true
         }
     public currentUser: string
 
@@ -84,7 +84,7 @@ export class DynamicCRMInfo {
                 email=parentXrm.Page.getAttribute("emailaddress1").getValue();
             }
             recordName=name;
-            contactId=currentRecord;
+            this.defaultData.contact.id=currentRecord;
         }
 
 
@@ -130,7 +130,8 @@ export class DynamicCRMInfo {
         let entity = {
         subject: subject,
         description: description,
-        ["regardingobjectid_contact@odata.bind"]: "/contacts("+regards+")"
+        ["regardingobjectid_contact@odata.bind"]: "/contacts("+regards+")",
+        ncs_relatedto:"newscred"
         }
 
         let req = new XMLHttpRequest();
@@ -166,8 +167,8 @@ export class DynamicCRMInfo {
     
     let toContact = [];
     toContact[0] = new Object();
-    toContact[0].id = this.getCurrectRecord().contactId;
-    toContact[0].name = this.defaultData.contact.name;
+    toContact[0].id = this.getCurrectRecord().id;
+    toContact[0].name = this.getCurrectRecord().recordName;;
     toContact[0].entityType = "contact";
 
     let regarding=[];
@@ -181,10 +182,11 @@ export class DynamicCRMInfo {
     parameters["description"]=description;
     parameters["subject"]=subject;
     parameters["regardingobjectid"]=regarding;
+    parameters["ncs_relatedto"]="newscred";
     parentXrm.Utility.openEntityForm("email", null,parameters);
   }
     constructor() {
-        if(this.isProd)
+        if(this.defaultData.isProd)
         {
             this.getCurrectRecord();
             this.getCurrentUser();

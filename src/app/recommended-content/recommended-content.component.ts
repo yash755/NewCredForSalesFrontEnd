@@ -24,14 +24,17 @@ export class RecommendedContentComponent implements OnInit{
     {
       setTimeout(() => {this.ngOnInit();}, 2000);
     }
-    this.apiService.getRecommendedArticles(this.recordId, this.currentUserID)
-        .subscribe((data)=>{
-          this.articles=data.result_set;
-          this.carouselEl = $('.recommended-carousel');
-          this.selectedArticles=[];
-          this.loading=false
-        }, (err) => {
-        });
+    else
+    {
+      this.apiService.getRecommendedArticles(this.recordId, this.currentUserID)
+          .subscribe((data)=>{
+            this.articles=data.result_set;
+            this.carouselEl = $('.recommended-carousel');
+            this.selectedArticles=[];
+            this.loading=false
+          }, (err) => {
+          });
+      }
   }
   forward()
   {

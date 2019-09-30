@@ -15,15 +15,18 @@ export class SearchComponent implements OnInit {
   public articles: Article[]
   public carouselEl: any
   public carouselId: string
+  public isMessageVisible:boolean
   @Output() searchSelectionChanged = new EventEmitter<any>();
   constructor(private apiService: NewsCredAPI) { 
     this.carouselId = "search-carousel"
   }
   
   ngOnInit() {
+    
   }
 
   handleSearch() {
+    
     this.loading = true;
     this.apiService.searchArticles(this.query)
     .subscribe(data => {

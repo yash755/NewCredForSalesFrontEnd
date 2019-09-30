@@ -12,7 +12,7 @@ import { promise } from 'protractor';
 export class NewsCredAPI{
   recordId:number
   currentUserID:number
-  static getContactIdEndpoint = "v1/salesforce/contacts/0031F00000MGRiaQAH"
+  static getContactIdEndpoint = "v1/salesforce/contacts"
   static getLoggedInUserEndpoint = "v1/salesforce/users"
   static getFieldNameEndpoint = "v1/salesforce/contacts/field_names"
 
@@ -65,7 +65,7 @@ public searchArticles(query: string):Observable<any>{
 
 //Nazish - fetching the contact id from NewsCred
 public getRecordIdFromNewsCred():Promise<any>{
- let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getContactIdEndpoint}`
+ let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getContactIdEndpoint}/${this.dynamicCRMInfo.defaultData.contact.id}`
  let params = {
   contact_email: this.dynamicCRMInfo.defaultData.contact.email,
   contact_name: this.dynamicCRMInfo.defaultData.contact.name

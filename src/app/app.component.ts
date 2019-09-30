@@ -1,4 +1,4 @@
-import { Component, OnInit, Optional, Inject, ɵɵqueryRefresh} from '@angular/core';
+import { Component, OnInit, Optional, Inject, ɵɵqueryRefresh, Input} from '@angular/core';
 import { ClipboardModule } from 'ngx-clipboard';
 import {DynamicCRMInfo} from '../services/dynamicCRM'
 import { NewsCredAPI } from '../services/newsCredAPI';
@@ -69,15 +69,10 @@ export class AppComponent implements OnInit{
       this.isCopied = true;
       this.apiService.postUsedArticle(selectedArticles[i].guid, this.recordId, this.currentUserID)
       .subscribe((data)=>{
-       
-         
-        
       });
       setTimeout(() => {
         this.isCopied = false;
-      }, 2000);
-         
-          
+      }, 2000); 
     }
     
     //copying the text
@@ -177,11 +172,9 @@ export class AppComponent implements OnInit{
       .then((data)=>{
         this.recordId=data["contact_id"];
       });
-     
       this.apiService.getCurrentUserIdFromNewsCred()
       .then((data)=>{
-
-        
+        this.currentUserID=data["user_id"];
       });
    }
 }
