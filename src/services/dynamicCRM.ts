@@ -71,6 +71,7 @@ export class DynamicCRMInfo {
         let name="";
         let email="";
         let contactId="";
+        let contactName="";
         let recordName="";
         let parentXrm=(<any>window.parent).Xrm;
         let entityName = parentXrm.Page.data.entity.getEntityName();
@@ -91,7 +92,10 @@ export class DynamicCRMInfo {
                 email=parentXrm.Page.getAttribute("emailaddress1").getValue();
             }
             recordName=name;
+            contactName=name;
+            contactId=currentRecord;
             this.defaultData.contact.id=currentRecord;
+
         }
 
 
@@ -106,6 +110,7 @@ export class DynamicCRMInfo {
             {
                 recordName=parentXrm.Page.getAttribute("name").getValue();
             }
+            contactName=name;
         }
 
 
@@ -125,6 +130,7 @@ export class DynamicCRMInfo {
         return{
             id:currentRecord,
             contactId:contactId,
+            contactName:contactName,
             entityType:entityName,
             recordName:recordName
         }
@@ -133,14 +139,28 @@ export class DynamicCRMInfo {
     //Nazish - Updating activity while copying the record
     updateActivity(regards, subject, description)
     {
+        
         let parentXrm=(<any>window.parent).Xrm;
-        let entity = {
-        subject: subject,
-        description: description,
-        ["regardingobjectid_contact@odata.bind"]: "/contacts("+regards+")",
-        ncs_relatedto:"newscred"
+        let entityName = parentXrm.Page.data.entity.getEntityName();
+        let entity={};
+        if(entityName=="contact")
+        {
+            entity= {
+                subject: subject,
+                description: description,
+                ["regardingobjectid_contact@odata.bind"]: "/contacts("+regards+")",
+                ncs_relatedto:"newscred"
+                }
         }
-
+        else if(entityName=="opportunity")
+        {
+            entity= {
+                subject: subject,
+                description: description,
+                ["regardingobjectid_opportunity@odata.bind"]: "/opportunities("+regards+")",
+                ncs_relatedto:"newscred"
+                }
+        }
         let req = new XMLHttpRequest();
         req.open("POST", parentXrm.Page.context.getClientUrl() + "/api/data/v9.1/tasks", false);
         req.setRequestHeader("OData-MaxVersion", "4.0");
@@ -165,8 +185,8 @@ export class DynamicCRMInfo {
   //Nazish - opening the email form on click on send as email button
   sendEmail(emailBody)
   {
-    let subject="Hey "+this.defaultData.contact.name;
-    let start="Hello "+this.defaultData.currentUserName+",<br><br>Check these articles hand-picked by our staff editors specially for you.<br><br>";
+    let subject="Hey "+this.getCurrectRecord().contactName;
+    let start="Hello "+this.getCurrectRecord().contactName+",<br><br>Check these articles hand-picked by our staff editors specially for you.<br><br>";
     let end="<br><br>Let me know what do you think. I am just one email away!<br><br>Regards-<br>"+this.getCurrentUser().name;
 
     let description=start+emailBody+end;
@@ -174,8 +194,8 @@ export class DynamicCRMInfo {
     
     let toContact = [];
     toContact[0] = new Object();
-    toContact[0].id = this.getCurrectRecord().id;
-    toContact[0].name = this.getCurrectRecord().recordName;;
+    toContact[0].id = this.getCurrectRecord().contactId;
+    toContact[0].name = this.getCurrectRecord().contactName;
     toContact[0].entityType = "contact";
 
     let regarding=[];
