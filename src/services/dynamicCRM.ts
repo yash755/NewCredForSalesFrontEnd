@@ -12,9 +12,16 @@ export class DynamicCRMInfo {
             },
             currentUserEmail: 'padmaja@newscred.com',
             currentUserName: 'Padmaja Shukla',
-            isProd:false
+            isProd:true
         }
     public currentUser: string
+    public entity: string = "account"
+
+    public getCurrentEntity()
+    {
+        let parentXrm=(<any>window.parent).Xrm;
+        this.entity = parentXrm.Page.data.entity.getEntityName();
+    }
 
     //Nazish - Fetching current user details from dynamics 365
     public getCurrentUser() {
@@ -190,6 +197,7 @@ export class DynamicCRMInfo {
         {
             this.getCurrectRecord();
             this.getCurrentUser();
+            this.getCurrentEntity();
         }
     }
 }

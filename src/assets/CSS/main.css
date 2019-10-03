@@ -453,6 +453,7 @@ position: relative;
     bottom: 0;
     min-width: 10%;
     border-radius: 2px;
+    height: auto;
 }
 .table tbody td p.progress-bar .progress.red {
     background: #f36f79;
