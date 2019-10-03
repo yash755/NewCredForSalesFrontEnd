@@ -45,8 +45,10 @@ export class AnalyticsContactsComponent implements OnInit {
           var row  = [];
           for (var j = 0; j < response.length; j++) {
             var contact = response[j];
+            
             if (contact.contacts && i < contact.contacts.length) {
               row.push(contact.contacts[i]);
+              contact.contacts[i].contact_page_url = "https://newscred.crm.dynamics.com/main.aspx?pagetype=entityrecord&etn=contact&id=28c35510-43da-e911-a84b-000d3a4f63e8";
               if (contact.contacts[i].sent_contents.length === 0) {
                 contact.contacts[i].hasNoContent = true;
               }

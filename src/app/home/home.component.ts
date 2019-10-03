@@ -25,7 +25,9 @@ export class HomeComponent implements OnInit {
   recordId:number
   currentUserID:number
   isCopied:boolean
-  constructor(private apiService: NewsCredAPI, @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo, @Inject('newsCredConstants') @Optional() private newsCredConstants?: any) {
+  constructor(private apiService: NewsCredAPI, 
+    @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo,
+     @Inject('newsCredConstants') @Optional() private newsCredConstants?: any) {
     this.contactName=dynamicCRMInfo.defaultData.contact.name;
     this.apiService.getRecordIdFromNewsCred()
        .then((data)=>{

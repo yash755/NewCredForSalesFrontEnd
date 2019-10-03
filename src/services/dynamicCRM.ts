@@ -15,7 +15,7 @@ export class DynamicCRMInfo {
             isProd:true
         }
     public currentUser: string
-    public entity: string = "account"
+    public entity: string = "contact"
 
     public getCurrentEntity()
     {

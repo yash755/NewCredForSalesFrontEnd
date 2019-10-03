@@ -377,7 +377,7 @@ position: relative;
 
 .table-outer-wrapper {
     background-color: #f5f5f5;
-    padding: 10px;
+    
 }
 .table-inner-wrapper {
     padding: 20px;
@@ -402,6 +402,10 @@ position: relative;
     font-size: 13px;
     padding: 12px 16px;
 }
+
+thead tr {
+    background-color: #f5f5f5;
+   }
 .table .table {
     background-color: #f5f5f5;
 }
@@ -467,3 +471,34 @@ position: relative;
 .table-bordered thead {
     background-color: #f5f5f5;
 }
+
+/***************Contact Analytics ********************/
+.contact-analytics td:hover .contact-url {
+    opacity: 1;
+    transform: translateY(0);
+}
+.contact-analytics .name, .contact-analytics .contact-url {
+    display: inline-block;
+}
+.contact-analytics .contact-url {
+    opacity: 0;
+    transform: translateY(10px);
+    margin-left: 12px;
+    transition: all 0.3s;
+    padding: 0 4px;
+}
+.contact-analytics .contact-url a {
+    color: #34495e;
+    font-size: 12px;
+}
+.contact-analytics .contact-url a:hover, .contact-analytics .contact-url a:visited {
+    color: #10161c;
+}
+.contact-modal {
+    height: 75%;
+}
+.contact-modal-content {
+    overflow: auto;
+    max-height: calc(100% - 48px);
+}
+
