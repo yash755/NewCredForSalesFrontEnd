@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NewsCredAPI } from '../../services/newsCredAPI';
+import { zip } from "rxjs";
 
 @Component({
   selector: 'app-analytics-content',
@@ -6,31 +8,50 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./analytics-content.component.scss']
 })
 export class AnalyticsContentComponent implements OnInit {
-  public static EngagementTabType = 1;
-  public static ContactsTabType = 2;
-  public static ContentTabType = 3;
-  loggedInUser:string;
-  selectedTab= 1;
   
-  constructor() { }
+  loggedInUser:string;
+  
+  rows: any = [];
+  fetchingData: boolean;
+  columns: any = [];
+  contactGroups : any = [];
+  constructor(private apiService: NewsCredAPI) { }
 
   ngOnInit() {
+    zip(this.apiService.getContactsAnalytics())
+    .subscribe(([response]) => {
+     
+      debugger
+      this._formatTableData(response.result_set);
+    }, (err) => { alert("error")
+  });
   }
-  checkActiveStage(tab)
+
+  _formatTableData(response)
   {
-    this.selectedTab=tab;
-    switch(tab) {
-      case(AnalyticsContentComponent.EngagementTabType):
-      this.loggedInUser = "";
-        break;
-      case(AnalyticsContentComponent.ContactsTabType):
-      this.loggedInUser = "";
-      break;
-      case(AnalyticsContentComponent.ContentTabType):
-      this.loggedInUser = "";
-      break;
-      default:
-      
+    for (var i = 0; i < response.length; i++) {
+      var contact = response[i];
+      var columnName = contact['contact_group_title'];
+      this.columns.push(columnName);
+      this.contactGroups.push(columnName);
+
+      for (var j = 0; j < contact.contents.length; j++) {
+        this.rows[contact.contents[j].content_guid] = this.rows[contact.contents[j].content_guid] || {};
+        this.rows[contact.contents[j].content_guid].content = contact.contents[j];
+
+        this.rows[contact.contents[j].content_guid].contactGroups = this.rows[contact.contents[j].content_guid].contactGroups || [];
+        this.rows[contact.contents[j].content_guid].contactGroups.push(columnName);
+      }
     }
+    for (var key in this.rows) { this.rows.push(this.rows[key]); }
+   // var wasContentSentToThisContactGroup = wasContentSentToThisContactGroup(selectedGroup, contactGroups);
   }
+
+ 
+  wasContentSentToThisContactGroup(selectedGroup, contactGroups) {
+    var wasSent = false;
+    contactGroups.forEach(function (group) { if (group === selectedGroup) { wasSent = true; } });
+    return wasSent;
+  }
+  
 }

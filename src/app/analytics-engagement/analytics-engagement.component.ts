@@ -120,4 +120,8 @@ export class AnalyticsEngagementComponent implements OnInit {
   _getContentsRatio(sent, total) {
     return Math.floor(total > 0 ? (sent / total) * 100 : 0);
   }
+
+  getProgressBarStyle = function(threshold) {
+    return threshold <= 10 ? 'red' : (threshold <= 50 ? 'yellow' : 'green');
+  };
 }

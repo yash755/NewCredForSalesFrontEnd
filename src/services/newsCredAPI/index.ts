@@ -25,6 +25,8 @@ export class NewsCredAPI{
   static getEngagementContactsEndpoint="v1/salesforce/accounts/engagement/contact"
   static getEngagementUniqueContentEndpoint="v1/salesforce/accounts/engagement/unique-content"
   static getEngagementCtrEndpoint="v1/salesforce/accounts/engagement/ctr"
+  static getContactsAnalyticsEndpoint="v1/salesforce/accounts/contact-analytics"
+  static getContentAnalyticsEndpoint = "v1/salesforce/accounts/content-analytics"
 
   fields=[]
   public getRecommendedArticles(recordId:number, currentUserID:number):Observable<any>{
@@ -124,6 +126,26 @@ public getEngagementUniqueContent(){
   
   return this.httpClient.post(url, body)
 }
+
+
+//Get Contact Tab Analytics
+public getContactsAnalytics(){
+  
+  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getContactsAnalyticsEndpoint}`
+  let body= "{\"contacts\":[{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000ClWARQA3\",\"email\":\"steven.newman@newscred.com\",\"id\":\"0031F00000ClWARQA3\",\"name\":\"Steven Newman\"},{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000MGRiaQAH\",\"email\":\"mohammad.faisal@newscred.com\",\"id\":\"0031F00000MGRiaQAH\",\"name\":\"Potato Maker\"}]}"
+  
+  return this.httpClient.post(url, body)
+}
+
+//Get Content Tab Analytics
+public getContentAnalytics(){
+  
+  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getContentAnalyticsEndpoint}`
+  let body= "{\"contacts\":[{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000ClWARQA3\",\"email\":\"steven.newman@newscred.com\",\"id\":\"0031F00000ClWARQA3\",\"name\":\"Steven Newman\"},{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000MGRiaQAH\",\"email\":\"mohammad.faisal@newscred.com\",\"id\":\"0031F00000MGRiaQAH\",\"name\":\"Potato Maker\"}]}"
+  
+  return this.httpClient.post(url, body)
+}
+
 
 
 
