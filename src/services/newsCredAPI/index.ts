@@ -22,6 +22,9 @@ export class NewsCredAPI{
   static recommendedArticlesEndpoint = "v2/articles/recommendation"
   static searchEndpoint = "v1/articles/search"
   static usedArticleEndpoint="v1/articles"
+  static getEngagementContactsEndpoint="v1/salesforce/accounts/engagement/contact"
+  static getEngagementUniqueContentEndpoint="v1/salesforce/accounts/engagement/unique-content"
+  static getEngagementCtrEndpoint="v1/salesforce/accounts/engagement/ctr"
 
   fields=[]
   public getRecommendedArticles(recordId:number, currentUserID:number):Observable<any>{
@@ -97,6 +100,34 @@ public postUsedArticle(articleGuid:string, recordId:number, userId:number){
   }
   return this.httpClient.post(url, body)
 }
+
+//Get Engagement Contacts Analytics
+public getEngagementContacts(){
+  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getEngagementContactsEndpoint}`
+  let body= "{\"contacts\":[{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000ClWARQA3\",\"email\":\"steven.newman@newscred.com\",\"id\":\"0031F00000ClWARQA3\",\"name\":\"Steven Newman\"},{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000MGRiaQAH\",\"email\":\"mohammad.faisal@newscred.com\",\"id\":\"0031F00000MGRiaQAH\",\"name\":\"Potato Maker\"}]}"
+  
+  return this.httpClient.post(url, body)
+}
+
+//Get Engagement CTr Analytics
+public getEngagementCtr(){
+  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getEngagementCtrEndpoint}`
+  let body= "{\"contacts\":[{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000ClWARQA3\",\"email\":\"steven.newman@newscred.com\",\"id\":\"0031F00000ClWARQA3\",\"name\":\"Steven Newman\"},{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000MGRiaQAH\",\"email\":\"mohammad.faisal@newscred.com\",\"id\":\"0031F00000MGRiaQAH\",\"name\":\"Potato Maker\"}]}"
+  
+  return this.httpClient.post(url, body)
+}
+
+//Get Engagement Unique Content Analytics
+public getEngagementUniqueContent(){
+  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getEngagementUniqueContentEndpoint}`
+  let body= "{\"contacts\":[{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000ClWARQA3\",\"email\":\"steven.newman@newscred.com\",\"id\":\"0031F00000ClWARQA3\",\"name\":\"Steven Newman\"},{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000MGRiaQAH\",\"email\":\"mohammad.faisal@newscred.com\",\"id\":\"0031F00000MGRiaQAH\",\"name\":\"Potato Maker\"}]}"
+  
+  return this.httpClient.post(url, body)
+}
+
+
+
   constructor(private httpClient: CustomHttpClient, @Inject('newsCredConstants') @Optional() private newsCredConstants?: any, @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) { 
   }
+
 }

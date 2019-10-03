@@ -7,3 +7,4 @@ export class Article{
 	reason: string;
 	title: string;
 }
+

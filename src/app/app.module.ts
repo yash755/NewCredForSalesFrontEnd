@@ -16,7 +16,12 @@ import {HttpClientModule} from '@angular/common/http';
 import {CustomHttpClient} from '../services/http.service'
 import { NewsCredAPI } from '../services/newsCredAPI';
 import { NEWSCRED_CONSTANTS } from '../config';
-import {DynamicCRMInfo} from '../services/dynamicCRM'
+import {DynamicCRMInfo} from '../services/dynamicCRM';
+import { AnalyticsComponent } from './analytics/analytics.component';
+import { HomeComponent } from './home/home.component';
+import { AnalyticsEngagementComponent } from './analytics-engagement/analytics-engagement.component';
+import { AnalyticsContactsComponent } from './analytics-contacts/analytics-contacts.component';
+import { AnalyticsContentComponent } from './analytics-content/analytics-content.component'
 
 @NgModule({
   declarations: [
@@ -26,7 +31,12 @@ import {DynamicCRMInfo} from '../services/dynamicCRM'
     ArticleCardSlider,
     RecommendedContentComponent,
     ContentLibraryComponent,
-    SearchComponent
+    SearchComponent,
+    AnalyticsComponent,
+    HomeComponent,
+    AnalyticsEngagementComponent,
+    AnalyticsContactsComponent,
+    AnalyticsContentComponent
   ],
   imports: [
     BrowserModule,

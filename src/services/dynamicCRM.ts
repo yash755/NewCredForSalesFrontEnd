@@ -12,7 +12,7 @@ export class DynamicCRMInfo {
             },
             currentUserEmail: 'padmaja@newscred.com',
             currentUserName: 'Padmaja Shukla',
-            isProd:true
+            isProd:false
         }
     public currentUser: string
 

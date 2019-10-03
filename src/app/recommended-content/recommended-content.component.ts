@@ -1,7 +1,6 @@
 import { Component,OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { NewsCredAPI } from '../../services/newsCredAPI';
 import { Article } from '../model/article';
-import {DynamicCRMInfo} from '../../services/dynamicCRM';
 
 declare var $: any;
 @Component({
