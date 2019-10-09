@@ -2,7 +2,7 @@
     <div class="d-flex">
         <div class="mr-auto p-2 flex-fill widget-title">
             <div class="input-wrapper">
-        <input type="text" placeholder="Search article..." (keydown)="handleKeyDownInput($event)" [(ngModel)]="query" class="search-input input-text"/>
+        <input type="text" placeholder="Enter a search term to begin..." (keydown)="handleKeyDownInput($event)" [(ngModel)]="query" class="search-input input-text"/>
         <a class="search-input-btn button small" (click)="handleSearch()" >
             <i class="fa fa-search"></i>
         </a>
@@ -25,4 +25,4 @@
         
         
     <in-tab-loader *ngIf="loading"></in-tab-loader>
-    <article-card-slider *ngIf="!loading" [carouselId]= "carouselId" (searchSelectionChanged)="handleSelectionChange($event,3)" [articles]="articles"></article-card-slider>
+    <article-card-slider *ngIf="!loading" [carouselId]= "carouselId" (searchSelectionChanged)="handleSelectionChange($event,3)" [articles]="articles" [isMessageVisible]="isMessageVisible"></article-card-slider>

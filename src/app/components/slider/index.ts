@@ -9,6 +9,7 @@ import { OwlCarousel } from 'ngx-owl-carousel';
   export class ArticleCardSlider {
     @Input('articles') articles: any
     @Input('carouselId') carouselId: string;
+    @Input("isMessageVisible") isMessageVisible:boolean;
     carouselClasses = ['owl-theme', 'row', 'sliding']
     // @Output() contentLibraryChanged = new EventEmitter<string[]>();
     @Output() searchSelectionChanged = new EventEmitter<any>();

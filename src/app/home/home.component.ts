@@ -78,7 +78,6 @@ export class HomeComponent implements OnInit {
       articleHTML+='<br>';
       this.count++;
       //Calling is used api for the specific url
-      //alert(this.currentUserID+"  "+this.recordId)
       this.isCopied = true;
       this.apiService.postUsedArticle(selectedArticles[i].guid, this.recordId, this.currentUserID)
       .subscribe((data)=>{

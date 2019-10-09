@@ -22,16 +22,23 @@ export class SearchComponent implements OnInit {
   }
   
   ngOnInit() {
-    
+    this.isMessageVisible=false;
   }
 
   handleSearch() {
-    
+    if(this.query==undefined || this.query==null || this.query=="")
+    {
+      return;
+    }
     this.loading = true;
     this.apiService.searchArticles(this.query)
     .subscribe(data => {
       this.articles = data.result_set;
       this.loading = false;
+      if(this.articles.length<=0)
+      {
+       this.isMessageVisible=true;
+      }
       console.log(this.carouselEl)
     });
   }
