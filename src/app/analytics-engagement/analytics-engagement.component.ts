@@ -57,19 +57,19 @@ export class AnalyticsEngagementComponent implements OnInit {
             total: this.UniqueContent.total
           }
         ];
-        debugger
+        
         this._formatTableData();
       })
 
   }
 
   _formatTableData() {
-    debugger
+    
     const totalCol = 'Total';
     this.fetchingData = false;
     let totalContactsInGroup = 0;
     this.columns = [totalCol];
-    debugger
+    
    
     this.rows.forEach(row => {
       row.values = row.values || {};
@@ -82,7 +82,7 @@ export class AnalyticsEngagementComponent implements OnInit {
         row.bar_lengths = row.bar_lengths || {};
         if (row.name === 'Contacts') {
           const total = rowDetail['total_contacts_in_group'];
-          debugger
+          
           const reached = rowDetail['contacts_reached'];
           totalContactsInGroup += reached;
           row.values[columnName] = reached;
@@ -103,7 +103,7 @@ export class AnalyticsEngagementComponent implements OnInit {
     this.rows.forEach(row=> {
       if (row.name === 'Contacts') {
         row.values[totalCol] = totalContactsInGroup;
-        debugger
+        
         row.additional_values[totalCol] = 'of ' + row.total;
       } else if (row.name === 'Click Through Rate') {
         row.values[totalCol] = row.total + ' %';

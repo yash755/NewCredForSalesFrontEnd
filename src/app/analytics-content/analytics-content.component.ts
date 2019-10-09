@@ -10,7 +10,6 @@ import { zip } from "rxjs";
 export class AnalyticsContentComponent implements OnInit {
   
   loggedInUser:string;
-  
   rows: any = [];
   fetchingData: boolean;
   columns: any = [];
@@ -18,13 +17,12 @@ export class AnalyticsContentComponent implements OnInit {
   constructor(private apiService: NewsCredAPI) { }
 
   ngOnInit() {
-    zip(this.apiService.getContactsAnalytics())
+    zip(this.apiService.getContentAnalytics())
     .subscribe(([response]) => {
      
-      debugger
+      
       this._formatTableData(response.result_set);
-    }, (err) => { alert("error")
-  });
+    }, (err) => {throw err });
   }
 
   _formatTableData(response)

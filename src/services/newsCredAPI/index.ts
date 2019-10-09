@@ -4,6 +4,7 @@ import {CustomHttpClient} from '../http.service';
 import {DynamicCRMInfo} from '../dynamicCRM';
 import { ArticleCategories } from '../../app/model/ArticleCategories';
 import { promise } from 'protractor';
+import { catchError } from 'rxjs/operators';
 //import { currentId } from 'async_hooks';
 
 @Injectable({
@@ -27,6 +28,7 @@ export class NewsCredAPI{
   static getEngagementCtrEndpoint="v1/salesforce/accounts/engagement/ctr"
   static getContactsAnalyticsEndpoint="v1/salesforce/accounts/contact-analytics"
   static getContentAnalyticsEndpoint = "v1/salesforce/accounts/content-analytics"
+  static getContactDetailsEndpoint = "v1/salesforce/accounts/contact-analytics/0031F00000MGRiaQAH/details"
 
   fields=[]
   public getRecommendedArticles(recordId:number, currentUserID:number):Observable<any>{
@@ -56,6 +58,16 @@ public getCategories():Observable<any>{
     email: this.dynamicCRMInfo.defaultData.currentUserEmail
   }
   return  this.httpClient.get(url,params);
+}
+
+//Get Contact Details Analytics
+public getContactDetails():Observable<any>{
+  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getContactDetailsEndpoint}`
+  let params = {
+   
+  }
+  var res = this.httpClient.get(url,params);
+  return this.httpClient.get(url,params);
 }
 
 public searchArticles(query: string):Observable<any>{
@@ -143,7 +155,7 @@ public getContentAnalytics(){
   let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getContentAnalyticsEndpoint}`
   let body= "{\"contacts\":[{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000ClWARQA3\",\"email\":\"steven.newman@newscred.com\",\"id\":\"0031F00000ClWARQA3\",\"name\":\"Steven Newman\"},{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000MGRiaQAH\",\"email\":\"mohammad.faisal@newscred.com\",\"id\":\"0031F00000MGRiaQAH\",\"name\":\"Potato Maker\"}]}"
   
-  return this.httpClient.post(url, body)
+  return this.httpClient.post(url, body);
 }
 
 

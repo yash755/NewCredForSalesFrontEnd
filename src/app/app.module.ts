@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule,ErrorHandler} from '@angular/core';
 import {FormsModule} from '@angular/forms'
+
 
 import{OwlModule} from 'ngx-owl-carousel';
 
@@ -12,7 +13,7 @@ import { ArticleCard } from './components/card';
 import { ArticleCardSlider } from './components/slider';
 import { ContentLibraryComponent } from './content-library/content-library.component';
 import { SearchComponent } from './search/search.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {CustomHttpClient} from '../services/http.service'
 import { NewsCredAPI } from '../services/newsCredAPI';
 import { NEWSCRED_CONSTANTS } from '../config';
@@ -22,6 +23,9 @@ import { HomeComponent } from './home/home.component';
 import { AnalyticsEngagementComponent } from './analytics-engagement/analytics-engagement.component';
 import { AnalyticsContactsComponent } from './analytics-contacts/analytics-contacts.component';
 import { AnalyticsContentComponent } from './analytics-content/analytics-content.component'
+import {ModalModule} from './modal';
+import {GlobalErrorHandler} from './global-error-handler'
+import { ServerErrorInterceptor } from './server-error.interceptor';
 
 @NgModule({
   declarations: [
@@ -37,13 +41,15 @@ import { AnalyticsContentComponent } from './analytics-content/analytics-content
     AnalyticsEngagementComponent,
     AnalyticsContactsComponent,
     AnalyticsContentComponent
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     OwlModule,
-    FormsModule
+    FormsModule,
+    ModalModule
   ],
   providers: [
     CustomHttpClient,
@@ -51,6 +57,8 @@ import { AnalyticsContentComponent } from './analytics-content/analytics-content
     { provide: 'newsCredConstants', useValue: NEWSCRED_CONSTANTS },
     { provide: 'AUTH_HEADER', useValue: NEWSCRED_CONSTANTS.authHeader },
     { provide: 'dynamicCRMInfo', useValue: new DynamicCRMInfo()},
+    {provide: ErrorHandler, useClass: GlobalErrorHandler},
+    {provide: HTTP_INTERCEPTORS, useClass: ServerErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
