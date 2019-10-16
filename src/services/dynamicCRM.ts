@@ -1,4 +1,6 @@
 import {Injectable, Inject, Optional} from '@angular/core';
+import { environment } from 'src/environments/environment';
+import { NEWSCRED_CONSTANTS } from 'src/config';
 
 @Injectable()
 export class DynamicCRMInfo {
@@ -12,16 +14,67 @@ export class DynamicCRMInfo {
             },
             currentUserEmail: 'padmaja@newscred.com',
             currentUserName: 'Padmaja Shukla',
-            isProd:true
         }
     public currentUser: string
-    public entity: string = "contact"
+    public entity: string = environment.entityname
+    public apiKey : string = "";
+    public loop : number = 0;
 
     public getCurrentEntity()
     {
         let parentXrm=(<any>window.parent).Xrm;
         this.entity = parentXrm.Page.data.entity.getEntityName();
     }
+
+    public getAPIKey()
+    {
+        var APIKey :string;
+        let parentXrm=(<any>window.parent).Xrm;
+        let entityName = parentXrm.Page.data.entity.getEntityName();
+        var fetchData = {
+            ncs_entity: this.entity
+        };
+        var fetchXml = [
+                    "<fetch mapping='logical' version='1.0'>",
+                    "  <entity name='ncs_newscredapikey'>",
+                    "    <filter type='and'>",
+                    "      <condition attribute='ncs_entity' operator='eq' value='", fetchData.ncs_entity/*opportunity*/, "'/>",
+                    "    </filter>",
+                    "  </entity>",
+                    "</fetch>",
+        ].join("");
+        var encodedFetchXml = encodeURI(fetchXml);
+        var queryPath = "/api/data/v9.1/ncs_newscredapikeies?fetchXml=" + encodedFetchXml;
+        var req = new XMLHttpRequest();
+        req.open("GET", Xrm.Page.context.getClientUrl() + queryPath, false);
+        req.setRequestHeader("OData-MaxVersion", "4.0");
+        req.setRequestHeader("OData-Version", "4.0");
+        req.setRequestHeader("Accept", "application/json");
+        req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+        req.onreadystatechange = function() {
+            if (this.readyState === 4) {
+                req.onreadystatechange = null;
+                if (this.status === 200) {
+                    var results = JSON.parse(this.response);
+                    var keys =results.value;
+                    
+                    APIKey = keys[0]["ncs_apikey"];
+                    if (results == null)
+                    {
+                            return results;
+                    }
+                } else {
+                    parentXrm.Utility.alertDialog(this.status);
+                    APIKey = null;
+                }
+            }
+        };
+        req.send();
+
+        this.apiKey =APIKey;
+    }
+
+    
 
     //Nazish - Fetching current user details from dynamics 365
     public getCurrentUser() {
@@ -213,11 +266,61 @@ export class DynamicCRMInfo {
     parentXrm.Utility.openEntityForm("email", null,parameters);
   }
     constructor() {
-        if(this.defaultData.isProd)
+        if(environment.production)
         {
             this.getCurrectRecord();
             this.getCurrentUser();
             this.getCurrentEntity();
+            this.getAPIKey();
         }
+        else
+        {
+            if(this.entity == "contact")
+            {
+                this.apiKey = NEWSCRED_CONSTANTS.authHeaderContact;
+            }
+            if(this.entity == "account")
+            {
+                this.apiKey = NEWSCRED_CONSTANTS.authHeaderAccount;
+            }
+            if(this.entity == "opportunity")
+            {
+                this.apiKey = NEWSCRED_CONSTANTS.authHeaderOpportunity;
+
+            }
+        }
+    }
+
+
+    UpdateKey(entityNameNew,keyInput)
+    {
+        var entity : any = {};
+        entity.ncs_apikey = keyInput;
+        entity.ncs_entity = entityNameNew;
+
+        var req = new XMLHttpRequest();
+        req.open("POST", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/ncs_newscredapikeies", false);
+        req.setRequestHeader("OData-MaxVersion", "4.0");
+        req.setRequestHeader("OData-Version", "4.0");
+        req.setRequestHeader("Accept", "application/json");
+        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        req.onreadystatechange = function() {
+            if (this.readyState === 4) {
+            
+                req.onreadystatechange = null;
+                if (this.status === 204) {
+                    
+                    var uri = this.getResponseHeader("OData-EntityId");
+                    var regExp = /\(([^)]+)\)/;
+                    var matches = regExp.exec(uri);
+                    var newEntityId = matches[1];
+                } 
+                else
+                 {
+                    alert(this.status)
+                }
+            }
+        };
+        req.send(JSON.stringify(entity));
     }
 }

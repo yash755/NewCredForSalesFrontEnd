@@ -1,8 +1,8 @@
-<!-- <h1>Angular Router</h1>
+<h1 *ngIf="!IsProduction">Angular Router</h1>
 <nav>
   <a routerLink="/" routerLinkActive="active">Home</a>
   <a routerLink="/analytics" routerLinkActive="active">analytics</a>
-</nav> -->
+</nav>
 <router-outlet></router-outlet>
 <div class="mt-5">
 	<h2 class="app-subtitle">
@@ -38,3 +38,4 @@
 </div>
 </div>
 <div *ngIf="isCopied" class="pop-toast" id="divCopied">Copied {{count}} to clipboard</div>
+

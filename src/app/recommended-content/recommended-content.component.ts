@@ -2,6 +2,7 @@ import { Component,OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { NewsCredAPI } from '../../services/newsCredAPI';
 import { Article } from '../model/article';
 
+
 declare var $: any;
 @Component({
   selector: 'app-recommended-content',
@@ -18,7 +19,6 @@ export class RecommendedContentComponent implements OnInit{
   currentUserID:number
   ngOnInit() {
     this.loading = true;
-   
     if(this.recordId==undefined || this.recordId==null || this.currentUserID==undefined || this.currentUserID==null)
     {
       setTimeout(() => {this.ngOnInit();}, 2000);
@@ -58,6 +58,9 @@ export class RecommendedContentComponent implements OnInit{
       }
     }
     this.recommendedArticlesChanged.emit(this.selectedArticles);
+
+    
+    
   }
 
   constructor(private apiService: NewsCredAPI) {
@@ -66,6 +69,7 @@ export class RecommendedContentComponent implements OnInit{
     .then((data)=>{
       this.recordId=data["contact_id"];
     },(err)=>{
+     
     });
 
     this.apiService.getCurrentUserIdFromNewsCred()
@@ -74,4 +78,8 @@ export class RecommendedContentComponent implements OnInit{
     },(err)=>{
     });
    }
+
+   
+
+   
 }

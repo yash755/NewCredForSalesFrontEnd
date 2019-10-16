@@ -14,6 +14,7 @@ export class AnalyticsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+   
   }
   handleSelectionChange($event: any, contentType)
   {

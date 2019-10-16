@@ -26,6 +26,7 @@ import { AnalyticsContentComponent } from './analytics-content/analytics-content
 import {ModalModule} from './modal';
 import {GlobalErrorHandler} from './global-error-handler'
 import { ServerErrorInterceptor } from './server-error.interceptor';
+import { ApikeyComponent } from './apikey/apikey.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ServerErrorInterceptor } from './server-error.interceptor';
     HomeComponent,
     AnalyticsEngagementComponent,
     AnalyticsContactsComponent,
-    AnalyticsContentComponent
+    AnalyticsContentComponent,
+    ApikeyComponent
     
   ],
   imports: [
@@ -55,7 +57,9 @@ import { ServerErrorInterceptor } from './server-error.interceptor';
     CustomHttpClient,
     NewsCredAPI,
     { provide: 'newsCredConstants', useValue: NEWSCRED_CONSTANTS },
-    { provide: 'AUTH_HEADER', useValue: NEWSCRED_CONSTANTS.authHeader },
+    { provide: 'AUTH_HEADER', useValue: NEWSCRED_CONSTANTS.authHeaderContact },
+    { provide: 'AUTH_HEADER_ACCOUNT', useValue: NEWSCRED_CONSTANTS.authHeaderAccount },
+    { provide: 'AUTH_HEADER_OPPORTUNITY', useValue: NEWSCRED_CONSTANTS.authHeaderOpportunity },
     { provide: 'dynamicCRMInfo', useValue: new DynamicCRMInfo()},
     {provide: ErrorHandler, useClass: GlobalErrorHandler},
     {provide: HTTP_INTERCEPTORS, useClass: ServerErrorInterceptor, multi: true }

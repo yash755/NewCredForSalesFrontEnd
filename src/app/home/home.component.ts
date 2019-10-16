@@ -2,6 +2,10 @@ import { Component, OnInit, Optional, Inject, ɵɵqueryRefresh, Input} from '@an
 import { ClipboardModule } from 'ngx-clipboard';
 import {DynamicCRMInfo} from '../../services/dynamicCRM'
 import { NewsCredAPI } from '../../services/newsCredAPI';
+import { environment } from 'src/environments/environment';
+import { AppComponent } from '../app.component';
+import { Router } from '@angular/router';
+declare var $: any;
 
 @Component({
   selector: 'app-home',
@@ -13,6 +17,7 @@ export class HomeComponent implements OnInit {
   public static ContentTabType = 2;
   public static SearchTabType = 3;
   title = 'NewsCredForSales';
+  IsProduction :boolean = false;
   loggedInUser:string;
   selectedTab= 1;
   articles = [];
@@ -25,10 +30,11 @@ export class HomeComponent implements OnInit {
   recordId:number
   currentUserID:number
   isCopied:boolean
-  constructor(private apiService: NewsCredAPI, 
+  constructor(private router:Router,private apiService: NewsCredAPI, 
     @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo,
      @Inject('newsCredConstants') @Optional() private newsCredConstants?: any) {
     this.contactName=dynamicCRMInfo.defaultData.contact.name;
+    console.log(this.contactName);
     this.apiService.getRecordIdFromNewsCred()
        .then((data)=>{
          this.recordId=data["contact_id"];
@@ -37,9 +43,11 @@ export class HomeComponent implements OnInit {
        .then((data)=>{
          this.currentUserID=data["user_id"];
        });
+      
     }
 
   ngOnInit() {
+    this.IsProduction = environment.production
   }
   copySelectedArticles()
   { 
@@ -81,6 +89,8 @@ export class HomeComponent implements OnInit {
       this.isCopied = true;
       this.apiService.postUsedArticle(selectedArticles[i].guid, this.recordId, this.currentUserID)
       .subscribe((data)=>{
+        
+       
       });
       setTimeout(() => {
         this.isCopied = false;
@@ -103,9 +113,11 @@ export class HomeComponent implements OnInit {
     e.preventDefault();
     });
     document.execCommand('copy');
+    this.router.onSameUrlNavigation ='reload';
     //document.body.removeChild(selBox);
     let subject=this.dynamicCRMInfo.getCurrentUser().name+" copied "+this.count+" Links for "+this.contactName;
     this.dynamicCRMInfo.updateActivity(this.dynamicCRMInfo.getCurrectRecord().id, subject, atrticleText);
+   
   }
   checkActiveStage(tab)
   {
@@ -177,4 +189,11 @@ export class HomeComponent implements OnInit {
     
     console.log(this.clipboardArticles)
   }
+
+  ngAfterContentInit()
+  {
+    $("owl-nav disabled").remove();
+  }
+
+
 }

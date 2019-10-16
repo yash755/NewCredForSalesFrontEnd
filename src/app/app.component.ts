@@ -10,15 +10,44 @@ import {DynamicCRMInfo} from '../services/dynamicCRM'
 })
 export class AppComponent implements OnInit{
  EntityName = ""
+ APIKey = ""
   
   ngOnInit(){
-    if(this.EntityName == 'contact' || this.EntityName == 'opportunity')
+    this.EntityName = this.dynamicCRMInfo.entity;
+    this.dynamicCRMInfo.getAPIKey();
+    this.APIKey =this.dynamicCRMInfo.apiKey;
+    if(this.EntityName == 'contact' )
     {
+      if(this.APIKey != null && this.APIKey != "")
+      {
        this.router.navigate(['/']);
+      }
+      else
+      {
+       this.router.navigate(['/apikey'] );
+      }
     }
-    else
+    else if (this.EntityName == 'opportunity')
     {
-      this.router.navigate(['/analytics']);
+      if(this.APIKey != null && this.APIKey != "")
+      {
+       this.router.navigate(['/']);
+      }
+      else
+      {
+       this.router.navigate(['/apikey']);
+      }
+   }
+    else if(this.EntityName == 'account')
+    {
+      if(this.APIKey != null && this.APIKey != "")
+      {
+       this.router.navigate(['/analytics']);
+      }
+      else
+      {
+       this.router.navigate(['/apikey']);
+      }
     }
   }
   
@@ -26,5 +55,6 @@ export class AppComponent implements OnInit{
 
   constructor(private router:Router,@Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) {
       this.EntityName = dynamicCRMInfo.entity;
+      this.APIKey = dynamicCRMInfo.apiKey;
     }
 }
