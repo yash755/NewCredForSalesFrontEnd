@@ -1,11 +1,13 @@
 import { Injectable, Inject, Optional } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { CATCH_ERROR_VAR } from '@angular/compiler/src/output/output_ast';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { async } from '@angular/core/testing';
 import { DynamicCRMInfo } from '../services/dynamicCRM';
 import { environment } from 'src/environments/environment';
 import { escapeRegExp } from '@angular/compiler/src/util';
+import { map } from 'rxjs/internal/operators/map';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class CustomHttpClient {
@@ -16,35 +18,20 @@ export class CustomHttpClient {
   })
 
   EntityName: string;
-  APIKey : string;
-  constructor(private http: HttpClient,  @Inject('newsCredConstants') @Optional() private newsCredConstants?: any, @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) {
+  APIKey: string;
+  constructor(private http: HttpClient, @Inject('newsCredConstants') @Optional() private newsCredConstants?: any, @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) {
     this.EntityName = dynamicCRMInfo.entity;
     this.APIKey = dynamicCRMInfo.apiKey;
   }
 
 
   getAuthorizationHeader() {
-    if(!environment.production)
-    {
-    switch (this.EntityName) {
-      case 'account':
-        return this.newsCredConstants.authHeaderAccount;
-
-      case 'contact':
-        return this.newsCredConstants.authHeaderContact;
-
-      case 'opportunity':
-        return this.newsCredConstants.authHeaderOpportunity;
-
-      default:
-        return this.newsCredConstants.authHeaderContact;
-
+    if (!environment.production) {
+      return this.newsCredConstants.authHeader;
     }
-  }
-  else
-  {
-    return 'ABCM ' + this.APIKey;
-  }
+    else {
+      return 'ABCM ' + this.APIKey;
+    }
 
   }
 
@@ -68,4 +55,16 @@ export class CustomHttpClient {
       }),
     })
   }
+
+  validatekey(url: string, key: string){
+  //   return this.http.get(url, {
+  //     headers: new HttpHeaders({
+  //       'Content-Type': 'application/json',
+  //       'Access-Control-Allow-Origin': '*',
+  //       'Authorization': "ABCM " + key
+  //     }),
+  //     observe: 'response'
+  //   }).subscribe(response => console.log(response.status));
+  return true;
+   }
 }

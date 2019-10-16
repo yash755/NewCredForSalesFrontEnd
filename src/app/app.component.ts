@@ -1,6 +1,8 @@
-import { Component, OnInit, Optional, Inject, ɵɵqueryRefresh, Input} from '@angular/core';
+import { Component, OnInit, Optional, Inject, ɵɵqueryRefresh, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import {DynamicCRMInfo} from '../services/dynamicCRM'
+import { DynamicCRMInfo } from '../services/dynamicCRM'
+import { environment } from 'src/environments/environment';
+import { NEWSCRED_CONSTANTS } from 'src/config';
 
 
 @Component({
@@ -8,53 +10,51 @@ import {DynamicCRMInfo} from '../services/dynamicCRM'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
- EntityName = ""
- APIKey = ""
-  
-  ngOnInit(){
+export class AppComponent implements OnInit {
+  EntityName = ""
+  APIKey = ""
+
+  ngOnInit() {
+    
     this.EntityName = this.dynamicCRMInfo.entity;
-    this.dynamicCRMInfo.getAPIKey();
-    this.APIKey =this.dynamicCRMInfo.apiKey;
-    if(this.EntityName == 'contact' )
-    {
-      if(this.APIKey != null && this.APIKey != "")
-      {
-       this.router.navigate(['/']);
+
+    if (environment.production) {
+      this.dynamicCRMInfo.getAPIKey();
+      this.APIKey = this.dynamicCRMInfo.apiKey;
+    }
+    else
+      this.APIKey = NEWSCRED_CONSTANTS.authHeader;
+
+    if (this.EntityName == 'contact') {
+      if (this.APIKey != null && this.APIKey != "") {
+        this.router.navigate(['/']);
       }
-      else
-      {
-       this.router.navigate(['/apikey'] );
+      else {
+        this.router.navigate(['/apikey']);
       }
     }
-    else if (this.EntityName == 'opportunity')
-    {
-      if(this.APIKey != null && this.APIKey != "")
-      {
-       this.router.navigate(['/']);
+    else if (this.EntityName == 'opportunity') {
+      if (this.APIKey != null && this.APIKey != "") {
+        this.router.navigate(['/']);
       }
-      else
-      {
-       this.router.navigate(['/apikey']);
+      else {
+        this.router.navigate(['/apikey']);
       }
-   }
-    else if(this.EntityName == 'account')
-    {
-      if(this.APIKey != null && this.APIKey != "")
-      {
-       this.router.navigate(['/analytics']);
+    }
+    else if (this.EntityName == 'account') {
+      if (this.APIKey != null && this.APIKey != "") {
+        this.router.navigate(['/analytics']);
       }
-      else
-      {
-       this.router.navigate(['/apikey']);
+      else {
+        this.router.navigate(['/apikey']);
       }
     }
   }
-  
-  
 
-  constructor(private router:Router,@Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) {
-      this.EntityName = dynamicCRMInfo.entity;
-      this.APIKey = dynamicCRMInfo.apiKey;
-    }
+
+
+  constructor(private router: Router, @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) {
+    this.EntityName = dynamicCRMInfo.entity;
+    this.APIKey = dynamicCRMInfo.apiKey;
+  }
 }

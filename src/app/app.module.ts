@@ -57,9 +57,7 @@ import { ApikeyComponent } from './apikey/apikey.component';
     CustomHttpClient,
     NewsCredAPI,
     { provide: 'newsCredConstants', useValue: NEWSCRED_CONSTANTS },
-    { provide: 'AUTH_HEADER', useValue: NEWSCRED_CONSTANTS.authHeaderContact },
-    { provide: 'AUTH_HEADER_ACCOUNT', useValue: NEWSCRED_CONSTANTS.authHeaderAccount },
-    { provide: 'AUTH_HEADER_OPPORTUNITY', useValue: NEWSCRED_CONSTANTS.authHeaderOpportunity },
+    { provide: 'AUTH_HEADER', useValue: NEWSCRED_CONSTANTS.authHeader },
     { provide: 'dynamicCRMInfo', useValue: new DynamicCRMInfo()},
     {provide: ErrorHandler, useClass: GlobalErrorHandler},
     {provide: HTTP_INTERCEPTORS, useClass: ServerErrorInterceptor, multi: true }

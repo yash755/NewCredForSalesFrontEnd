@@ -80,7 +80,7 @@ public searchArticles(query: string):Observable<any>{
   return this.httpClient.get(url, params)
 }
 
-//Nazish - fetching the contact id from NewsCred
+// - fetching the contact id from NewsCred
 public getRecordIdFromNewsCred():Promise<any>{
  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getContactIdEndpoint}/${this.dynamicCRMInfo.defaultData.contact.id}`
  let params = {
@@ -90,13 +90,13 @@ public getRecordIdFromNewsCred():Promise<any>{
  return this.httpClient.get(url, params).toPromise();
 }
 
-//Nazish - Getting current loggedIn user Id from NewsCred
+// - Getting current loggedIn user Id from NewsCred
 public getCurrentUserIdFromNewsCred():Promise<any>{
 let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getLoggedInUserEndpoint}/${this.dynamicCRMInfo.defaultData.currentUserEmail}`
 return this.httpClient.get(url,"").toPromise()
 }
 
-//Nazish - Getting fields Name from the NewsCred
+// - Getting fields Name from the NewsCred
 public getFieldNames(){
   let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getFieldNameEndpoint}`
   this.httpClient.get(url,"")
@@ -105,7 +105,15 @@ public getFieldNames(){
   });
 }
 
-//Nazish - Posting the is used api to the newsCred on click on copy content...
+// - Getting fields Name from the NewsCred
+public ValidateAPIKey(inputKey){
+  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getFieldNameEndpoint}`
+  this.httpClient.validatekey(url,inputKey);
+ 
+  return true;
+}
+
+// - Posting the is used api to the newsCred on click on copy content...
 public postUsedArticle(articleGuid:string, recordId:number, userId:number){
   let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.usedArticleEndpoint}/${articleGuid}/used`
   let body={
@@ -118,15 +126,14 @@ public postUsedArticle(articleGuid:string, recordId:number, userId:number){
 //Get Engagement Contacts Analytics
 public getEngagementContacts(){
   let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getEngagementContactsEndpoint}`
-  let body= "{\"contacts\":[{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000ClWARQA3\",\"email\":\"steven.newman@newscred.com\",\"id\":\"0031F00000ClWARQA3\",\"name\":\"Steven Newman\"},{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000MGRiaQAH\",\"email\":\"mohammad.faisal@newscred.com\",\"id\":\"0031F00000MGRiaQAH\",\"name\":\"Potato Maker\"}]}"
-  
+  let body= this.dynamicCRMInfo.GetContactDetailsForAccountAnalytics();
   return this.httpClient.post(url, body)
 }
 
 //Get Engagement CTr Analytics
 public getEngagementCtr(){
   let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getEngagementCtrEndpoint}`
-  let body= "{\"contacts\":[{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000ClWARQA3\",\"email\":\"steven.newman@newscred.com\",\"id\":\"0031F00000ClWARQA3\",\"name\":\"Steven Newman\"},{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000MGRiaQAH\",\"email\":\"mohammad.faisal@newscred.com\",\"id\":\"0031F00000MGRiaQAH\",\"name\":\"Potato Maker\"}]}"
+  let body= this.dynamicCRMInfo.GetContactDetailsForAccountAnalytics();
   
   return this.httpClient.post(url, body)
 }
@@ -134,9 +141,7 @@ public getEngagementCtr(){
 //Get Engagement Unique Content Analytics
 public getEngagementUniqueContent(){
   let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getEngagementUniqueContentEndpoint}`
-  //let body = FormBody
-  let body= "{\"contacts\":[{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000ClWARQA3\",\"email\":\"steven.newman@newscred.com\",\"id\":\"0031F00000ClWARQA3\",\"name\":\"Steven Newman\"},{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000MGRiaQAH\",\"email\":\"mohammad.faisal@newscred.com\",\"id\":\"0031F00000MGRiaQAH\",\"name\":\"Potato Maker\"}]}"
-  
+  let body= this.dynamicCRMInfo.GetContactDetailsForAccountAnalytics();
   return this.httpClient.post(url, body)
 }
 
@@ -145,7 +150,7 @@ public getEngagementUniqueContent(){
 public getContactsAnalytics(){
   
   let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getContactsAnalyticsEndpoint}`
-  let body= "{\"contacts\":[{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000ClWARQA3\",\"email\":\"steven.newman@newscred.com\",\"id\":\"0031F00000ClWARQA3\",\"name\":\"Steven Newman\"},{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000MGRiaQAH\",\"email\":\"mohammad.faisal@newscred.com\",\"id\":\"0031F00000MGRiaQAH\",\"name\":\"Potato Maker\"}]}"
+  let body= this.dynamicCRMInfo.GetContactDetailsForAccountAnalytics();
   
   return this.httpClient.post(url, body)
 }
@@ -154,7 +159,7 @@ public getContactsAnalytics(){
 public getContentAnalytics(){
   
   let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getContentAnalyticsEndpoint}`
-  let body= "{\"contacts\":[{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000ClWARQA3\",\"email\":\"steven.newman@newscred.com\",\"id\":\"0031F00000ClWARQA3\",\"name\":\"Steven Newman\"},{\"contactPageUrl\":\"https://newscred--abcm--newscred.cs90.visual.force.com/0031F00000MGRiaQAH\",\"email\":\"mohammad.faisal@newscred.com\",\"id\":\"0031F00000MGRiaQAH\",\"name\":\"Potato Maker\"}]}"
+  let body= this.dynamicCRMInfo.GetContactDetailsForAccountAnalytics();
   
   return this.httpClient.post(url, body);
 }

@@ -7,10 +7,10 @@
                 <p>API key can be found under Settings > Organization in NewsCred CMP</p>
               </div>
               <div class="input-wrapper">
-                    <input id="inputkey" type="text" class="input-text" ngModel="{{APIKey}}" ng-change="onInputChange()">
+                    <input id="inputkey" type="text" class="input-text" ngModel="{{APIKey}}" required >
                     <a class="button" ngClass="{disabled: isWorking || input.error || input.apiKey.length === 0}" (click)="saveApiKey()">Submit</a>
                   </div>
-                  <p class="error-text" ng-class="{'visible': input.error}" ng-bind-html="input.error"></p>
+                  <p *ngIf="isError" class="error-text" > {{ErrorMessage}}</p>
 </jw-modal>
 
  

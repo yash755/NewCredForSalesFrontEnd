@@ -72,6 +72,7 @@ export class AnalyticsEngagementComponent implements OnInit {
     
    
     this.rows.forEach(row => {
+
       row.values = row.values || {};
       row.additional_values = row.additional_values || {};
       row.model.forEach(rowDetail=> {
@@ -82,7 +83,6 @@ export class AnalyticsEngagementComponent implements OnInit {
         row.bar_lengths = row.bar_lengths || {};
         if (row.name === 'Contacts') {
           const total = rowDetail['total_contacts_in_group'];
-          
           const reached = rowDetail['contacts_reached'];
           totalContactsInGroup += reached;
           row.values[columnName] = reached;

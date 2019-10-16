@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { NewsCredAPI } from '../../services/newsCredAPI';
 import { ModalService } from '../modal';
 
 import { zip } from "rxjs";
+import { DynamicCRMInfo } from 'src/services/dynamicCRM';
 
 @Component({
   selector: 'app-analytics-contacts',
@@ -14,34 +15,73 @@ export class AnalyticsContactsComponent implements OnInit {
   fetchingData: boolean;
   columns: any = [];
 
-  rowsdetail : any  = [];
-  columnsdetails : any = [];
+  rowsdetail: any = [];
+  columnsdetails: any = [];
 
-  constructor(private apiService: NewsCredAPI,private modalService: ModalService) { }
+  constructor(private apiService: NewsCredAPI, private modalService: ModalService,@Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) { }
 
   ngOnInit() {
     zip(this.apiService.getContactsAnalytics())
       .subscribe(([response]) => {
-       
-        
+
         this._formatTableData(response.result_set);
-      }, (err) => { alert("error")
-    });
+      }, (err) => {
+        alert(err)
+      });
 
   }
-  
-    _formatTableData(response)
-    {
-     
-      this.rows = []
-      this.columns =[]
-      var maxRows =0;
-      for (var i = 0; i < response.length; i++) {
-        var contact = response[i];
-        if (contact.contacts && contact.contacts.length > maxRows) {
-          
-          maxRows = contact.contacts.length;
+
+  _formatTableData(response) {
+    // this.rows = []
+    // this.columns = []
+    
+    // for (var i = 0; i < response.length; i++) {
+    //   var maxRows = 0;
+    //   var contact = response[i];
+    //   //Create Column
+    //   if (contact.contacts && contact.contacts.length > maxRows) {
+
+    //     maxRows = contact.contacts.length;
+
+    //     var columnName = contact['contact_group_title'];
+    //     this.columns.push(columnName);
+    //   }
+
+    //   let count = 0;
+    //    for (var k = 0; k < maxRows; k++) {
         
+    //       var row = [];
+    //       for (var j = 0; j < response.length; j++) {
+    //        var contact = response[j];
+
+    //         if (contact.contacts && k < contact.contacts.length) {
+    //           row.push(contact.contacts[k]);
+    //           var dynamicsurl = this.dynamicCRMInfo.GetDynamicsURL();
+    //           contact.contacts[k].contact_page_url = dynamicsurl+ "/main.aspx?pagetype=entityrecord&etn=contact&id="+ contact.contacts[k].id;
+    //           if (contact.contacts[k].sent_contents.length === 0) {
+    //             contact.contacts[k].hasNoContent = true;
+    //           }
+    //         } 
+    //         else {
+    //           row.push({ id: count++ });
+    //         }
+            
+    //       }
+    //       this.rows.push(row);
+      
+
+    //   }
+
+
+    // }
+    this.rows = [];
+        this.columns = [];
+        var maxRows = 0;
+        for (var i = 0; i < response.length; i++) {
+          var contact = response[i];
+          if (contact.contacts && contact.contacts.length > maxRows) {
+            maxRows = contact.contacts.length;
+          }
           var columnName = contact['contact_group_title'];
           this.columns.push(columnName);
         }
@@ -50,10 +90,10 @@ export class AnalyticsContactsComponent implements OnInit {
           var row  = [];
           for (var j = 0; j < response.length; j++) {
             var contact = response[j];
-            
             if (contact.contacts && i < contact.contacts.length) {
+              var dynamicsurl = this.dynamicCRMInfo.GetDynamicsURL();
+               contact.contacts[i].contact_page_url = dynamicsurl+ "/main.aspx?pagetype=entityrecord&etn=contact&id="+ contact.contacts[i].id;
               row.push(contact.contacts[i]);
-              contact.contacts[i].contact_page_url = "https://newscred.crm.dynamics.com/main.aspx?pagetype=entityrecord&etn=contact&id=28c35510-43da-e911-a84b-000d3a4f63e8";
               if (contact.contacts[i].sent_contents.length === 0) {
                 contact.contacts[i].hasNoContent = true;
               }
@@ -63,39 +103,35 @@ export class AnalyticsContactsComponent implements OnInit {
           }
           this.rows.push(row);
         }
+  }
 
 
-      }
-    }
 
-
-    
-    fetchContactDetails(id: string) {
+  fetchContactDetails(id: string) {
     //   zip(this.apiService.getContactDetails())
     //   .subscribe(([response]) => {
-       
+
     //     alert(response.result_set);
     //     this._formatDetailsTableData(response.result_set);
     //   }, (err) => { alert("error")
     // });
 
     this.apiService.getContactDetails()
-    .subscribe((data)=>{
-      var responsedetail = data["result_set"];
-      this._formatDetailsTableData(responsedetail)
-    },(err)=>{
-      alert("error");
-    });
+      .subscribe((data) => {
+        var responsedetail = data["result_set"];
+        this._formatDetailsTableData(responsedetail)
+      }, (err) => {
+        alert("error");
+      });
   }
-  
 
-     
-  
 
-  _formatDetailsTableData(responseDetail)
-  {
-    this.rowsdetail= []
-    this.columnsdetails =[]
+
+
+
+  _formatDetailsTableData(responseDetail) {
+    this.rowsdetail = []
+    this.columnsdetails = []
 
     this.rowsdetail = responseDetail;
     // this.rowsdetail = [
@@ -115,6 +151,6 @@ export class AnalyticsContactsComponent implements OnInit {
   }
 
   closeModal(id: string) {
-      this.modalService.close(id);
+    this.modalService.close(id);
   }
 }
