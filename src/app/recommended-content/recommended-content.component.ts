@@ -12,6 +12,7 @@ declare var $: any;
 export class RecommendedContentComponent implements OnInit{
   @Input() selectedArticles:string[];
   @Output() recommendedArticlesChanged = new EventEmitter<string[]>();
+  @Input("isUsed") isUsed:[];
   carouselEl;
   articles:Article[];
   public loading: boolean

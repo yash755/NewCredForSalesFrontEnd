@@ -16,6 +16,7 @@ export class SearchComponent implements OnInit {
   public carouselEl: any
   public carouselId: string
   public isMessageVisible:boolean
+  @Input() isUsed:any
   @Output() searchSelectionChanged = new EventEmitter<any>();
   constructor(private apiService: NewsCredAPI) { 
     this.carouselId = "search-carousel"

@@ -40,7 +40,7 @@
                 <div class="image-overlay">
                   <input type="checkbox"  id="cb2{{article.guid}}" (change)="onCheckboxChange($event, article)"/>
                   <label for="cb2{{article.guid}}"></label>
-                  <p *ngIf="article.is_used">
+                  <p *ngIf="article.is_used || (isUsed.includes(article.guid))">
                     This article has been used for this contact. 
                   </p>
                 </div>

@@ -7,13 +7,13 @@ export class DynamicCRMInfo {
     public defaultData = {
         contact: {
             accountName: 'NewsCred',
-            email: 'nazish@binmile.com',
+            email: 'mnquraishi@newscred.com',
             id: '00000123',
             industry: '',
-            name: 'Mohd Nazish'
+            name: 'mnquraishi'
         },
-        currentUserEmail: 'padmaja@newscred.com',
-        currentUserName: 'Padmaja Shukla',
+        currentUserEmail: 'mnazish@newscred.com',
+        currentUserName: 'Mohd Nazish',
     }
     public currentUser: string
     public entity: string = environment.entityname

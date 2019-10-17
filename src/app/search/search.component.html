@@ -25,4 +25,4 @@
         
         
     <in-tab-loader *ngIf="loading"></in-tab-loader>
-    <article-card-slider *ngIf="!loading" [carouselId]= "carouselId" (searchSelectionChanged)="handleSelectionChange($event)" [articles]="articles" [isMessageVisible]="isMessageVisible"></article-card-slider>
+    <article-card-slider *ngIf="!loading" [carouselId]= "carouselId" (searchSelectionChanged)="handleSelectionChange($event)" [articles]="articles" [isMessageVisible]="isMessageVisible" [isUsed]="isUsed" ></article-card-slider>

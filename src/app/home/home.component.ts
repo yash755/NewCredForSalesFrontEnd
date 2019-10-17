@@ -30,6 +30,8 @@ export class HomeComponent implements OnInit {
   recordId:number
   currentUserID:number
   isCopied:boolean
+  public isUsed=[]
+  
   constructor(private router:Router,private apiService: NewsCredAPI, 
     @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo,
      @Inject('newsCredConstants') @Optional() private newsCredConstants?: any) {
@@ -48,6 +50,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.IsProduction = environment.production
+    this.isUsed=[null];
   }
   copySelectedArticles()
   { 
@@ -89,14 +92,15 @@ export class HomeComponent implements OnInit {
       this.isCopied = true;
       this.apiService.postUsedArticle(selectedArticles[i].guid, this.recordId, this.currentUserID)
       .subscribe((data)=>{
-        
-       
+        if(data["use_id"]!=undefined && data["use_id"]!=null)
+       {
+         this.isUsed.push(selectedArticles[i].guid);
+       }
       });
       setTimeout(() => {
         this.isCopied = false;
       }, 2000); 
     }
-    
     //copying the text
     let selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
@@ -119,6 +123,11 @@ export class HomeComponent implements OnInit {
     this.dynamicCRMInfo.updateActivity(this.dynamicCRMInfo.getCurrectRecord().id, subject, atrticleText);
    
   }
+
+  // uncheckAll(){
+  //   $('input[type="checkbox"]:checked').prop('checked',false);
+  // }
+
   checkActiveStage(tab)
   {
     this.selectedTab=tab;

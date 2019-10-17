@@ -12,6 +12,7 @@ declare var $: any;
 export class ContentLibraryComponent implements OnInit {
   @Input() selectedContents:string[];
   @Output() contentLibraryChanged = new EventEmitter<string[]>();
+  @Input("isUsed") isUsed:[];
   carouselEl;
   selectCategoryName = 'NewsCred Expertise';
   articles:Article[];

@@ -10,7 +10,7 @@
                 [items]="articles"
                 [carouselClasses]="carouselClasses" >
                 <div class="card-deck mt-4 mb-4"  *ngFor="let article of articles">
-                    <article-card [articleObj]="article" (cardStatusChanged)="handleCardStatusChanged($event)"> </article-card>
+                    <article-card [articleObj]="article" (cardStatusChanged)="handleCardStatusChanged($event)" [isUsed]="isUsed"> </article-card>
                 </div>
             </owl-carousel>
         <!-- </div> -->
