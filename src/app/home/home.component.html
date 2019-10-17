@@ -28,7 +28,7 @@
 <!-- Tab panes -->
 <div class="tab-content">
 <div class="tab-pane active" id="home">
-<app-recommended-content (recommendedArticlesChanged)="handleSelectionChange($event,1)" [isUsed]="isUsed" [checked]="checked"></app-recommended-content>
+<app-recommended-content (recommendedArticlesChanged)="handleSelectionChange($event,1)" [isUsed]="isUsed"></app-recommended-content>
 </div>
 <div class="tab-pane  fade" id="menu1">
 <app-content-library (contentLibraryChanged)="handleSelectionChange($event,2)" [isUsed]="isUsed"></app-content-library>
