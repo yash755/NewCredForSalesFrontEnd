@@ -43,7 +43,6 @@ import { ApikeyComponent } from './apikey/apikey.component';
     AnalyticsContactsComponent,
     AnalyticsContentComponent,
     ApikeyComponent
-    
   ],
   imports: [
     BrowserModule,

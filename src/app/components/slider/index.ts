@@ -10,7 +10,7 @@ import { OwlCarousel } from 'ngx-owl-carousel';
     @Input('articles') articles: any
     @Input('carouselId') carouselId: string;
     @Input("isMessageVisible") isMessageVisible:boolean;
-    @Input("isUsed") isUsed:any
+    @Input("isUsed") isUsed:any;
     carouselClasses = ['owl-theme', 'row', 'sliding']
     // @Output() contentLibraryChanged = new EventEmitter<string[]>();
     @Output() searchSelectionChanged = new EventEmitter<any>();

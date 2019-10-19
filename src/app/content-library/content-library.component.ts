@@ -10,7 +10,7 @@ declare var $: any;
   styleUrls: ['./content-library.component.scss']
 })
 export class ContentLibraryComponent implements OnInit {
-  @Input() selectedContents:string[];
+  @Input("selectedContents") selectedContents:string[];
   @Output() contentLibraryChanged = new EventEmitter<string[]>();
   @Input("isUsed") isUsed:[];
   carouselEl;

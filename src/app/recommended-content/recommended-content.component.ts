@@ -10,7 +10,7 @@ declare var $: any;
   styleUrls: ['./recommended-content.component.scss']
 })
 export class RecommendedContentComponent implements OnInit{
-  @Input() selectedArticles:string[];
+  @Input("selectedArticles") selectedArticles:string[];
   @Output() recommendedArticlesChanged = new EventEmitter<string[]>();
   @Input("isUsed") isUsed:[];
   carouselEl;

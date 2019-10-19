@@ -5,6 +5,7 @@ import { NewsCredAPI } from '../../services/newsCredAPI';
 import { environment } from 'src/environments/environment';
 import { AppComponent } from '../app.component';
 import { Router } from '@angular/router';
+import { currentId } from 'async_hooks';
 declare var $: any;
 
 @Component({
@@ -31,10 +32,11 @@ export class HomeComponent implements OnInit {
   currentUserID:number
   isCopied:boolean
   public isUsed=[]
+  activeTab:any;
   
   constructor(private router:Router,private apiService: NewsCredAPI, 
     @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo,
-     @Inject('newsCredConstants') @Optional() private newsCredConstants?: any) {
+     @Inject('newsCredConstants') @Optional() private newsCredConstants?: any,) {
     this.contactName=dynamicCRMInfo.defaultData.contact.name;
     console.log(this.contactName);
     this.apiService.getRecordIdFromNewsCred()
@@ -50,7 +52,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.IsProduction = environment.production
-    this.isUsed=[null];
+    this.isUsed=[];
+    this.activeTab="cb1";
   }
   copySelectedArticles()
   { 
@@ -95,6 +98,7 @@ export class HomeComponent implements OnInit {
         if(data["use_id"]!=undefined && data["use_id"]!=null)
        {
          this.isUsed.push(selectedArticles[i].guid);
+         this.uncheckAll(this.activeTab, this.isUsed);
        }
       });
       setTimeout(() => {
@@ -124,9 +128,25 @@ export class HomeComponent implements OnInit {
    
   }
 
-  // uncheckAll(){
-  //   $('input[type="checkbox"]:checked').prop('checked',false);
-  // }
+  uncheckAll(cb, used){
+    if (this.selectedTab == HomeComponent.RecommendationTabType) {
+      this.clipboardArticles = [];
+      this.articles = []
+    }
+    else if (this.selectedTab == HomeComponent.ContentTabType) {
+      this.clipboardArticles = [];
+      this.contents = [];
+    } 
+    else if(this.selectedTab==HomeComponent.SearchTabType)
+    {
+      this.clipboardArticles = [];
+      this.selectedArticles=[];
+      this.search = [];
+    }
+    used.forEach(element => {
+      $('#'+cb+element+':checked').prop('checked',false); 
+    });
+  }
 
   checkActiveStage(tab)
   {
@@ -134,12 +154,15 @@ export class HomeComponent implements OnInit {
     switch(tab) {
       case(HomeComponent.RecommendationTabType):
       this.clipboardArticles = this.articles;
+      this.activeTab="cb1";
         break;
       case(HomeComponent.ContentTabType):
       this.clipboardArticles = this.contents;
+      this.activeTab="cb2";
       break;
       case(HomeComponent.SearchTabType):
       this.clipboardArticles = this.search;
+      this.activeTab="cb3";
       break;
       default:
       this.clipboardArticles = [];
@@ -170,7 +193,22 @@ export class HomeComponent implements OnInit {
       articleHTML+='</table>';
       articleHTML+='<br>';
     }
-   this.dynamicCRMInfo.sendEmail(articleHTML);
+      
+      let getDefaultEmailTemplate="";
+      this.apiService.getLastSavedEmailTemplate(this.currentUserID)
+      .subscribe((data:any)=>{
+      if(data.length>0)
+       {
+        getDefaultEmailTemplate=data[data.length-1].template;
+        this.dynamicCRMInfo.sendEmail(getDefaultEmailTemplate);
+       }
+       else
+       {
+        getDefaultEmailTemplate = this.apiService.DefaultEmailBody()
+        this.dynamicCRMInfo.sendEmail(getDefaultEmailTemplate);
+       }
+      });
+      
   }
 
   getStaticVar(RecommendationTabType){
@@ -190,7 +228,6 @@ export class HomeComponent implements OnInit {
         break;
       case(HomeComponent.SearchTabType):
         this.search = $event
-        console.log(this.search)
         this.selectedArticles = $event
         this.clipboardArticles = $event
         break;

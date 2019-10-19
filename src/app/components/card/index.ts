@@ -9,6 +9,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
     @Input('articleObj') article: any
     @Output() cardStatusChanged = new EventEmitter<any>();
     @Input("isUsed") isUsed:any
+    
     constructor() { }
     ngOnInit() {
         console.log("this is article acard")

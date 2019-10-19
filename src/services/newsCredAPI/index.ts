@@ -5,6 +5,7 @@ import {DynamicCRMInfo} from '../dynamicCRM';
 import { ArticleCategories } from '../../app/model/ArticleCategories';
 import { promise } from 'protractor';
 import { catchError } from 'rxjs/operators';
+import { url } from 'inspector';
 //import { currentId } from 'async_hooks';
 
 @Injectable({
@@ -23,6 +24,7 @@ export class NewsCredAPI{
   static recommendedArticlesEndpoint = "v2/articles/recommendation"
   static searchEndpoint = "v1/articles/search"
   static usedArticleEndpoint="v1/articles"
+  static getEmailTemplateEndpoint="v1/users"
   static getEngagementContactsEndpoint="v1/salesforce/accounts/engagement/contact"
   static getEngagementUniqueContentEndpoint="v1/salesforce/accounts/engagement/unique-content"
   static getEngagementCtrEndpoint="v1/salesforce/accounts/engagement/ctr"
@@ -164,6 +166,47 @@ public getContentAnalytics(){
   return this.httpClient.post(url, body);
 }
 
+public getLastSavedEmailTemplate(userId){
+  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getEmailTemplateEndpoint}/${userId}/email_templates`;
+  return this.httpClient.get(url, "");
+}
+
+public saveDefaultEmailTemplate(userId, defaultEmailTemplate)
+{
+  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getEmailTemplateEndpoint}/${userId}/email_templates`;
+  let body={"template":defaultEmailTemplate};
+  return this.httpClient.post(url, body);
+}
+
+DefaultEmailBody()
+{
+    let defaultEmailBody="";
+    defaultEmailBody+="<table style=\"font-family: verdana, serif; font-size: 12px; border-collapse:separate; border-spacing: 0 1em;\">\n" ;
+    defaultEmailBody+="<tbody>";
+
+    defaultEmailBody+="<tr>\n";
+    defaultEmailBody+="<td id=\"header\">Hey ";
+    defaultEmailBody+="<span id=\"name\"></span>,";
+    defaultEmailBody+="</td>\n";
+    defaultEmailBody+="</tr>\n";
+
+    defaultEmailBody+="<tr>\n";
+    defaultEmailBody+="<td id=\"body\">Check this article hand-picked by our staff editors specially for you.<br><br>";
+    defaultEmailBody+="<div id=\"snippet\"></div>Let me know what do you think; I am just one email away!<br><br>";
+    defaultEmailBody+="</td>\n";
+    defaultEmailBody+="</tr>\n";
+
+    defaultEmailBody+="<tr>\n";
+    defaultEmailBody+="<td id=\"footer\">Regards - <br>";
+    defaultEmailBody+="<span id=\"sender-name\"></span>";
+    defaultEmailBody+="</td>\n";
+    defaultEmailBody+="</tr>\n";
+
+    defaultEmailBody+="</tbody>";
+    defaultEmailBody+="</table>";
+
+    return defaultEmailBody;
+}
 
 
 

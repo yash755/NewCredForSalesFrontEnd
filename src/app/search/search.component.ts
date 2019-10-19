@@ -12,7 +12,7 @@ declare var $: any;
 export class SearchComponent implements OnInit {
   public loading: boolean
   public query: string
-  public articles: Article[]
+  @Input("articles") articles: Article[]
   public carouselEl: any
   public carouselId: string
   public isMessageVisible:boolean
