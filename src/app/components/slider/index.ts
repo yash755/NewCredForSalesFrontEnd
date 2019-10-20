@@ -14,7 +14,7 @@ import { OwlCarousel } from 'ngx-owl-carousel';
     carouselClasses = ['owl-theme', 'row', 'sliding']
     // @Output() contentLibraryChanged = new EventEmitter<string[]>();
     @Output() searchSelectionChanged = new EventEmitter<any>();
-    public selectedContents = [];
+    @Input("selectedContents") selectedContents = [];
     constructor() { }
     ngOnInit() {
       this.carouselClasses.push(this.carouselId)

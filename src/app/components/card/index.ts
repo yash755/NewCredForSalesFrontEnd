@@ -12,8 +12,6 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
     
     constructor() { }
     ngOnInit() {
-        console.log("this is article acard")
-        console.log(this.article)
     }
 
     onCheckboxChange(event:any, value: any) {

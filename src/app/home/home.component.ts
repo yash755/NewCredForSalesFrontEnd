@@ -140,7 +140,6 @@ export class HomeComponent implements OnInit {
     else if(this.selectedTab==HomeComponent.SearchTabType)
     {
       this.clipboardArticles = [];
-      this.selectedArticles=[];
       this.search = [];
     }
     used.forEach(element => {

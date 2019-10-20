@@ -34,7 +34,7 @@
 <app-content-library (contentLibraryChanged)="handleSelectionChange($event,2)"  [selectedContents] = "contents" [isUsed]="isUsed"></app-content-library>
 </div>
 <div class="tab-pane  fade" id="menu2">
-<app-search (searchSelectionChanged)="handleSelectionChange($event,3)" [isUsed]="isUsed"></app-search>
+<app-search (searchSelectionChanged)="handleSelectionChange($event,3)" [searchSelectedContent]="search" [isUsed]="isUsed"></app-search>
 </div>
 </div>
 <div *ngIf="isCopied" class="pop-toast" id="divCopied">Copied {{count}} to clipboard</div>
