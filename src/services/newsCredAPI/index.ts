@@ -7,7 +7,7 @@ import { promise } from 'protractor';
 import { catchError } from 'rxjs/operators';
 import { url } from 'inspector';
 //import { currentId } from 'async_hooks';
-
+declare var $:any
 @Injectable({
   providedIn: 'root'
 })
@@ -162,7 +162,6 @@ public getContentAnalytics(){
   
   let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getContentAnalyticsEndpoint}`
   let body= this.dynamicCRMInfo.GetContactDetailsForAccountAnalytics();
-  
   return this.httpClient.post(url, body);
 }
 
@@ -177,38 +176,6 @@ public saveDefaultEmailTemplate(userId, defaultEmailTemplate)
   let body={"template":defaultEmailTemplate};
   return this.httpClient.post(url, body);
 }
-
-DefaultEmailBody()
-{
-    let defaultEmailBody="";
-    defaultEmailBody+="<table style=\"font-family: verdana, serif; font-size: 12px; border-collapse:separate; border-spacing: 0 1em;\">\n" ;
-    defaultEmailBody+="<tbody>";
-
-    defaultEmailBody+="<tr>\n";
-    defaultEmailBody+="<td id=\"header\">Hey ";
-    defaultEmailBody+="<span id=\"name\"></span>,";
-    defaultEmailBody+="</td>\n";
-    defaultEmailBody+="</tr>\n";
-
-    defaultEmailBody+="<tr>\n";
-    defaultEmailBody+="<td id=\"body\">Check this article hand-picked by our staff editors specially for you.<br><br>";
-    defaultEmailBody+="<div id=\"snippet\"></div>Let me know what do you think; I am just one email away!<br><br>";
-    defaultEmailBody+="</td>\n";
-    defaultEmailBody+="</tr>\n";
-
-    defaultEmailBody+="<tr>\n";
-    defaultEmailBody+="<td id=\"footer\">Regards - <br>";
-    defaultEmailBody+="<span id=\"sender-name\"></span>";
-    defaultEmailBody+="</td>\n";
-    defaultEmailBody+="</tr>\n";
-
-    defaultEmailBody+="</tbody>";
-    defaultEmailBody+="</table>";
-
-    return defaultEmailBody;
-}
-
-
 
   constructor(private httpClient: CustomHttpClient, @Inject('newsCredConstants') @Optional() private newsCredConstants?: any, @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) { 
   }

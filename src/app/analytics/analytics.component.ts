@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HostListener } from '@angular/core';
+import { PlatformLocation } from '@angular/common';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -11,11 +14,14 @@ export class AnalyticsComponent implements OnInit {
   public static ContactsTabType = 2;
   public static ContentTabType = 3;
   loggedInUser:string;
-  constructor() { }
+  constructor(private location: PlatformLocation, private router: Router) {
+      this.location.onPopState(() => {
+        this.router.dispose();
+  });
+   }
 
   ngOnInit() {
-   
-  }
+ }
   handleSelectionChange($event: any, contentType)
   {
     switch(contentType) {
@@ -30,7 +36,4 @@ export class AnalyticsComponent implements OnInit {
         break;
     }
   }
-
-  
-
 }

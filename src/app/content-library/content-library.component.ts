@@ -2,8 +2,8 @@ import { Component,OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {NewsCredAPI} from '../../services/newsCredAPI';
 import { Article } from '../model/article';
 import {ArticleCategories} from '../model/ArticleCategories';
-declare var $: any;
 
+declare var $: any;
 @Component({
   selector: 'app-content-library',
   templateUrl: './content-library.component.html',
@@ -12,7 +12,7 @@ declare var $: any;
 export class ContentLibraryComponent implements OnInit {
   @Input("selectedContents") selectedContents:string[];
   @Output() contentLibraryChanged = new EventEmitter<string[]>();
-  @Input("isUsed") isUsed:[];
+  @Input("isUsed") isUsed=[];
   carouselEl;
   selectCategoryName = 'NewsCred Expertise';
   articles:Article[];

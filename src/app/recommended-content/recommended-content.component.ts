@@ -12,12 +12,13 @@ declare var $: any;
 export class RecommendedContentComponent implements OnInit{
   @Input("selectedArticles") selectedArticles:string[];
   @Output() recommendedArticlesChanged = new EventEmitter<string[]>();
-  @Input("isUsed") isUsed:[];
+  @Input("isUsed") isUsed=[];
   carouselEl;
   articles:Article[];
   public loading: boolean
   recordId:number
   currentUserID:number
+  
   ngOnInit() {
     this.loading = true;
     if(this.recordId==undefined || this.recordId==null || this.currentUserID==undefined || this.currentUserID==null)

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DynamicCRMInfo } from '../services/dynamicCRM'
 import { environment } from 'src/environments/environment';
 import { NEWSCRED_CONSTANTS } from 'src/config';
+import { PlatformLocation } from '@angular/common';
 
 
 @Component({
@@ -53,7 +54,7 @@ export class AppComponent implements OnInit {
 
 
 
-  constructor(private router: Router, @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) {
+  constructor(private location:PlatformLocation,private router: Router, @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) {
     this.EntityName = dynamicCRMInfo.entity;
     this.APIKey = dynamicCRMInfo.apiKey;
   }

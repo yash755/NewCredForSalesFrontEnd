@@ -27,6 +27,7 @@ import {ModalModule} from './modal';
 import {GlobalErrorHandler} from './global-error-handler'
 import { ServerErrorInterceptor } from './server-error.interceptor';
 import { ApikeyComponent } from './apikey/apikey.component';
+import { EmailTemplate } from '../services/newsCredAPI/emailTemplate';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { ApikeyComponent } from './apikey/apikey.component';
   providers: [
     CustomHttpClient,
     NewsCredAPI,
+    EmailTemplate,
     { provide: 'newsCredConstants', useValue: NEWSCRED_CONSTANTS },
     { provide: 'AUTH_HEADER', useValue: NEWSCRED_CONSTANTS.authHeader },
     { provide: 'dynamicCRMInfo', useValue: new DynamicCRMInfo()},

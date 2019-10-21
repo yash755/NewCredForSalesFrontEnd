@@ -3,9 +3,9 @@ import { ClipboardModule } from 'ngx-clipboard';
 import {DynamicCRMInfo} from '../../services/dynamicCRM'
 import { NewsCredAPI } from '../../services/newsCredAPI';
 import { environment } from 'src/environments/environment';
-import { AppComponent } from '../app.component';
 import { Router } from '@angular/router';
-import { currentId } from 'async_hooks';
+import {EmailTemplate} from '../../services/newsCredAPI/emailTemplate';
+import { from } from 'rxjs';
 declare var $: any;
 
 @Component({
@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
   public isUsed=[]
   activeTab:any;
   
-  constructor(private router:Router,private apiService: NewsCredAPI, 
+  constructor(private router:Router,private apiService: NewsCredAPI, public template:EmailTemplate, 
     @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo,
      @Inject('newsCredConstants') @Optional() private newsCredConstants?: any,) {
     this.contactName=dynamicCRMInfo.defaultData.contact.name;
@@ -192,22 +192,27 @@ export class HomeComponent implements OnInit {
       articleHTML+='</table>';
       articleHTML+='<br>';
     }
-      
-      let getDefaultEmailTemplate="";
+    this.prepareEmailBody(articleHTML); 
+  }
+  
+  prepareEmailBody(articleHTML)
+  {
+    let getEmailTemplate="";
       this.apiService.getLastSavedEmailTemplate(this.currentUserID)
       .subscribe((data:any)=>{
       if(data.length>0)
        {
-        getDefaultEmailTemplate=data[data.length-1].template;
-        this.dynamicCRMInfo.sendEmail(getDefaultEmailTemplate);
+        getEmailTemplate=data[data.length-1].template;
+        let getFormattedEmailTemplate=this.template.setValueToEmailTemplate(articleHTML, this.contactName, this.loggedInUser, getEmailTemplate)
+        this.dynamicCRMInfo.sendEmail(getFormattedEmailTemplate);
        }
        else
        {
-        getDefaultEmailTemplate = this.apiService.DefaultEmailBody()
-        this.dynamicCRMInfo.sendEmail(getDefaultEmailTemplate);
+        getEmailTemplate=this.template.DefaultEmailBody();
+        let getFormattedEmailTemplate=this.template.setValueToEmailTemplate(articleHTML, this.contactName, this.loggedInUser, getEmailTemplate)
+        this.dynamicCRMInfo.sendEmail(getFormattedEmailTemplate);
        }
-      });
-      
+    });
   }
 
   getStaticVar(RecommendationTabType){

@@ -1,6 +1,7 @@
 import { Injectable, Inject, Optional } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { NEWSCRED_CONSTANTS } from 'src/config';
+declare var $: any;
 
 @Injectable()
 export class DynamicCRMInfo {
@@ -222,12 +223,10 @@ export class DynamicCRMInfo {
 
     //Nazish - opening the email form on click on send as email button
     sendEmail(emailBody) {
-        let subject = "Hey " + this.getCurrectRecord().contactName;
-        let start = "Hello " + this.getCurrectRecord().contactName + ",<br><br>Check these articles hand-picked by our staff editors specially for you.<br><br>";
-        let end = "<br><br>Let me know what do you think. I am just one email away!<br><br>Regards-<br>" + this.getCurrentUser().name;
-
-        let description = start + emailBody + end;
         let parentXrm = (<any>window.parent).Xrm;
+
+        let subject = "Hey " + this.getCurrectRecord().contactName;
+        let description = emailBody;
 
         let toContact = [];
         toContact[0] = new Object();
