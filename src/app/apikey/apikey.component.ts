@@ -51,10 +51,10 @@ export class ApikeyComponent implements OnInit {
       //location.reload();
     }
     else {
-     // var updateKey = "ABCM 8178c61b21134cadb5651ff2fc724caf"
+      var updateKey = "ABCM 8178c61b21134cadb5651ff2fc724caf"
       if (this.ValidAPIKey(updateKey)) {
 
-        this.dynamicCRMInfo.UpdateKey(this.dynamicCRMInfo.entity, updateKey);
+        //this.dynamicCRMInfo.UpdateKey(this.dynamicCRMInfo.entity, updateKey);
         this.newscredApp.ngOnInit();
       }
       else {

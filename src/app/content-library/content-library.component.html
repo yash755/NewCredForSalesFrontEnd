@@ -8,9 +8,9 @@
                 {{selectCategoryName}}
               </a>
               <div class="dropdown-menu dropdown-menu-right">
-                <div  *ngFor="let category of categories" >
+                <div  *ngFor="let category of categories" class="dropdown-item-wrapper" >
                     <a class="dropdown-item" href="#" (click)="getArticlesBasedOnCategory(category.guid,category.name)">{{category.name}}</a>
-                    <div class="dropdown-divider"></div>
+                   
                 </div>
               
               </div>
