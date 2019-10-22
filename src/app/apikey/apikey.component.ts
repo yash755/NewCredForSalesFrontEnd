@@ -36,8 +36,9 @@ export class ApikeyComponent implements OnInit {
   }
 
   saveApiKey() {
+    var updateKey = (document.getElementById("inputkey") as HTMLInputElement).value;
     if (environment.production) {
-      var updateKey = (document.getElementById("inputkey") as HTMLInputElement).value;
+      //var updateKey = (document.getElementById("inputkey") as HTMLInputElement).value;
       if (this.ValidAPIKey(updateKey)) {
 
         this.dynamicCRMInfo.UpdateKey(this.dynamicCRMInfo.entity, updateKey);
@@ -50,8 +51,7 @@ export class ApikeyComponent implements OnInit {
       //location.reload();
     }
     else {
-      
-      var updateKey = "ABCM 8178c61b21134cadb5651ff2fc724caf"
+     // var updateKey = "ABCM 8178c61b21134cadb5651ff2fc724caf"
       if (this.ValidAPIKey(updateKey)) {
 
         this.dynamicCRMInfo.UpdateKey(this.dynamicCRMInfo.entity, updateKey);
@@ -61,12 +61,21 @@ export class ApikeyComponent implements OnInit {
             this.isError = true;
             this.ErrorMessage = NEWSCRED_CONSTANTS.InvalidAPIKey;
       }
-      location.reload();
+      //location.reload();
     }
   }
 
   ValidAPIKey(updateKeyInput) {
+    if(updateKeyInput == undefined || updateKeyInput == "")
+    {
+      this.isError = true;
+      this.ErrorMessage = NEWSCRED_CONSTANTS.EmptyAPIKey;
+      return false;
+    }
+    else
+    {
     return this.apiService.ValidateAPIKey(updateKeyInput)
+    }
   }
 
 }
