@@ -264,6 +264,7 @@ export class DynamicCRMInfo {
 
 
     UpdateKey(entityNameNew, keyInput) {
+        
         var entity: any = {};
         entity.ncs_apikey = keyInput;
         entity.ncs_entity = entityNameNew;
@@ -279,7 +280,6 @@ export class DynamicCRMInfo {
 
                 req.onreadystatechange = null;
                 if (this.status === 204) {
-
                     var uri = this.getResponseHeader("OData-EntityId");
                     var regExp = /\(([^)]+)\)/;
                     var matches = regExp.exec(uri);
@@ -292,8 +292,7 @@ export class DynamicCRMInfo {
         };
         req.send(JSON.stringify(entity));
     }
-
-
+    
     GetContactDetailsForAccountAnalytics() {
         let body= "{\"contacts\":[";
         let parentXrm = (<any>window.parent).Xrm;

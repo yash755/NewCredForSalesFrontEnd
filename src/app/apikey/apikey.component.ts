@@ -17,13 +17,33 @@ export class ApikeyComponent implements OnInit {
   isModalShown: Boolean;
   APIKey: string;
   isError :Boolean = false;
+  EntityName:string = "";
   ErrorMessage : string = "";
   constructor(private apiService: NewsCredAPI,public newscredApp: AppComponent, private router: Router, private modalService: ModalService, @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo) {
     this.APIKey = "";
+
   }
 
   ngOnInit() {
+    
+    this.EntityName = this.dynamicCRMInfo.entity;
+    if (environment.production) {
+      this.dynamicCRMInfo.getAPIKey();
+      this.APIKey = this.dynamicCRMInfo.apiKey;
+    }
+    else
+      this.APIKey = NEWSCRED_CONSTANTS.authHeader;
 
+    
+
+
+
+    if (this.EntityName == 'account') {
+      if ( this.APIKey!=undefined && this.APIKey != null && this.APIKey != "") {
+        this.router.navigate(['/analytics']);
+      }
+      
+    }
 
   }
 
@@ -43,11 +63,9 @@ export class ApikeyComponent implements OnInit {
 
         this.dynamicCRMInfo.UpdateKey(this.dynamicCRMInfo.entity, updateKey);
         this.newscredApp.ngOnInit();
+        //location.reload();
       }
-      else {
-            this.isError = true;
-            this.ErrorMessage = NEWSCRED_CONSTANTS.InvalidAPIKey;
-      }
+     
       //location.reload();
     }
     else {

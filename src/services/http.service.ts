@@ -27,9 +27,12 @@ export class CustomHttpClient {
 
   getAuthorizationHeader() {
     if (!environment.production) {
+      
       return this.newsCredConstants.authHeader;
     }
     else {
+      this.dynamicCRMInfo.getAPIKey();
+      this.APIKey =  this.dynamicCRMInfo.apiKey;
       return 'ABCM ' + this.APIKey;
     }
 

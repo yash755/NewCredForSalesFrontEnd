@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import {EmailTemplate} from '../../services/newsCredAPI/emailTemplate';
 import { from } from 'rxjs';
+import { NEWSCRED_CONSTANTS } from 'src/config';
 declare var $: any;
 
 @Component({
@@ -33,11 +34,13 @@ export class HomeComponent implements OnInit {
   isCopied:boolean
   public isUsed=[]
   activeTab:any;
-  
+  APIKey=""
+  EntityName=""
   constructor(private router:Router,private apiService: NewsCredAPI, public template:EmailTemplate, 
     @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo,
      @Inject('newsCredConstants') @Optional() private newsCredConstants?: any,) {
     this.contactName=dynamicCRMInfo.defaultData.contact.name;
+    this.loggedInUser=dynamicCRMInfo.defaultData.currentUserName;
     console.log(this.contactName);
     this.apiService.getRecordIdFromNewsCred()
        .then((data)=>{
@@ -51,9 +54,43 @@ export class HomeComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.IsProduction = environment.production
+    this.IsProduction=environment.production;
     this.isUsed=[];
     this.activeTab="cb1";
+
+
+    this.EntityName = this.dynamicCRMInfo.entity;
+    if (environment.production) {
+      this.dynamicCRMInfo.getAPIKey();
+      this.APIKey = this.dynamicCRMInfo.apiKey;
+    }
+    else
+      this.APIKey = NEWSCRED_CONSTANTS.authHeader;
+
+    // if (this.EntityName == 'contact') {
+    //   if (this.APIKey != null && this.APIKey != "") {
+    //     this.router.navigate(['/']);
+    //   }
+    //   else {
+    //     this.router.navigate(['/apikey']);
+    //   }
+    // }
+    // else if (this.EntityName == 'opportunity') {
+    //   if (this.APIKey != null && this.APIKey != "") {
+    //     this.router.navigate(['/']);
+    //   }
+    //   else {
+    //     this.router.navigate(['/apikey']);
+    //   }
+    // }
+    if (this.EntityName == 'account') {
+      if (this.APIKey != null && this.APIKey != "") {
+        this.router.navigate(['/analytics']);
+      }
+      else {
+        this.router.navigate(['/apikey']);
+      }
+    }
   }
   copySelectedArticles()
   { 
@@ -194,7 +231,7 @@ export class HomeComponent implements OnInit {
     }
     this.prepareEmailBody(articleHTML); 
   }
-  
+
   prepareEmailBody(articleHTML)
   {
     let getEmailTemplate="";
