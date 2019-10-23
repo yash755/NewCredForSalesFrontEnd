@@ -144,9 +144,8 @@ export class DynamicCRMInfo {
             this.defaultData.contact.id = currentRecord;
 
         }
-
-
-        else if (entityName == "opportunity") {
+        else if (entityName == "opportunity") 
+        {
             if (parentXrm.Page.getAttribute("parentcontactid").getValue() != undefined && parentXrm.Page.getAttribute("parentcontactid").getValue() != null && parentXrm.Page.getAttribute("parentcontactid").getValue() != "") {
                 name = parentXrm.Page.getAttribute("parentcontactid").getValue()[0].name;
                 contactId = parentXrm.Page.getAttribute("parentcontactid").getValue()[0].id.replace("{", "").replace("}", "");
@@ -155,6 +154,26 @@ export class DynamicCRMInfo {
                 recordName = parentXrm.Page.getAttribute("name").getValue();
             }
             contactName = name;
+            //Contact Email Address for opportunity
+            var req = new XMLHttpRequest();
+            req.open("GET", parentXrm.Page.context.getClientUrl() + "/api/data/v9.1/contacts("+contactId+")?$select=emailaddress1", false);
+            req.setRequestHeader("OData-MaxVersion", "4.0");
+            req.setRequestHeader("OData-Version", "4.0");
+            req.setRequestHeader("Accept", "application/json");
+            req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+            req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            req.onreadystatechange = function() {
+                if (this.readyState === 4) {
+                    req.onreadystatechange = null;
+                    if (this.status === 200) {
+                        var result = JSON.parse(this.response);
+                        email= result["emailaddress1"];
+                    } else {
+                        parentXrm.Utility.alertDialog(this.statusText);
+                    }
+                }
+            };
+            req.send();
         }
 
 
