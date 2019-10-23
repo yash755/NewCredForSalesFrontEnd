@@ -265,9 +265,9 @@ export class DynamicCRMInfo {
         parameters["subject"] = subject;
         parameters["regardingobjectid"] = regarding;
         parameters["ncs_relatedto"] = "newscred";
-        parameters["record_id"]=recordId;
-        parameters["user_id"]=userId;
-        parameters["selected_Articles"]=selectedArticles.toString();
+        parameters["ncs_record_id"]=recordId;
+        parameters["ncs_user_id"]=userId;
+        parameters["ncs_selected_articles"]=selectedArticles.toString();
         parentXrm.Utility.openEntityForm("email", null, parameters);
     }
     constructor() {
