@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit {
   activeTab:any;
   APIKey=""
   EntityName=""
+  articlesId=""
   constructor(private router:Router,private apiService: NewsCredAPI, public template:EmailTemplate, 
     @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo,
      @Inject('newsCredConstants') @Optional() private newsCredConstants?: any,) {
@@ -206,9 +207,19 @@ export class HomeComponent implements OnInit {
   }
   sendAsEmail()
   {
+    this.articlesId="";
     let articleHTML="";
     for(let i=0; i<this.selectedArticles.length; i++)
     {
+      if(this.articlesId=="" || this.articlesId==null)
+      {
+        this.articlesId=this.selectedArticles[i].guid;
+      }
+      else
+      {
+        this.articlesId+=","+this.selectedArticles[i].guid;
+      }
+
       //Creating ritch text links
       articleHTML+='<table id="abcm-article" style="font-family: verdana, serif;max-width: 350px;">';
       articleHTML+='<tbody>';
@@ -241,15 +252,24 @@ export class HomeComponent implements OnInit {
        {
         getEmailTemplate=data[data.length-1].template;
         let getFormattedEmailTemplate=this.template.setValueToEmailTemplate(articleHTML, this.contactName, this.loggedInUser, getEmailTemplate)
-        this.dynamicCRMInfo.sendEmail(getFormattedEmailTemplate);
+        this.dynamicCRMInfo.sendEmail(getFormattedEmailTemplate, this.currentUserID, this.recordId, this.articlesId);
        }
        else
        {
         getEmailTemplate=this.template.DefaultEmailBody();
+        this.apiService.saveDefaultEmailTemplate(this.currentUserID, getEmailTemplate)
+        .subscribe((data)=>{
+        });
+
         let getFormattedEmailTemplate=this.template.setValueToEmailTemplate(articleHTML, this.contactName, this.loggedInUser, getEmailTemplate)
-        this.dynamicCRMInfo.sendEmail(getFormattedEmailTemplate);
+        this.dynamicCRMInfo.sendEmail(getFormattedEmailTemplate, this.currentUserID, this.recordId, this.selectedArticles);
        }
     });
+  }
+  
+  postUsedArticles()
+  {
+    alert(this.currentUserID);
   }
 
   getStaticVar(RecommendationTabType){

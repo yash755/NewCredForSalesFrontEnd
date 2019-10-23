@@ -8,13 +8,13 @@ export class DynamicCRMInfo {
     public defaultData = {
         contact: {
             accountName: 'NewsCred',
-            email: 'mnquraishi@newscred.com',
+            email: 'rahul@newscred.com',
             id: '00000123',
             industry: '',
-            name: 'mnquraishi'
+            name: 'Rahul'
         },
-        currentUserEmail: 'mnazish@newscred.com',
-        currentUserName: 'Mohd Nazish',
+        currentUserEmail: 'rahul@newscred.com',
+        currentUserName: 'Rahul Rathore',
     }
     public currentUser: string
     public entity: string = environment.entityname
@@ -222,7 +222,7 @@ export class DynamicCRMInfo {
     }
 
     //Nazish - opening the email form on click on send as email button
-    sendEmail(emailBody) {
+    sendEmail(emailBody, userId, recordId, selectedArticles) {
         let parentXrm = (<any>window.parent).Xrm;
 
         let subject = "Hey " + this.getCurrectRecord().contactName;
@@ -246,6 +246,9 @@ export class DynamicCRMInfo {
         parameters["subject"] = subject;
         parameters["regardingobjectid"] = regarding;
         parameters["ncs_relatedto"] = "newscred";
+        parameters["record_id"]=recordId;
+        parameters["user_id"]=userId;
+        parameters["selected_Articles"]=selectedArticles.toString();
         parentXrm.Utility.openEntityForm("email", null, parameters);
     }
     constructor() {
