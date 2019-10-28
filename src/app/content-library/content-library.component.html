@@ -44,7 +44,14 @@
                     This article has been used for this contact. 
                   </p>
                 </div>
-             <img src="{{article.image}}" class="card-img-top" alt="..." >
+             <!-- <img src="{{article.image}}" class="card-img-top" alt="..." > -->
+             <img *ngIf="article.image; else notShow" src="{{article.image}}" class="card-img-top" alt="..." >
+
+             <ng-template #notShow>
+               <!-- <img  src="../../assets/Images/image-mini3.svg" class="card-img-top-none" alt="..."> -->
+               <img  src="..//WebResources/ncs_DefaultImage" class="card-img-top-none" alt="...">
+               
+             </ng-template>
             </div>
           </div>
           <div class="card-body">

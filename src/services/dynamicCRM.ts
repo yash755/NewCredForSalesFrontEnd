@@ -285,11 +285,10 @@ export class DynamicCRMInfo {
     }
 
 
-    UpdateKey(entityNameNew, keyInput) {
+    UpdateKey( keyInput) {
         
         var entity: any = {};
         entity.ncs_apikey = keyInput;
-        entity.ncs_entity = entityNameNew;
 
         var req = new XMLHttpRequest();
         req.open("POST", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/ncs_newscredapikeies", false);

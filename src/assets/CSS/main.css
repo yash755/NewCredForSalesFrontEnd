@@ -130,6 +130,15 @@
  
  
  }
+
+ .card-img-top-none{
+   background-color: #E8E8E8;
+   height: 48px ;
+   width: 48px;
+   position: absolute; 
+   top: 12%;
+right:40%;
+}
  
  .card-image {
      height: 120px;
@@ -138,6 +147,7 @@
      object-fit: cover;
      border: 0;
      overflow: hidden;
+     background-color: #E8E8E8;
   }
   .card-image .image-overlay {
      background: rgba(52, 73, 94, 0.5);
@@ -225,7 +235,7 @@
  
  .owl-carousel .owl-stage-outer {
      overflow:hidden !important;
-     overflow-x: scroll !important;
+     /* overflow-x: scroll !important; */
  }
  .carousel-inner {
      margin:0 10px;

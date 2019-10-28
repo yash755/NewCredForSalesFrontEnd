@@ -14,6 +14,7 @@ declare var $:any
 export class NewsCredAPI{
   recordId:number
   currentUserID:number
+  validapikeystatus : string
   static getContactIdEndpoint = "v1/salesforce/contacts"
   static getLoggedInUserEndpoint = "v1/salesforce/users"
   static getFieldNameEndpoint = "v1/salesforce/contacts/field_names"
@@ -30,7 +31,7 @@ export class NewsCredAPI{
   static getEngagementCtrEndpoint="v1/salesforce/accounts/engagement/ctr"
   static getContactsAnalyticsEndpoint="v1/salesforce/accounts/contact-analytics"
   static getContentAnalyticsEndpoint = "v1/salesforce/accounts/content-analytics"
-  static getContactDetailsEndpoint = "v1/salesforce/accounts/contact-analytics/0031F00000MGRiaQAH/details"
+  static getContactDetailsEndpoint = "v1/salesforce/accounts/contact-analytics/contact_Id/details"
 
   fields=[]
   public getRecommendedArticles(recordId:number, currentUserID:number):Observable<any>{
@@ -63,8 +64,9 @@ public getCategories():Observable<any>{
 }
 
 //Get Contact Details Analytics
-public getContactDetails():Observable<any>{
-  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getContactDetailsEndpoint}`
+public getContactDetails(id):Observable<any>{
+  var endpoint = NewsCredAPI.getContactDetailsEndpoint.replace('contact_Id',id);
+  let url=`${this.newsCredConstants.baseUrl}/${endpoint}`
   let params = {
    
   }
@@ -107,13 +109,7 @@ public getFieldNames(){
   });
 }
 
-// - Getting fields Name from the NewsCred
-public ValidateAPIKey(inputKey){
-  let url=`${this.newsCredConstants.baseUrl}/${NewsCredAPI.getFieldNameEndpoint}`
-  this.httpClient.validatekey(url,inputKey);
- 
-  return true;
-}
+
 
 // - Posting the is used api to the newsCred on click on copy content...
 public postUsedArticle(articleGuid:string, recordId:number, userId:number){

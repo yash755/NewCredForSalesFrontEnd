@@ -6,7 +6,7 @@ import { async } from '@angular/core/testing';
 import { DynamicCRMInfo } from '../services/dynamicCRM';
 import { environment } from 'src/environments/environment';
 import { escapeRegExp } from '@angular/compiler/src/util';
-import { map } from 'rxjs/internal/operators/map';
+import { map } from 'rxjs/operators';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -59,15 +59,8 @@ export class CustomHttpClient {
     })
   }
 
-  validatekey(url: string, key: string){
-  //   return this.http.get(url, {
-  //     headers: new HttpHeaders({
-  //       'Content-Type': 'application/json',
-  //       'Access-Control-Allow-Origin': '*',
-  //       'Authorization': "ABCM " + key
-  //     }),
-  //     observe: 'response'
-  //   }).subscribe(response => console.log(response.status));
-  return true;
-   }
+
+
+
+
 }

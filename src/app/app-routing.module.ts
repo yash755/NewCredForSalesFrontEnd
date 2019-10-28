@@ -6,8 +6,9 @@ import {ApikeyComponent} from  './apikey/apikey.component';
 
 
 const routes: Routes = [
-  { path: 'analytics',      component: AnalyticsComponent },
-  { path: '',      component: HomeComponent },
+  { path: 'analytics',    component: AnalyticsComponent },
+  // { path: '',     component: HomeComponent },
+  { path: '',     component: HomeComponent },
   { path: 'apikey',      component: ApikeyComponent },
   // otherwise redirect to home
   { path: '**', redirectTo: '' }

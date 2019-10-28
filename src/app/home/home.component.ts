@@ -302,5 +302,8 @@ export class HomeComponent implements OnInit {
     $("owl-nav disabled").remove();
   }
 
+  ngAfterViewInit() {
+    $('.owl-nav disabled').remove();
+  }
 
 }

@@ -116,7 +116,7 @@ export class AnalyticsContactsComponent implements OnInit {
     //   }, (err) => { alert("error")
     // });
 
-    this.apiService.getContactDetails()
+    this.apiService.getContactDetails(id)
       .subscribe((data) => {
         var responsedetail = data["result_set"];
         this._formatDetailsTableData(responsedetail)
