@@ -103,6 +103,11 @@ export class HomeComponent implements OnInit {
 
     for(let i=0; i<this.selectedArticles.length; i++)
     {
+      //Calling is used api for the specific url
+      this.isCopied = true;
+      this.isUsed.push(selectedArticles[i].guid);
+      this.uncheckAll(this.activeTab, this.isUsed);
+      
     // Creating plain text links
       if(i==0) 
         atrticleText+=`${this.newsCredConstants.baseUrl}/${this.newsCredConstants.usedArticlesEndpoint}/${this.selectedArticles[i].guid}/${this.currentUserID}/${this.recordId}`;
@@ -129,16 +134,16 @@ export class HomeComponent implements OnInit {
       articleHTML+='</table>';
       articleHTML+='<br>';
       this.count++;
-      //Calling is used api for the specific url
-      this.isCopied = true;
+      
       this.apiService.postUsedArticle(selectedArticles[i].guid, this.recordId, this.currentUserID)
       .subscribe((data)=>{
-        if(data["use_id"]!=undefined && data["use_id"]!=null)
-       {
-         this.isUsed.push(selectedArticles[i].guid);
-         this.uncheckAll(this.activeTab, this.isUsed);
-       }
+        // if(data["use_id"]!=undefined && data["use_id"]!=null)
+        //  {
+        //  this.isUsed.push(selectedArticles[i].guid);
+        //  this.uncheckAll(this.activeTab, this.isUsed);
+        //  }
       });
+
       setTimeout(() => {
         this.isCopied = false;
       }, 2000); 
