@@ -12,7 +12,7 @@ export class AnalyticsContentComponent implements OnInit {
   loggedInUser:string;
   rows: any = [];
   fetchingData: boolean;
-  columns: any = [];
+  columns: any = ['Content'];
   contactGroups : any = [];
   constructor(private apiService: NewsCredAPI) { }
 

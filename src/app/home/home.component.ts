@@ -100,11 +100,14 @@ export class HomeComponent implements OnInit {
     let selectedArticles=[];
     selectedArticles = this.clipboardArticles;
     this.count=0;
-
+    this.count = this.selectedArticles.length;
+    this.isCopied = true;
+    setTimeout(() => {
+      this.isCopied = false;
+    }, 2000); 
     for(let i=0; i<this.selectedArticles.length; i++)
     {
       //Calling is used api for the specific url
-      this.isCopied = true;
       this.isUsed.push(selectedArticles[i].guid);
       this.uncheckAll(this.activeTab, this.isUsed);
       
@@ -133,7 +136,7 @@ export class HomeComponent implements OnInit {
       articleHTML+='</tbody>';
       articleHTML+='</table>';
       articleHTML+='<br>';
-      this.count++;
+     // this.count++;
       
       this.apiService.postUsedArticle(selectedArticles[i].guid, this.recordId, this.currentUserID)
       .subscribe((data)=>{
@@ -143,10 +146,7 @@ export class HomeComponent implements OnInit {
         //  this.uncheckAll(this.activeTab, this.isUsed);
         //  }
       });
-
-      setTimeout(() => {
-        this.isCopied = false;
-      }, 2000); 
+     
     }
     //copying the text
     let selBox = document.createElement('textarea');
@@ -168,7 +168,7 @@ export class HomeComponent implements OnInit {
     //document.body.removeChild(selBox);
     let subject=this.dynamicCRMInfo.getCurrentUser().name+" copied "+this.count+" Links for "+this.contactName;
     this.dynamicCRMInfo.updateActivity(this.dynamicCRMInfo.getCurrectRecord().id, subject, atrticleText);
-   
+    
   }
 
   uncheckAll(cb, used){

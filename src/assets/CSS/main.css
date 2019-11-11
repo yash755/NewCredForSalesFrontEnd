@@ -231,11 +231,12 @@ right:40%;
  }
  .owl-carousel .owl-item {
     width: 282px !important;
+    padding-left:10px;
+    padding-right:10px;
  }
  
  .owl-carousel .owl-stage-outer {
      overflow:hidden !important;
-     /* overflow-x: scroll !important; */
  }
  .carousel-inner {
      margin:0 10px;
@@ -267,7 +268,7 @@ right:40%;
      position: static;
  }
  
- 
+ .owl-nav {display:none !important;}
  /** checkbox */
  
  /* .disabled {
@@ -565,7 +566,12 @@ right:40%;
 .jw-modal-background {
     background-color: #12214e !important;
 }
-
+.jw-modal-body {
+    padding: 20px;
+    background: #fff;
+margin: -1.5rem !important;
+    /* margin exposes part of the modal background */
+}
 
 .jw-modal .lead h5 {
     font-size: 12px;
@@ -609,3 +615,31 @@ div.input-wrapper a.button {
     border-bottom-left-radius: 0;
 }
 
+.categorydropdown 
+{
+    max-height: 259px;
+    min-width: 100px;
+    max-width: 180px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 5px 0 0;
+    text-align: left;
+    padding : 0rem !important;
+}
+
+.categorydropdownitem
+{
+    padding: 15px !important;
+    white-space: normal;
+}
+.caraouselview
+{
+    display: flex;
+}
+
+.linkdisabled
+{
+    opacity: 0.5;
+
+}
