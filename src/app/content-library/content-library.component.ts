@@ -1,4 +1,4 @@
-import { Component,OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component,OnInit, Input, Output, EventEmitter, SimpleChange} from '@angular/core';
 import {NewsCredAPI} from '../../services/newsCredAPI';
 import { Article } from '../model/article';
 import {ArticleCategories} from '../model/ArticleCategories';
@@ -13,6 +13,7 @@ export class ContentLibraryComponent implements OnInit {
   @Input("selectedContents") selectedContents:string[];
   @Output() contentLibraryChanged = new EventEmitter<string[]>();
   @Input("isUsed") isUsed=[];
+  @Input() data;
   public carouselEl: any
   selectCategoryName = 'NewsCred Expertise';
   articles:Article[];
@@ -25,7 +26,7 @@ export class ContentLibraryComponent implements OnInit {
     this.apiService.getCategories()
       .subscribe((data)=>{
         this.categories = data
-        this.getContentLibraryArticles()
+       // this.getContentLibraryArticles()
         this.loading = false
       });
   }
@@ -117,5 +118,15 @@ export class ContentLibraryComponent implements OnInit {
       this.backward();
     }
    e.preventDefault();
+  }
+
+  ngOnChanges(changes: { [property: string]: SimpleChange }){
+    // Extract changes to the input property by its name
+    let change: SimpleChange = changes['data']; 
+    if(change.currentValue == "Show")
+    {
+      if(this.articles == undefined)
+      this.getContentLibraryArticles();
+    }
   }
 }

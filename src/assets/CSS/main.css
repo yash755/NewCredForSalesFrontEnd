@@ -231,10 +231,13 @@ right:40%;
  }
  .owl-carousel .owl-item {
     width: 282px !important;
-    padding-left:10px;
-    padding-right:10px;
+    
+    
  }
- 
+ .owl-carousel
+ {
+     max-width: auto;
+ }
  .owl-carousel .owl-stage-outer {
      overflow:hidden !important;
  }
@@ -245,6 +248,7 @@ right:40%;
  .owl-stage {
      width: auto !important;
      padding-bottom: 27px;
+     padding-left:0px !important;
      display: -webkit-box;
      display: -moz-box;
      display: -ms-box;
@@ -618,8 +622,7 @@ div.input-wrapper a.button {
 .categorydropdown 
 {
     max-height: 259px;
-    min-width: 100px;
-    max-width: 180px;
+   min-width: 160px;
     box-shadow: 0 2px 4px rgba(0,0,0,.1);
     overflow-y: auto;
     overflow-x: hidden;
@@ -632,6 +635,11 @@ div.input-wrapper a.button {
 {
     padding: 15px !important;
     white-space: normal;
+    font-size: 12px !important;
+    color: #495057 !important;
+    cursor: pointer !important;
+    text-transform: uppercase !important;
+    margin-left: 0 !important;
 }
 .caraouselview
 {

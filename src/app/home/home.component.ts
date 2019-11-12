@@ -15,6 +15,7 @@ declare var $: any;
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  public ShowContentTab: String;
   public static RecommendationTabType = 1;
   public static ContentTabType = 2;
   public static SearchTabType = 3;
@@ -68,22 +69,6 @@ export class HomeComponent implements OnInit {
     else
       this.APIKey = NEWSCRED_CONSTANTS.authHeader;
 
-    // if (this.EntityName == 'contact') {
-    //   if (this.APIKey != null && this.APIKey != "") {
-    //     this.router.navigate(['/']);
-    //   }
-    //   else {
-    //     this.router.navigate(['/apikey']);
-    //   }
-    // }
-    // else if (this.EntityName == 'opportunity') {
-    //   if (this.APIKey != null && this.APIKey != "") {
-    //     this.router.navigate(['/']);
-    //   }
-    //   else {
-    //     this.router.navigate(['/apikey']);
-    //   }
-    // }
     if (this.EntityName == 'account') {
       if (this.APIKey != null && this.APIKey != "") {
         this.router.navigate(['/analytics']);
@@ -100,11 +85,10 @@ export class HomeComponent implements OnInit {
     let selectedArticles=[];
     selectedArticles = this.clipboardArticles;
     this.count=0;
+    
     this.count = this.selectedArticles.length;
-    this.isCopied = true;
-    setTimeout(() => {
-      this.isCopied = false;
-    }, 2000); 
+    //this.isCopied = true;
+    $("#divCopied").css("visibility", "visible");
     for(let i=0; i<this.selectedArticles.length; i++)
     {
       //Calling is used api for the specific url
@@ -148,6 +132,9 @@ export class HomeComponent implements OnInit {
       });
      
     }
+    setTimeout(() => {
+      $("#divCopied").css("visibility", "hidden");
+    }, 2000);
     //copying the text
     let selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
@@ -168,7 +155,7 @@ export class HomeComponent implements OnInit {
     //document.body.removeChild(selBox);
     let subject=this.dynamicCRMInfo.getCurrentUser().name+" copied "+this.count+" Links for "+this.contactName;
     this.dynamicCRMInfo.updateActivity(this.dynamicCRMInfo.getCurrectRecord().id, subject, atrticleText);
-    
+     
   }
 
   uncheckAll(cb, used){
@@ -201,6 +188,7 @@ export class HomeComponent implements OnInit {
       case(HomeComponent.ContentTabType):
       this.clipboardArticles = this.contents;
       this.activeTab="cb2";
+      this.ShowContentTab = "Show";
       break;
       case(HomeComponent.SearchTabType):
       this.clipboardArticles = this.search;
@@ -302,13 +290,6 @@ export class HomeComponent implements OnInit {
     console.log(this.clipboardArticles)
   }
 
-  ngAfterContentInit()
-  {
-    $("owl-nav disabled").remove();
-  }
-
-  ngAfterViewInit() {
-    $('.owl-nav disabled').remove();
-  }
+ 
 
 }

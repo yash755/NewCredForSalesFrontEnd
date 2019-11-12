@@ -33,7 +33,17 @@ export class AnalyticsContactsComponent implements OnInit {
   }
 
   _formatTableData(response) {
-   
+    if(response.length >0)
+    {
+     $("#divContact").css("visibility", "visible");
+     $("#divNoContact").css("visibility", "hidden");
+    } 
+    else
+    {
+     $("#divNoContact").css("visibility", "visible");
+     $("#divContact").css("visibility", "hidden");
+    
+    }
     this.rows = [];
         this.columns = [];
         var maxRows = 0;

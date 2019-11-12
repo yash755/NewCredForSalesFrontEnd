@@ -372,6 +372,7 @@ export class DynamicCRMInfo {
         let parentXrm = (<any>window.parent).Xrm;
         let accountId = parentXrm.Page.data.entity.getId();
         var req = new XMLHttpRequest();
+        var dynamicsbaseURL = parentXrm.Page.context.getClientUrl() + "/main.aspx?pagetype=entityrecord&etn=contact&id="
       
         req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/contacts?$select=_accountid_value,contactid,emailaddress1,fullname,jobtitle&$filter=_accountid_value eq "+ accountId, false);
         req.setRequestHeader("OData-MaxVersion", "4.0");
@@ -388,14 +389,17 @@ export class DynamicCRMInfo {
                         var _accountid_value = results.value[i]["_accountid_value"];
                         var _accountid_value_formatted = results.value[i]["_accountid_value@OData.Community.Display.V1.FormattedValue"];
                         var _accountid_value_lookuplogicalname = results.value[i]["_accountid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+
                         var contactid = results.value[i]["contactid"];
                         var emailaddress1 = results.value[i]["emailaddress1"];
                         var fullname = results.value[i]["fullname"];
                         var jobtitle = results.value[i]["jobtitle"];
                         if(i < (Number(results.value.length) - 1))
-                        body += "{\"contactPageUrl\":\""+ NEWSCRED_CONSTANTS.baseUrlAnalytics + "/" + contactid + "\",\"email\":\""+ emailaddress1 +"\",\"id\":\"" + contactid +"\",\"name\":\""+ fullname +"\",\"title\":\"" + jobtitle +"\"},";
+                        //body += "{\"contactPageUrl\":\""+ NEWSCRED_CONSTANTS.baseUrlAnalytics + "/" + contactid + "\",\"email\":\""+ emailaddress1 +"\",\"id\":\"" + contactid +"\",\"name\":\""+ fullname +"\",\"title\":\"" + jobtitle +"\"},";
+                        body += "{\"contactPageUrl\":\""+ dynamicsbaseURL  + contactid + "\",\"email\":\""+ emailaddress1 +"\",\"id\":\"" + contactid +"\",\"name\":\""+ fullname +"\",\"title\":\"" + jobtitle +"\"},";
                         else
-                        body += "{\"contactPageUrl\":\""+ NEWSCRED_CONSTANTS.baseUrlAnalytics + "/" + contactid + "\",\"email\":\""+ emailaddress1 +"\",\"id\":\"" + contactid +"\",\"name\":\""+ fullname +"\",\"title\":\"" + jobtitle +"\"}";
+                        //body += "{\"contactPageUrl\":\""+ NEWSCRED_CONSTANTS.baseUrlAnalytics + "/" + contactid + "\",\"email\":\""+ emailaddress1 +"\",\"id\":\"" + contactid +"\",\"name\":\""+ fullname +"\",\"title\":\"" + jobtitle +"\"}";
+                        body += "{\"contactPageUrl\":\""+ dynamicsbaseURL + contactid + "\",\"email\":\""+ emailaddress1 +"\",\"id\":\"" + contactid +"\",\"name\":\""+ fullname +"\",\"title\":\"" + jobtitle +"\"}";
                     }
                     body += "]}";
                     

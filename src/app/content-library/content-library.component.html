@@ -29,7 +29,7 @@
           </div>
            
       <owl-carousel  (mousewheel)="mousewheelowl($event)"
-      [options]="{ responsiveClass: true,stagePadding: 25,responsive:{'0':{items:1},'600':{items:2},'980':{items:3},'1100':{ items:4}}, loop: false, mouseDrag:true, dots: false, autoplay: false,nav: false, slideBy: 2}"
+      [options]="{ responsiveClass: true,stagePadding: 25,responsive:{'0':{items:1},'600':{items:2},'980':{items:3},'1100':{ items:4}}, loop: false, mouseDrag:true, dots: false, autoplay: false,nav: false, slideBy: 4}"
         [items]="articles"
         [carouselClasses]="['content-carousel','owl-theme', 'row', 'sliding']" >
         <div class="card-deck mt-4 mb-4"  *ngFor="let article of articles">
