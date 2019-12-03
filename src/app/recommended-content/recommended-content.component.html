@@ -4,7 +4,7 @@
     <div class="d-flex" *ngIf="!loading">
       <div class="mr-auto p-2 widget-title">
         Click on the checkmarks to select articles. You will then be able to copy the links or directly email your contact.
-      </div>                       
+      </div>
       <div  class="caraouselview p-2">
         <div class="carousel-control-prev" role="button" data-slide="prev" (click)="backward()" >
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -17,9 +17,9 @@
       </div>
     </div>
         <owl-carousel  (mousewheel)="mousewheelowl($event)"
-        [options]="{ responsiveClass: true,stagePadding: 25,responsive:{'0':{items:1},'600':{items:2},'980':{items:3},'1100':{ items:4}}, loop: false, mouseDrag:true, dots: false, autoplay: false,nav: false, slideBy: 2}"
+        [options]="{ responsiveClass: true,responsive:{'0':{items:1},'600':{items:3},'1000':{items:5}}, loop: false, mouseDrag:true, dots: false, autoplay: false,nav: false, slideBy: 2}"
 
-          [items]="articles" 
+          [items]="articles"
           [carouselClasses]="['recommended-carousel', 'owl-theme', 'row', 'sliding']" >
           <div class="card-deck mt-4 mb-4"  *ngFor="let article of articles">
             <div class="card">
@@ -30,14 +30,14 @@
                           <input type="checkbox"  id="cb1{{article.guid}}" (click)="onCheckboxChange($event, article)"/>
                           <label for="cb1{{article.guid}}"></label>
                             <p *ngIf="article.is_used || (isUsed.includes(article.guid))">
-                            This article has been used for this contact. 
+                            This article has been used for this contact.
                           </p>
                         </div>
                     <img *ngIf="article.image; else notShow" src="{{article.image}}" class="card-img-top" alt="..." >
 
                     <ng-template #notShow>
                       <img  src="..//WebResources/ncs_DefaultImage" class="card-img-top-none" alt="...">
-                      
+
                     </ng-template>
                     </div>
                   </div>
@@ -52,7 +52,7 @@
             </div>
           </div>
         </owl-carousel>
-      
+
         <!-- <div class="pop-toast">Copied 1 to clipboard</div> -->
   </div>
 </div>

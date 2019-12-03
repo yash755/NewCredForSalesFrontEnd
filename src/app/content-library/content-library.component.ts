@@ -22,26 +22,25 @@ export class ContentLibraryComponent implements OnInit {
   constructor(private apiService: NewsCredAPI) { }
 
   ngOnInit() {
+  }
+
+  getContentLibraryArticles(){
     this.loading = true;
     this.apiService.getCategories()
       .subscribe((data)=>{
         this.categories = data
-       // this.getContentLibraryArticles()
-        this.loading = false
+        // this.getContentLibraryArticles()
+       // this.loading = true;
+        const defaultCategory = this.categories.filter(category => category.is_default);
+        this.apiService.getContentLibraryArticles(defaultCategory[0])
+          .subscribe((data)=>{
+            this.articles=this._sanitizeImageUrls(data);
+            this.carouselEl = $('.content-carousel');
+            this.selectedContents=[];
+            this.loading =false
+          }, (err) => {
+          });
       });
-  }
-  
-  getContentLibraryArticles(){
-    this.loading = true;
-    const defaultCategory = this.categories.filter(category => category.is_default);
-    this.apiService.getContentLibraryArticles(defaultCategory[0])
-    .subscribe((data)=>{
-      this.articles=this._sanitizeImageUrls(data);
-      this.carouselEl = $('.content-carousel');
-      this.selectedContents=[];
-      this.loading =false
-    }, (err) => {
-    });
   }
   forward()
   {
@@ -53,16 +52,16 @@ export class ContentLibraryComponent implements OnInit {
   }
 
   //Function added to copy store the selected links into an array
-  onCheckboxChange(event, value) 
+  onCheckboxChange(event, value)
   {
-    if (event.target.checked) 
+    if (event.target.checked)
     {
       this.selectedContents.push(value);
-    } 
-    if (!event.target.checked) 
+    }
+    if (!event.target.checked)
     {
       let index = this.selectedContents.indexOf(value);
-      if (index > -1) 
+      if (index > -1)
       {
         this.selectedContents.splice(index, 1);
       }
@@ -70,7 +69,7 @@ export class ContentLibraryComponent implements OnInit {
     this.contentLibraryChanged.emit(this.selectedContents);
   }
 
-  
+
   getArticlesBasedOnCategory(guid, name)
   {
     this.loading =true;
@@ -80,11 +79,11 @@ export class ContentLibraryComponent implements OnInit {
     .subscribe((data)=>{
       this.articles=this._sanitizeImageUrls(data);
       this.loading = false;
-      console.log(this.articles);   
+      console.log(this.articles);
       }, (err) => {
     });
   }
-  
+
 
   _sanitizeImageUrls(articles) {
 
@@ -122,7 +121,7 @@ export class ContentLibraryComponent implements OnInit {
 
   ngOnChanges(changes: { [property: string]: SimpleChange }){
     // Extract changes to the input property by its name
-    let change: SimpleChange = changes['data']; 
+    let change: SimpleChange = changes['data'];
     if(change.currentValue == "Show")
     {
       if(this.articles == undefined)

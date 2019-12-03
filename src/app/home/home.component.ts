@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
   APIKey=""
   EntityName=""
   articlesId=""
-  constructor(private router:Router,private apiService: NewsCredAPI, public template:EmailTemplate, 
+  constructor(private router:Router,private apiService: NewsCredAPI, public template:EmailTemplate,
     @Inject('dynamicCRMInfo') @Optional() private dynamicCRMInfo?: DynamicCRMInfo,
      @Inject('newsCredConstants') @Optional() private newsCredConstants?: any,) {
     this.contactName=dynamicCRMInfo.defaultData.contact.name;
@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit {
        .then((data)=>{
          this.currentUserID=data["user_id"];
        });
-      
+
     }
 
   ngOnInit() {
@@ -79,28 +79,28 @@ export class HomeComponent implements OnInit {
     }
   }
   copySelectedArticles()
-  { 
+  {
+    $("#divCopied").css("visibility", "visible");
     let atrticleText='';
     let articleHTML='';
     let selectedArticles=[];
     selectedArticles = this.clipboardArticles;
     this.count=0;
-    
+
     this.count = this.selectedArticles.length;
     //this.isCopied = true;
-    $("#divCopied").css("visibility", "visible");
     for(let i=0; i<this.selectedArticles.length; i++)
     {
       //Calling is used api for the specific url
       this.isUsed.push(selectedArticles[i].guid);
       this.uncheckAll(this.activeTab, this.isUsed);
-      
+
     // Creating plain text links
-      if(i==0) 
+      if(i==0)
         atrticleText+=`${this.newsCredConstants.baseUrl}/${this.newsCredConstants.usedArticlesEndpoint}/${this.selectedArticles[i].guid}/${this.currentUserID}/${this.recordId}`;
       else
         atrticleText+="\n"+`${this.newsCredConstants.baseUrl}/${this.newsCredConstants.usedArticlesEndpoint}/${this.selectedArticles[i].guid}/${this.currentUserID}/${this.recordId}`;
-      
+
       //Creating ritch text links
       articleHTML+='<table id="abcm-article" style="font-family: verdana, serif;max-width: 350px;">';
       articleHTML+='<tbody>';
@@ -121,7 +121,7 @@ export class HomeComponent implements OnInit {
       articleHTML+='</table>';
       articleHTML+='<br>';
      // this.count++;
-      
+
       this.apiService.postUsedArticle(selectedArticles[i].guid, this.recordId, this.currentUserID)
       .subscribe((data)=>{
         // if(data["use_id"]!=undefined && data["use_id"]!=null)
@@ -130,7 +130,7 @@ export class HomeComponent implements OnInit {
         //  this.uncheckAll(this.activeTab, this.isUsed);
         //  }
       });
-     
+
     }
     setTimeout(() => {
       $("#divCopied").css("visibility", "hidden");
@@ -155,7 +155,7 @@ export class HomeComponent implements OnInit {
     //document.body.removeChild(selBox);
     let subject=this.dynamicCRMInfo.getCurrentUser().name+" copied "+this.count+" Links for "+this.contactName;
     this.dynamicCRMInfo.updateActivity(this.dynamicCRMInfo.getCurrectRecord().id, subject, atrticleText);
-     
+
   }
 
   uncheckAll(cb, used){
@@ -166,14 +166,14 @@ export class HomeComponent implements OnInit {
     else if (this.selectedTab == HomeComponent.ContentTabType) {
       this.clipboardArticles = [];
       this.contents = [];
-    } 
+    }
     else if(this.selectedTab==HomeComponent.SearchTabType)
     {
       this.clipboardArticles = [];
       this.search = [];
     }
     used.forEach(element => {
-      $('#'+cb+element+':checked').prop('checked',false); 
+      $('#'+cb+element+':checked').prop('checked',false);
     });
   }
 
@@ -233,7 +233,7 @@ export class HomeComponent implements OnInit {
       articleHTML+='</table>';
       articleHTML+='<br>';
     }
-    this.prepareEmailBody(articleHTML); 
+    this.prepareEmailBody(articleHTML);
   }
 
   prepareEmailBody(articleHTML)
@@ -259,7 +259,7 @@ export class HomeComponent implements OnInit {
        }
     });
   }
-  
+
   postUsedArticles()
   {
     alert(this.currentUserID);
@@ -286,10 +286,10 @@ export class HomeComponent implements OnInit {
         this.clipboardArticles = $event
         break;
     }
-    
+
     console.log(this.clipboardArticles)
   }
 
- 
+
 
 }

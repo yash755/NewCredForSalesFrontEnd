@@ -2,7 +2,7 @@
   <in-tab-loader *ngIf="loading" class="app-loader"></in-tab-loader>
   <div *ngIf="!loading">
   <div class="d-flex"><div style="width:70%" class="mr-auto p-2 widget-title">Click on the checkmarks to select articles. You will then be able to copy the links or directly email your contact.</div>
-      <div class="p-2">                                     
+      <div class="p-2">
           <div class="btn-group">
               <a type="button" class="button small black-button dropdown-toggle  " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{selectCategoryName}}
@@ -10,12 +10,12 @@
               <div class="categorydropdown dropdown-menu dropdown-menu-right">
                 <div  *ngFor="let category of categories" class="dropdown-item-wrapper" >
                     <a class="categorydropdownitem dropdown-item" href="#" (click)="getArticlesBasedOnCategory(category.guid,category.name)">{{category.name}}</a>
-                   
+
                 </div>
-              
+
               </div>
             </div>
-          </div>                                       
+          </div>
           <div class="caraouselview  p-2" >
              <div class="carousel-control-prev" role="button" data-slide="prev" (click)="backward()">
                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -27,9 +27,9 @@
               </div>
             </div>
           </div>
-           
+
       <owl-carousel  (mousewheel)="mousewheelowl($event)"
-      [options]="{ responsiveClass: true,stagePadding: 25,responsive:{'0':{items:1},'600':{items:2},'980':{items:3},'1100':{ items:4}}, loop: false, mouseDrag:true, dots: false, autoplay: false,nav: false, slideBy: 4}"
+      [options]="{ responsiveClass: true,responsive:{'0':{items:1},'600':{items:3},'1000':{items:5}}, loop: false, mouseDrag:true, dots: false, autoplay: false,nav: false, slideBy: 4}"
         [items]="articles"
         [carouselClasses]="['content-carousel','owl-theme', 'row', 'sliding']" >
         <div class="card-deck mt-4 mb-4"  *ngFor="let article of articles">
@@ -41,7 +41,7 @@
                   <input type="checkbox"  id="cb2{{article.guid}}" (change)="onCheckboxChange($event, article)"/>
                   <label for="cb2{{article.guid}}"></label>
                   <p *ngIf="article.is_used || (isUsed.includes(article.guid))">
-                    This article has been used for this contact. 
+                    This article has been used for this contact.
                   </p>
                 </div>
              <!-- <img src="{{article.image}}" class="card-img-top" alt="..." > -->
@@ -50,7 +50,7 @@
              <ng-template #notShow>
                <!-- <img  src="../../assets/Images/image-mini3.svg" class="card-img-top-none" alt="..."> -->
                <img  src="..//WebResources/ncs_DefaultImage" class="card-img-top-none" alt="...">
-               
+
              </ng-template>
             </div>
           </div>
@@ -65,6 +65,6 @@
         </div>
       </div>
       </owl-carousel>
-     
+
      </div>
-    </div>  
+    </div>
