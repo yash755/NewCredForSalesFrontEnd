@@ -91,9 +91,14 @@ export class HomeComponent implements OnInit {
     //this.isCopied = true;
     for(let i=0; i<this.selectedArticles.length; i++)
     {
-      //Calling is used api for the specific url
       this.isUsed.push(selectedArticles[i].guid);
       this.uncheckAll(this.activeTab, this.isUsed);
+    }
+    for(let i=0; i<this.selectedArticles.length; i++)
+    {
+      //Calling is used api for the specific url
+      //this.isUsed.push(selectedArticles[i].guid);
+      //this.uncheckAll(this.activeTab, this.isUsed);
 
     // Creating plain text links
       if(i==0)
